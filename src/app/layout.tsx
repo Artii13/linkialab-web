@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   authors: [{ name: 'Link IA Lab', url: 'https://linkialab.com' }],
   creator: 'Link IA Lab',
   publisher: 'Link IA Lab',
-  metadataBase: new URL('https://linkialab.com'),
+  metadataBase: new URL('https://linkialab-web.vercel.app'),
   alternates: {
     canonical: '/',
   },
