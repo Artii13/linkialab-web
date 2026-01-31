@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from 'next'
+import Script from 'next/script'
 import { plusJakarta, instrumentSerif } from '@/styles/fonts'
 import { Header } from '@/components/layout/Header'
 import { Footer } from '@/components/layout/Footer'
@@ -96,6 +97,18 @@ export default function RootLayout({
       className={`${plusJakarta.variable} ${instrumentSerif.variable}`}
       suppressHydrationWarning
     >
+      <Script
+        src="https://www.googletagmanager.com/gtag/js?id=G-P45Y84F1HW"
+        strategy="afterInteractive"
+      />
+      <Script id="google-analytics" strategy="afterInteractive">
+        {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-P45Y84F1HW');
+        `}
+      </Script>
       <body className="min-h-screen bg-background font-sans antialiased">
         <Header />
         <WhatsAppFloat />
