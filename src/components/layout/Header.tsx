@@ -47,12 +47,12 @@ export function Header() {
       >
         <div className="mx-auto flex h-full max-w-7xl items-center justify-between gap-4 px-4 md:px-6">
           {/* Logo */}
-          <Link
-            href="/"
-            className="font-serif text-xl font-medium tracking-tight text-foreground transition-all duration-300 hover:opacity-90 md:text-2xl"
-            aria-label="Link IA Lab - Inicio"
-          >
-            <span className="text-[#F59E0B]">L</span>ink IA Lab
+          <Link href="/" className="flex items-center" aria-label="Link IA Lab - Inicio">
+            <img
+              src="/logo-linkialab-claro.PNG"
+              alt="Link IA Lab"
+              className="h-12 w-auto md:h-14"
+            />
           </Link>
 
           {/* Desktop: navegación + CTA */}
@@ -94,8 +94,14 @@ export function Header() {
       <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
         <SheetContent side="right" showCloseButton={false} className="w-full max-w-[280px] sm:max-w-[320px]">
           <SheetHeader className="flex flex-row items-center justify-between border-b border-[var(--color-border)] pb-4">
-            <SheetTitle className="font-serif text-lg">
-              <span className="text-[#F59E0B]">L</span>ink IA Lab
+            <SheetTitle asChild>
+              <Link href="/" onClick={closeMenu} className="flex items-center">
+                <img
+                  src="/logo-linkialab-claro.PNG"
+                  alt="Link IA Lab"
+                  className="h-12 w-auto"
+                />
+              </Link>
             </SheetTitle>
             <SheetClose
               className="inline-flex size-10 items-center justify-center rounded-lg border-none bg-transparent p-2 transition-all duration-300 hover:bg-[var(--color-surface-muted)]"

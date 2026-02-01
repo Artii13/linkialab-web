@@ -40,10 +40,14 @@ export function Footer() {
           <div className="space-y-4">
             <Link
               href="/"
-              className="inline-block font-serif text-xl font-medium tracking-tight text-foreground transition-all duration-300 hover:opacity-90 md:text-2xl"
+              className="mb-4 inline-block"
               aria-label="Link IA Lab - Inicio"
             >
-              <span className="text-[#F59E0B]">L</span>ink IA Lab
+              <img
+                src="/logo-linkialab-claro.PNG"
+                alt="Link IA Lab"
+                className="h-16 w-auto md:h-[5.5rem]"
+              />
             </Link>
             <p className="max-w-[280px] text-sm text-foreground/80">
               Automatización inteligente para negocios que quieren crecer sin

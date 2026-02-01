@@ -12,22 +12,24 @@ const STEPS = [
     title: "Llamada de descubrimiento",
     description:
       "Hablamos 30 minutos para entender tu negocio, tus procesos actuales y dónde pierdes más tiempo.",
+    image: "/animations/step-01.svg",
   },
   {
     number: "02",
     title: "Propuesta personalizada",
     description:
       "En 48h recibes un plan detallado con las automatizaciones recomendadas, tiempos y presupuesto cerrado.",
+    image: "/animations/step-02.svg",
   },
   {
     number: "03",
     title: "Implementación y soporte",
     description:
       "Construimos, probamos y lanzamos. Tú solo ves el resultado. Soporte incluido para que todo funcione perfecto.",
+    image: "/animations/step-03.svg",
   },
 ]
 
-// Hook seguro para SSR
 const useIsomorphicLayoutEffect =
   typeof window !== "undefined" ? useLayoutEffect : useEffect
 
@@ -51,13 +53,38 @@ export function Process() {
 
     if (!section || !trigger || !cards || !line) return
 
-    // Valores responsive
     const isMobile = window.innerWidth < 768
     const scrollDistance = isMobile
       ? window.innerHeight * 2.5
       : window.innerHeight * 3
 
     const ctx = gsap.context(() => {
+      // Calcular dimensiones
+      const cardWidth = isMobile ? 260 : 340
+      const gap = isMobile ? 24 : 32
+      const totalCardsWidth = cardWidth * 3 + gap * 2
+      const centerPosition = (window.innerWidth - totalCardsWidth) / 2
+
+      let startX: number
+      let finalX: number
+
+      if (isMobile) {
+        startX = 20 // Pequeño margen inicial en móvil
+        finalX = -(cards.scrollWidth - window.innerWidth + 40)
+      } else {
+        startX = window.innerWidth + 50 // Cards empiezan fuera por la derecha
+        finalX = centerPosition // Cards terminan centradas
+      }
+
+      // Posición inicial
+      gsap.set(cards, { x: startX })
+
+      // Asegurar que las cards empiezan invisibles
+      cardElements.forEach((card) => {
+        gsap.set(card, { opacity: 0, y: 50 })
+      })
+      gsap.set(cta, { opacity: 0, y: 20 })
+
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: trigger,
@@ -69,68 +96,99 @@ export function Process() {
         },
       })
 
-      const totalWidth =
-        cards.scrollWidth - window.innerWidth + (isMobile ? 40 : 100)
+      const totalDistance = Math.abs(startX - finalX)
 
-      // Card 1 aparece
-      tl.fromTo(
-        cardElements[0],
-        { opacity: 0, y: 50, filter: "blur(8px)" },
+      // ===== TIMELINE CORREGIDO =====
+
+      // Fase 1 (0-20%): Scroll empieza + Card 1 aparece cuando entra
+      tl.to(
+        cards,
         {
-          opacity: 1,
-          y: 0,
-          filter: "blur(0px)",
-          duration: 0.15,
-          ease: "power2.out",
+          x: startX - totalDistance * 0.25,
+          duration: 0.2,
+          ease: "none",
         },
         0
       )
-      tl.to(line, { scaleX: 0.15, duration: 0.15, ease: "none" }, 0)
+      tl.to(line, { scaleX: 0.2, duration: 0.2, ease: "none" }, 0)
+      tl.to(
+        cardElements[0],
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.15,
+          ease: "power2.out",
+        },
+        0.05
+      ) // Card 1 aparece poco después de empezar el scroll
 
-      // Scroll + Card 2 aparece
-      tl.to(cards, { x: -totalWidth * 0.35, duration: 0.25, ease: "none" }, 0.15)
-      tl.to(line, { scaleX: 0.5, duration: 0.25, ease: "none" }, 0.15)
-      tl.fromTo(
+      // Fase 2 (20-45%): Continúa scroll + Card 2 aparece
+      tl.to(
+        cards,
+        {
+          x: startX - totalDistance * 0.55,
+          duration: 0.25,
+          ease: "none",
+        },
+        0.2
+      )
+      tl.to(line, { scaleX: 0.5, duration: 0.25, ease: "none" }, 0.2)
+      tl.to(
         cardElements[1],
-        { opacity: 0, y: 50, filter: "blur(8px)" },
         {
           opacity: 1,
           y: 0,
-          filter: "blur(0px)",
           duration: 0.15,
           ease: "power2.out",
         },
-        0.25
-      )
+        0.3
+      ) // Card 2 aparece
 
-      // Scroll + Card 3 aparece
-      tl.to(cards, { x: -totalWidth * 0.7, duration: 0.25, ease: "none" }, 0.4)
-      tl.to(line, { scaleX: 0.85, duration: 0.25, ease: "none" }, 0.4)
-      tl.fromTo(
+      // Fase 3 (45-70%): Continúa scroll + Card 3 aparece
+      tl.to(
+        cards,
+        {
+          x: startX - totalDistance * 0.85,
+          duration: 0.25,
+          ease: "none",
+        },
+        0.45
+      )
+      tl.to(line, { scaleX: 0.85, duration: 0.25, ease: "none" }, 0.45)
+      tl.to(
         cardElements[2],
-        { opacity: 0, y: 50, filter: "blur(8px)" },
         {
           opacity: 1,
           y: 0,
-          filter: "blur(0px)",
           duration: 0.15,
           ease: "power2.out",
         },
-        0.5
-      )
+        0.55
+      ) // Card 3 aparece
 
-      // Scroll final + CTA
-      tl.to(cards, { x: -totalWidth, duration: 0.3, ease: "none" }, 0.65)
-      tl.to(line, { scaleX: 1, duration: 0.3, ease: "none" }, 0.65)
-      tl.fromTo(
+      // Fase 4 (70-100%): Scroll final a posición centrada + CTA
+      tl.to(
+        cards,
+        {
+          x: finalX,
+          duration: 0.3,
+          ease: "none",
+        },
+        0.7
+      )
+      tl.to(line, { scaleX: 1, duration: 0.3, ease: "none" }, 0.7)
+      tl.to(
         cta,
-        { opacity: 0, scale: 0.9 },
-        { opacity: 1, scale: 1, duration: 0.15, ease: "back.out(1.7)" },
-        0.8
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.2,
+          ease: "power2.out",
+        },
+        0.85
       )
     }, section)
 
-    // Limpiar y recrear en resize
     const handleResize = () => {
       ctx.revert()
       ScrollTrigger.refresh()
@@ -168,8 +226,8 @@ export function Process() {
           </div>
         </div>
 
-        {/* Cards container */}
-        <div className="relative h-[55vh] overflow-hidden md:h-[60vh]">
+        {/* Cards area */}
+        <div className="relative h-[50vh] md:h-[55vh]">
           {/* Línea conectora */}
           <div
             ref={lineRef}
@@ -181,10 +239,10 @@ export function Process() {
             }}
           />
 
-          {/* Cards */}
+          {/* Cards container */}
           <div
             ref={cardsRef}
-            className="absolute left-0 top-1/2 flex -translate-y-1/2 items-center gap-4 pl-[5vw] md:gap-12 md:pl-[10vw]"
+            className="absolute left-0 top-1/2 flex -translate-y-1/2 items-center gap-6 overflow-visible md:gap-8"
           >
             {STEPS.map((step, i) => (
               <div
@@ -192,39 +250,50 @@ export function Process() {
                 ref={(el) => {
                   cardRefs.current[i] = el
                 }}
-                className="w-[280px] flex-shrink-0 rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-5 opacity-0 shadow-lg md:w-[400px] md:p-8"
+                className="w-[260px] flex-shrink-0 rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-5 shadow-lg md:w-[340px] md:p-8"
               >
+                {/* SVG */}
+                <div className="mb-3 flex h-32 items-center justify-center -mt-20 md:mb-4 md:h-44 md:-mt-28">
+                  <img
+                    src={step.image}
+                    alt={step.title}
+                    className="h-full w-auto object-contain"
+                  />
+                </div>
+
+                {/* Número */}
                 <span
-                  className="mb-2 block font-serif text-4xl font-bold md:mb-4 md:text-6xl"
+                  className="mb-2 block font-serif text-3xl font-bold md:mb-3 md:text-5xl"
                   style={{ color: "var(--color-brand)" }}
                 >
                   {step.number}
                 </span>
-                <h3 className="mb-2 text-base font-semibold text-foreground md:mb-3 md:text-xl">
+
+                {/* Título */}
+                <h3 className="mb-2 text-sm font-semibold text-foreground md:text-lg">
                   {step.title}
                 </h3>
-                <p className="text-sm leading-relaxed text-muted md:text-base">
+
+                {/* Descripción */}
+                <p className="text-xs leading-relaxed text-muted md:text-sm">
                   {step.description}
                 </p>
               </div>
             ))}
-
-            {/* CTA */}
-            <div
-              ref={ctaRef}
-              className="flex w-[280px] flex-shrink-0 items-center justify-center opacity-0 md:w-[400px]"
-            >
-              <a
-                href={CAL_LINK}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-primary inline-flex items-center justify-center gap-2 px-6 py-3 text-base md:px-8 md:py-4 md:text-lg"
-              >
-                Empezar ahora
-                <ArrowRight className="size-4 md:size-5" weight="bold" />
-              </a>
-            </div>
           </div>
+        </div>
+
+        {/* CTA - FUERA del contenedor de cards para centrado correcto */}
+        <div ref={ctaRef} className="flex justify-center pb-8">
+          <a
+            href={CAL_LINK}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-primary inline-flex items-center justify-center gap-2 px-6 py-3 text-base md:px-8 md:py-4 md:text-lg"
+          >
+            Empezar ahora
+            <ArrowRight className="size-4 md:size-5" weight="bold" />
+          </a>
         </div>
       </div>
     </section>
