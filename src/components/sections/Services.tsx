@@ -44,20 +44,62 @@ export function Services() {
     >
       <div className="mx-auto max-w-5xl px-4 md:px-6">
         {/* Header de sección */}
-        <div className="mx-auto mb-12 max-w-2xl text-center">
-          <div className="mb-4 inline-flex items-center rounded-full border border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-2">
+        <motion.div
+          className="mx-auto mb-12 max-w-2xl text-center"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.5 }}
+          variants={{
+            hidden: { opacity: 0 },
+            visible: {
+              opacity: 1,
+              transition: { staggerChildren: 0.1 },
+            },
+          }}
+        >
+          <motion.div
+            className="mb-4 inline-flex items-center rounded-full border border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-2"
+            variants={{
+              hidden: { opacity: 0, y: 20 },
+              visible: {
+                opacity: 1,
+                y: 0,
+                transition: { duration: 0.5 },
+              },
+            }}
+          >
             <span className="text-sm font-medium text-foreground/80">
               Lo que hacemos
             </span>
-          </div>
-          <h2 className="mb-4 text-3xl font-bold tracking-tight md:text-4xl">
+          </motion.div>
+          <motion.h2
+            className="mb-4 text-3xl font-bold tracking-tight md:text-4xl"
+            variants={{
+              hidden: { opacity: 0, y: 20 },
+              visible: {
+                opacity: 1,
+                y: 0,
+                transition: { duration: 0.5 },
+              },
+            }}
+          >
             Soluciones que trabajan por ti
-          </h2>
-          <p className="text-lg text-muted">
+          </motion.h2>
+          <motion.p
+            className="text-lg text-muted"
+            variants={{
+              hidden: { opacity: 0, y: 20 },
+              visible: {
+                opacity: 1,
+                y: 0,
+                transition: { duration: 0.5 },
+              },
+            }}
+          >
             Automatizamos las tareas repetitivas de tu negocio para que tú
             puedas enfocarte en lo que importa.
-          </p>
-        </div>
+          </motion.p>
+        </motion.div>
 
         {/* Grid de servicios */}
         <motion.div
@@ -68,21 +110,32 @@ export function Services() {
             return (
               <motion.div
                 key={service.title}
-                className="card"
+                className="card group"
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.3 }}
-                transition={{ duration: 0.6, delay: i * 0.15 }}
+                transition={{
+                  duration: 0.6,
+                  delay: i * 0.15,
+                  ease: [0.25, 0.46, 0.45, 0.94],
+                }}
+                whileHover={{
+                  y: -8,
+                  boxShadow: "0 20px 40px -12px rgba(0, 0, 0, 0.25)",
+                  transition: { duration: 0.3 },
+                }}
               >
-                <div
+                <motion.div
                   className="mb-4 flex size-12 items-center justify-center rounded-xl"
                   style={{
                     backgroundColor: "var(--color-brand-muted)",
                     color: service.iconColor ?? "var(--color-brand)",
                   }}
+                  whileHover={{ scale: 1.1, rotate: 5 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 17 }}
                 >
                   <Icon size={32} weight="duotone" />
-                </div>
+                </motion.div>
                 <h3 className="mb-2 text-lg font-semibold text-foreground">
                   {service.title}
                 </h3>
