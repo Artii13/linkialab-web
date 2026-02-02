@@ -61,89 +61,102 @@ export function Process() {
 
     if (!section || !trigger || !cards || !line || !cta) return
 
-    const ctx = gsap.context(() => {
-      if (isMobile) {
-        const scrollDistance = window.innerHeight * 2
-        const cardWidth = 260
-        const gap = 24
+    // Móvil: diferir setup para que iOS Safari tenga layout estable (viewport, address bar)
+    if (isMobile) {
+      let ctx: ReturnType<typeof gsap.context> | null = null
+      let resizeHandler: (() => void) | null = null
+      const timeoutId = setTimeout(() => {
+        ctx = gsap.context(() => {
+          const scrollDistance = window.innerHeight * 2
+          const cardWidth = 260
+          const gap = 24
 
-        // Cards empiezan fuera por la derecha
-        const startX = window.innerWidth
-        // Cards terminan con card 3 centrada (cards 1 y 2 fuera por izquierda)
-        const finalX =
-          -((cardWidth + gap) * 2) + (window.innerWidth - cardWidth) / 2
+          const startX = window.innerWidth + 60
+          const finalX =
+            -((cardWidth + gap) * 2) + (window.innerWidth - cardWidth) / 2
 
-        gsap.set(cards, { x: startX })
-        cardElements.forEach((card) => {
-          gsap.set(card, { opacity: 0, y: 30 })
-        })
-        gsap.set(cta, { opacity: 0, y: 20 })
+          gsap.set(cards, { x: startX })
+          cardElements.forEach((card) => {
+            gsap.set(card, { opacity: 0, y: 30 })
+          })
+          gsap.set(cta, { opacity: 0, y: 20 })
 
-        const tl = gsap.timeline({
-          scrollTrigger: {
-            trigger: trigger,
-            start: "top 10%",
-            end: () => `+=${scrollDistance}`,
-            pin: true,
-            scrub: 1,
-            anticipatePin: 1,
-          },
-        })
+          const tl = gsap.timeline({
+            scrollTrigger: {
+              trigger: trigger,
+              start: "top 10%",
+              end: () => `+=${scrollDistance}`,
+              pin: true,
+              scrub: 1,
+              anticipatePin: 1,
+              invalidateOnRefresh: true,
+            },
+          })
 
-        const totalDistance = Math.abs(startX - finalX)
+          const totalDistance = Math.abs(startX - finalX)
 
-        // Card 1 entra y aparece
-        tl.to(
-          cards,
-          { x: startX - totalDistance * 0.2, duration: 0.2, ease: "none" },
-          0
-        )
-        tl.to(
-          cardElements[0],
-          { opacity: 1, y: 0, duration: 0.1, ease: "power2.out" },
-          0.05
-        )
+          tl.to(
+            cards,
+            { x: startX - totalDistance * 0.2, duration: 0.2, ease: "none" },
+            0
+          )
+          tl.to(
+            cardElements[0],
+            { opacity: 1, y: 0, duration: 0.1, ease: "power2.out" },
+            0.05
+          )
 
-        // Card 2 entra y aparece
-        tl.to(
-          cards,
-          { x: startX - totalDistance * 0.5, duration: 0.25, ease: "none" },
-          0.2
-        )
-        tl.to(
-          cardElements[1],
-          { opacity: 1, y: 0, duration: 0.1, ease: "power2.out" },
-          0.3
-        )
+          tl.to(
+            cards,
+            { x: startX - totalDistance * 0.5, duration: 0.25, ease: "none" },
+            0.2
+          )
+          tl.to(
+            cardElements[1],
+            { opacity: 1, y: 0, duration: 0.1, ease: "power2.out" },
+            0.3
+          )
 
-        // Card 3 entra y aparece
-        tl.to(
-          cards,
-          { x: startX - totalDistance * 0.8, duration: 0.25, ease: "none" },
-          0.45
-        )
-        tl.to(
-          cardElements[2],
-          { opacity: 1, y: 0, duration: 0.1, ease: "power2.out" },
-          0.55
-        )
+          tl.to(
+            cards,
+            { x: startX - totalDistance * 0.8, duration: 0.25, ease: "none" },
+            0.45
+          )
+          tl.to(
+            cardElements[2],
+            { opacity: 1, y: 0, duration: 0.1, ease: "power2.out" },
+            0.55
+          )
 
-        // Scroll final + CTA
-        tl.to(
-          cards,
-          { x: finalX, duration: 0.2, ease: "none" },
-          0.7
-        )
-        tl.to(
-          cta,
-          { opacity: 1, y: 0, duration: 0.15, ease: "power2.out" },
-          0.85
-        )
+          tl.to(
+            cards,
+            { x: finalX, duration: 0.2, ease: "none" },
+            0.7
+          )
+          tl.to(
+            cta,
+            { opacity: 1, y: 0, duration: 0.15, ease: "power2.out" },
+            0.85
+          )
+        }, section)
 
-        return
+        ScrollTrigger.refresh()
+        resizeHandler = () => {
+          ctx?.revert()
+          ScrollTrigger.refresh()
+        }
+        window.addEventListener("resize", resizeHandler)
+      }, 150)
+
+      return () => {
+        clearTimeout(timeoutId)
+        if (resizeHandler) window.removeEventListener("resize", resizeHandler)
+        ctx?.revert()
       }
+    }
 
-      // Desktop: scroll horizontal con pin
+    // Desktop: scroll horizontal con pin
+    const ctx = gsap.context(() => {
       const scrollDistance = window.innerHeight * 3
       const cardWidth = 340
       const gap = 32
