@@ -437,20 +437,64 @@ body {
 }
 
 /* ===========================================
-   iOS SAFARI FIXES
+   iOS SAFARI FIXES - ANTI-TILT
    =========================================== */
 
 @supports (-webkit-touch-callout: none) {
-  /* iOS Safari: prevenir transforms accidentales */
-  .sticky {
-    -webkit-transform: translateZ(0);
-    transform: translateZ(0);
+  /* iOS Safari específico */
+
+  /* Prevenir transforms accidentales en elementos fixed/sticky */
+  .fixed,
+  .sticky,
+  [data-slot="sheet-content"],
+  [data-slot="sheet-overlay"] {
+    -webkit-transform: none !important;
+    transform: none !important;
+  }
+
+  /* Solo permitir transforms en elementos que lo necesitan explícitamente */
+  .allow-transform {
+    -webkit-transform: unset !important;
+    transform: unset !important;
   }
 }
 
-/* Prevenir transition-all en móvil */
+/* Desactivar todas las animaciones de slide en móvil */
+@media (max-width: 767px) {
+  .animate-in,
+  .animate-out,
+  [data-state="open"],
+  [data-state="closed"] {
+    --tw-enter-translate-x: 0 !important;
+    --tw-enter-translate-y: 0 !important;
+    --tw-exit-translate-x: 0 !important;
+    --tw-exit-translate-y: 0 !important;
+    --tw-enter-scale: 1 !important;
+    --tw-exit-scale: 1 !important;
+  }
+
+  /* Forzar que las transiciones sean solo de opacity */
+  .slide-in-from-right,
+  .slide-in-from-left,
+  .slide-in-from-top,
+  .slide-in-from-bottom,
+  .slide-out-to-right,
+  .slide-out-to-left,
+  .slide-out-to-top,
+  .slide-out-to-bottom {
+    transform: none !important;
+    -webkit-transform: none !important;
+  }
+}
+
+/* Prevenir repaint/reflow innecesarios */
 @media (max-width: 767px) {
   * {
-    transition-property: color, background-color, border-color, opacity, filter !important;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+
+  body {
+    -webkit-overflow-scrolling: touch;
   }
 }

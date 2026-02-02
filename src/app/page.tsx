@@ -13,9 +13,10 @@ import { ArrowRight } from "@phosphor-icons/react"
 const CAL_LINK = "https://cal.linkialab.com"
 
 const heroVariants = {
-  hidden: { opacity: 0 },
+  hidden: { opacity: 0, filter: "blur(8px)" },
   visible: {
     opacity: 1,
+    filter: "blur(0px)",
     transition: {
       staggerChildren: 0.15,
       delayChildren: 0.1,
@@ -24,10 +25,11 @@ const heroVariants = {
 }
 
 const heroItem = {
-  hidden: { opacity: 0 },
+  hidden: { opacity: 0, filter: "blur(8px)" },
   visible: {
     opacity: 1,
-    transition: { duration: 0.6, ease: "easeOut" as const },
+    filter: "blur(0px)",
+    transition: { duration: 0.7, ease: "easeOut" as const },
   },
 }
 
