@@ -50,9 +50,10 @@ export function Services() {
           whileInView="visible"
           viewport={{ once: true, amount: 0.5 }}
           variants={{
-            hidden: { opacity: 0 },
+            hidden: { opacity: 0, filter: "blur(4px)" },
             visible: {
               opacity: 1,
+              filter: "blur(0px)",
               transition: { staggerChildren: 0.1 },
             },
           }}
@@ -60,9 +61,10 @@ export function Services() {
           <motion.div
             className="mb-4 inline-flex items-center rounded-full border border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-2"
             variants={{
-              hidden: { opacity: 0 },
+              hidden: { opacity: 0, filter: "blur(4px)" },
               visible: {
                 opacity: 1,
+                filter: "blur(0px)",
                 transition: { duration: 0.5 },
               },
             }}
@@ -74,9 +76,10 @@ export function Services() {
           <motion.h2
             className="mb-4 text-3xl font-bold tracking-tight md:text-4xl"
             variants={{
-              hidden: { opacity: 0 },
+              hidden: { opacity: 0, filter: "blur(4px)" },
               visible: {
                 opacity: 1,
+                filter: "blur(0px)",
                 transition: { duration: 0.5 },
               },
             }}
@@ -86,9 +89,10 @@ export function Services() {
           <motion.p
             className="text-lg text-muted"
             variants={{
-              hidden: { opacity: 0 },
+              hidden: { opacity: 0, filter: "blur(4px)" },
               visible: {
                 opacity: 1,
+                filter: "blur(0px)",
                 transition: { duration: 0.5 },
               },
             }}
@@ -108,8 +112,8 @@ export function Services() {
               <motion.div
                 key={service.title}
                 className="card group"
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
+                initial={{ opacity: 0, filter: "blur(4px)" }}
+                whileInView={{ opacity: 1, filter: "blur(0px)" }}
                 viewport={{ once: true, amount: 0.3 }}
                 transition={{
                   duration: 0.6,

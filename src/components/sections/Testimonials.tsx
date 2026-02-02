@@ -55,8 +55,8 @@ export function Testimonials() {
             <motion.div
               key={t.name}
               className="card"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
+              initial={{ opacity: 0, filter: "blur(4px)" }}
+              whileInView={{ opacity: 1, filter: "blur(0px)" }}
               viewport={{ once: true, amount: 0.3 }}
               transition={{ duration: 0.6, delay: i * 0.15 }}
             >

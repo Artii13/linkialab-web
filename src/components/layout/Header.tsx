@@ -40,9 +40,10 @@ export function Header() {
     <>
       <header
         className={cn(
-          "sticky top-0 z-[var(--z-sticky)] h-16 md:h-[72px] w-full border-b transition-all duration-300",
+          "sticky top-0 z-[var(--z-sticky)] h-16 md:h-[72px] w-full border-b",
           "bg-[var(--color-surface)] border-[var(--color-border)]",
-          scrolled && "bg-[var(--color-surface)]/80 backdrop-blur-md"
+          "transition-[background-color,border-color] duration-300",
+          scrolled && "md:bg-[var(--color-surface)]/80 md:backdrop-blur-md"
         )}
       >
         <div className="mx-auto flex h-full max-w-7xl items-center justify-between gap-4 px-4 md:px-6">
@@ -61,7 +62,7 @@ export function Header() {
               <Link
                 key={item.href}
                 href={item.href}
-                className="text-sm font-medium text-foreground/90 transition-all duration-300 hover:text-[var(--color-brand)]"
+                className="text-sm font-medium text-foreground/90 transition-colors duration-300 hover:text-[var(--color-brand)]"
               >
                 {item.label}
               </Link>
@@ -81,7 +82,7 @@ export function Header() {
             <button
               type="button"
               onClick={() => setMenuOpen(true)}
-              className="inline-flex h-10 w-10 items-center justify-center rounded-lg border-none bg-transparent p-2 text-foreground transition-all duration-300 hover:bg-[var(--color-surface-muted)]"
+              className="inline-flex h-10 w-10 items-center justify-center rounded-lg border-none bg-transparent p-2 text-foreground transition-colors duration-200 hover:bg-[var(--color-surface-muted)]"
               aria-label="Abrir menú"
             >
               <List className="size-6" weight="bold" />
@@ -104,7 +105,7 @@ export function Header() {
               </Link>
             </SheetTitle>
             <SheetClose
-              className="inline-flex size-10 items-center justify-center rounded-lg border-none bg-transparent p-2 transition-all duration-300 hover:bg-[var(--color-surface-muted)]"
+              className="inline-flex size-10 items-center justify-center rounded-lg border-none bg-transparent p-2 transition-colors duration-200 hover:bg-[var(--color-surface-muted)]"
               aria-label="Cerrar menú"
             >
               <X className="size-6" weight="bold" />
@@ -116,7 +117,7 @@ export function Header() {
                 key={item.href}
                 href={item.href}
                 onClick={closeMenu}
-                className="rounded-lg px-3 py-3 text-base font-medium text-foreground transition-all duration-300 hover:bg-[var(--color-surface-muted)] hover:text-[var(--color-brand)]"
+                className="rounded-lg px-3 py-3 text-base font-medium text-foreground transition-colors duration-200 hover:bg-[var(--color-surface-muted)] hover:text-[var(--color-brand)]"
               >
                 {item.label}
               </Link>

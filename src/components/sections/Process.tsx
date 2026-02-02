@@ -254,8 +254,8 @@ export function Process() {
                   cardRefs.current[i] = el
                 }}
                 className={`w-[260px] flex-shrink-0 rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-5 shadow-lg md:w-[340px] md:p-8 ${!isMobile ? "opacity-0" : ""}`}
-                initial={isMobile ? { opacity: 0 } : undefined}
-                whileInView={isMobile ? { opacity: 1 } : undefined}
+                initial={isMobile ? { opacity: 0, filter: "blur(4px)" } : undefined}
+                whileInView={isMobile ? { opacity: 1, filter: "blur(0px)" } : undefined}
                 viewport={isMobile ? { once: true, amount: 0.3 } : undefined}
                 transition={isMobile ? { duration: 0.8, delay: i * 0.15, ease: "easeOut" as const } : undefined}
               >
@@ -294,8 +294,8 @@ export function Process() {
         <motion.div
           ref={ctaRef}
           className="flex justify-center pb-8"
-          initial={isMobile ? { opacity: 0 } : undefined}
-          whileInView={isMobile ? { opacity: 1 } : undefined}
+          initial={isMobile ? { opacity: 0, filter: "blur(4px)" } : undefined}
+          whileInView={isMobile ? { opacity: 1, filter: "blur(0px)" } : undefined}
           viewport={isMobile ? { once: true, amount: 0.5 } : undefined}
           transition={isMobile ? { duration: 0.8, delay: 0.3, ease: "easeOut" as const } : undefined}
         >

@@ -435,3 +435,22 @@ body {
 .pin-spacer {
   background: var(--color-background) !important;
 }
+
+/* ===========================================
+   iOS SAFARI FIXES
+   =========================================== */
+
+@supports (-webkit-touch-callout: none) {
+  /* iOS Safari: prevenir transforms accidentales */
+  .sticky {
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+  }
+}
+
+/* Prevenir transition-all en móvil */
+@media (max-width: 767px) {
+  * {
+    transition-property: color, background-color, border-color, opacity, filter !important;
+  }
+}
