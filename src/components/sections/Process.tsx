@@ -42,15 +42,21 @@ export function Process() {
   const ctaRef = useRef<HTMLDivElement>(null)
 
   const [isClient, setIsClient] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
     setIsClient(true)
+    setIsMobile(window.innerWidth < 768)
+
+    const handleResize = () => setIsMobile(window.innerWidth < 768)
+    window.addEventListener("resize", handleResize)
+    return () => window.removeEventListener("resize", handleResize)
   }, [])
 
   useIsomorphicLayoutEffect(() => {
     if (typeof window === "undefined") return
 
-    const isMobile = window.innerWidth < 768
+    const isMobileDevice = window.innerWidth < 768
 
     const section = sectionRef.current
     const trigger = triggerRef.current
@@ -62,15 +68,10 @@ export function Process() {
     if (!section || !trigger || !cards || !line || !cta) return
 
     // Móvil: diferir setup para que iOS Safari tenga layout estable (viewport, address bar)
-    if (isMobile) {
+    if (isMobileDevice) {
       let ctx: ReturnType<typeof gsap.context> | null = null
       let resizeHandler: (() => void) | null = null
       const timeoutId = setTimeout(() => {
-        // DEBUG: verificar refs y trigger
-        console.log("[Process mobile] cardElements.length:", cardElements.length)
-        console.log("[Process mobile] trigger:", trigger)
-        console.log("[Process mobile] trigger.getBoundingClientRect():", trigger?.getBoundingClientRect())
-
         ctx = gsap.context(() => {
           const scrollDistance = window.innerHeight * 2
           const cardWidth = 260
@@ -81,9 +82,8 @@ export function Process() {
             -((cardWidth + gap) * 2) + (window.innerWidth - cardWidth) / 2
 
           gsap.set(cards, { x: startX })
-          // DEBUG: cards visibles inicialmente para comprobar si el problema es el set o el timeline
           cardElements.forEach((card) => {
-            gsap.set(card, { opacity: 1, y: 0 })
+            gsap.set(card, { opacity: 0, y: 30 })
           })
           gsap.set(cta, { opacity: 0, y: 20 })
 
@@ -96,7 +96,6 @@ export function Process() {
               scrub: 1,
               anticipatePin: 1,
               invalidateOnRefresh: true,
-              markers: true,
             },
           })
 
@@ -342,7 +341,7 @@ export function Process() {
                 ref={(el) => {
                   cardRefs.current[i] = el
                 }}
-                className={`w-[260px] flex-shrink-0 rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-5 shadow-lg md:w-[340px] md:p-8 ${isClient ? "opacity-0" : ""}`}
+                className={`w-[260px] flex-shrink-0 rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-5 shadow-lg md:w-[340px] md:p-8 ${isClient && !isMobile ? "opacity-0" : ""}`}
               >
                 {/* SVG */}
                 <div className="mb-3 flex h-32 items-center justify-center -mt-20 md:mb-4 md:h-44 md:-mt-28">
