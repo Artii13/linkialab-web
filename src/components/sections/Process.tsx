@@ -269,7 +269,7 @@ export function Process() {
       ref={sectionRef}
       className="relative bg-[var(--color-background)]"
     >
-      <div ref={triggerRef} className="relative md:min-h-screen">
+      <div ref={triggerRef} className="relative min-h-screen">
         {/* Header */}
         <div className="pb-6 pt-6 md:pb-8 md:pt-12">
           <div className="mx-auto max-w-5xl px-4 text-center md:px-6">
