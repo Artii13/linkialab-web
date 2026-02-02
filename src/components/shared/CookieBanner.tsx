@@ -32,10 +32,10 @@ export function CookieBanner() {
         <motion.div
           key="cookie-banner"
           className="fixed bottom-0 left-0 right-0 z-50 p-4"
-          initial={{ y: 100, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          exit={{ y: 100, opacity: 0 }}
-          transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.4, ease: "easeOut" as const }}
         >
           <div className="mx-auto flex max-w-5xl flex-col gap-4 rounded-lg border-t border-[var(--color-border)] bg-[var(--color-surface)] p-4 shadow-lg md:flex-row md:items-center md:justify-between md:rounded-b-none md:rounded-t-lg">
             <p className="text-sm text-muted">

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useLayoutEffect, useState } from "react"
 import { gsap, ScrollTrigger } from "@/lib/gsap"
+import { motion } from "framer-motion"
 import { ArrowRight } from "@phosphor-icons/react"
 
 const CAL_LINK = "https://cal.linkialab.com"
@@ -67,54 +68,9 @@ export function Process() {
 
     if (!section || !trigger || !cards || !line || !cta) return
 
-    // Móvil: scroll nativo, layout vertical, fade-in al entrar (sin pin; funciona en iOS Safari)
+    // Móvil: usa Framer Motion (whileInView), no GSAP
     if (isMobileDevice) {
-      const ctx = gsap.context(() => {
-        cardElements.forEach((card, index) => {
-          gsap.set(card, { opacity: 0, y: 40 })
-
-          ScrollTrigger.create({
-            trigger: card,
-            start: "top 85%",
-            toggleActions: "play none none none",
-            onEnter: () => {
-              gsap.to(card, {
-                opacity: 1,
-                y: 0,
-                duration: 0.6,
-                delay: index * 0.1,
-                ease: "power2.out",
-              })
-            },
-          })
-        })
-
-        gsap.set(cta, { opacity: 0, y: 20 })
-        ScrollTrigger.create({
-          trigger: cta,
-          start: "top 90%",
-          toggleActions: "play none none none",
-          onEnter: () => {
-            gsap.to(cta, {
-              opacity: 1,
-              y: 0,
-              duration: 0.5,
-              ease: "power2.out",
-            })
-          },
-        })
-      }, section)
-
-      const handleResize = () => {
-        ctx.revert()
-        ScrollTrigger.refresh()
-      }
-      window.addEventListener("resize", handleResize)
-
-      return () => {
-        window.removeEventListener("resize", handleResize)
-        ctx.revert()
-      }
+      return // No hacer nada con GSAP en móvil
     }
 
     // Desktop: scroll horizontal con pin
@@ -292,12 +248,16 @@ export function Process() {
             className="flex flex-col items-center gap-12 px-4 py-8 md:absolute md:left-0 md:top-1/2 md:flex-row md:-translate-y-1/2 md:items-center md:gap-8 md:px-0 md:py-0"
           >
             {STEPS.map((step, i) => (
-              <div
+              <motion.div
                 key={step.number}
                 ref={(el) => {
                   cardRefs.current[i] = el
                 }}
-                className={`w-[260px] flex-shrink-0 rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-5 shadow-lg md:w-[340px] md:p-8 ${isClient && !isMobile ? "opacity-0" : ""}`}
+                className={`w-[260px] flex-shrink-0 rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-5 shadow-lg md:w-[340px] md:p-8 ${!isMobile ? "opacity-0" : ""}`}
+                initial={isMobile ? { opacity: 0 } : undefined}
+                whileInView={isMobile ? { opacity: 1 } : undefined}
+                viewport={isMobile ? { once: true, amount: 0.3 } : undefined}
+                transition={isMobile ? { duration: 0.8, delay: i * 0.15, ease: "easeOut" as const } : undefined}
               >
                 {/* SVG */}
                 <div className="mb-3 flex h-20 items-center justify-center -mt-8 md:mb-4 md:h-44 md:-mt-28">
@@ -325,13 +285,20 @@ export function Process() {
                 <p className="text-xs leading-relaxed text-muted md:text-sm">
                   {step.description}
                 </p>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
 
         {/* CTA - FUERA del contenedor de cards para centrado correcto */}
-        <div ref={ctaRef} className="flex justify-center pb-8">
+        <motion.div
+          ref={ctaRef}
+          className="flex justify-center pb-8"
+          initial={isMobile ? { opacity: 0 } : undefined}
+          whileInView={isMobile ? { opacity: 1 } : undefined}
+          viewport={isMobile ? { once: true, amount: 0.5 } : undefined}
+          transition={isMobile ? { duration: 0.8, delay: 0.3, ease: "easeOut" as const } : undefined}
+        >
           <a
             href={CAL_LINK}
             target="_blank"
@@ -341,7 +308,7 @@ export function Process() {
             Empezar ahora
             <ArrowRight className="size-4 md:size-5" weight="bold" />
           </a>
-        </div>
+        </motion.div>
       </div>
     </section>
   )
