@@ -66,6 +66,11 @@ export function Process() {
       let ctx: ReturnType<typeof gsap.context> | null = null
       let resizeHandler: (() => void) | null = null
       const timeoutId = setTimeout(() => {
+        // DEBUG: verificar refs y trigger
+        console.log("[Process mobile] cardElements.length:", cardElements.length)
+        console.log("[Process mobile] trigger:", trigger)
+        console.log("[Process mobile] trigger.getBoundingClientRect():", trigger?.getBoundingClientRect())
+
         ctx = gsap.context(() => {
           const scrollDistance = window.innerHeight * 2
           const cardWidth = 260
@@ -76,8 +81,9 @@ export function Process() {
             -((cardWidth + gap) * 2) + (window.innerWidth - cardWidth) / 2
 
           gsap.set(cards, { x: startX })
+          // DEBUG: cards visibles inicialmente para comprobar si el problema es el set o el timeline
           cardElements.forEach((card) => {
-            gsap.set(card, { opacity: 0, y: 30 })
+            gsap.set(card, { opacity: 1, y: 0 })
           })
           gsap.set(cta, { opacity: 0, y: 20 })
 
@@ -90,6 +96,7 @@ export function Process() {
               scrub: 1,
               anticipatePin: 1,
               invalidateOnRefresh: true,
+              markers: true,
             },
           })
 
