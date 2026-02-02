@@ -41,20 +41,16 @@ export function Process() {
   const cardRefs = useRef<(HTMLDivElement | null)[]>([])
   const ctaRef = useRef<HTMLDivElement>(null)
 
-  const [isMobile, setIsMobile] = useState(false)
   const [isClient, setIsClient] = useState(false)
 
   useEffect(() => {
     setIsClient(true)
-    setIsMobile(window.innerWidth < 768)
-
-    const handleResize = () => setIsMobile(window.innerWidth < 768)
-    window.addEventListener("resize", handleResize)
-    return () => window.removeEventListener("resize", handleResize)
   }, [])
 
   useIsomorphicLayoutEffect(() => {
-    if (!isClient) return
+    if (typeof window === "undefined") return
+
+    const isMobile = window.innerWidth < 768
 
     const section = sectionRef.current
     const trigger = triggerRef.current
@@ -271,7 +267,12 @@ export function Process() {
       window.removeEventListener("resize", handleResize)
       ctx.revert()
     }
-  }, [isClient, isMobile])
+  }, [])
+
+  useEffect(() => {
+    if (!isClient) return
+    ScrollTrigger.refresh()
+  }, [isClient])
 
   return (
     <section
