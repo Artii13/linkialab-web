@@ -120,7 +120,7 @@ export function Services() {
                   ease: [0.25, 0.46, 0.45, 0.94],
                 }}
                 whileHover={{
-                  y: -8,
+                  y: -4,
                   boxShadow: "0 20px 40px -12px rgba(0, 0, 0, 0.25)",
                   transition: { duration: 0.3 },
                 }}
@@ -131,7 +131,7 @@ export function Services() {
                     backgroundColor: "var(--color-brand-muted)",
                     color: service.iconColor ?? "var(--color-brand)",
                   }}
-                  whileHover={{ scale: 1.1, rotate: 5 }}
+                  whileHover={{ scale: 1.1 }}
                   transition={{ type: "spring", stiffness: 400, damping: 17 }}
                 >
                   <Icon size={32} weight="duotone" />

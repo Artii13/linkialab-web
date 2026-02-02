@@ -75,8 +75,8 @@ export function Process() {
         ctx = gsap.context(() => {
           const cardWidth = 260
           const gap = 24
-
           const startX = window.innerWidth + 100
+          const endX = -(cardWidth * 3 + gap * 2 - window.innerWidth + 100)
 
           gsap.set(cards, { x: startX })
           gsap.set(cards, { willChange: "transform" })
@@ -85,27 +85,30 @@ export function Process() {
           })
           gsap.set(cta, { opacity: 0, y: 20 })
 
-          const tl = gsap.timeline({
-            scrollTrigger: {
-              trigger: trigger,
-              start: "top top",
-              end: "+=2000",
-              pin: true,
-              scrub: 0.5,
-              anticipatePin: 1,
-            },
-          })
+          // Timeline sin scrub: lo conducimos manualmente desde ScrollTrigger (más fiable en iOS Safari)
+          const tl = gsap.timeline({ paused: true })
 
           tl.to(cards, {
-            x: -(cardWidth * 3 + gap * 2 - window.innerWidth + 100),
+            x: endX,
             ease: "none",
             duration: 1,
           })
-
           tl.to(cardElements[0], { opacity: 1, duration: 0.2 }, 0)
           tl.to(cardElements[1], { opacity: 1, duration: 0.2 }, 0.3)
           tl.to(cardElements[2], { opacity: 1, duration: 0.2 }, 0.6)
           tl.to(cta, { opacity: 1, y: 0, duration: 0.2 }, 0.8)
+
+          // Pin + conducir timeline con onUpdate (evita fallos de scrub en iOS)
+          ScrollTrigger.create({
+            trigger: trigger,
+            start: "top 8%",
+            end: "+=2000",
+            pin: true,
+            anticipatePin: 1,
+            onUpdate: (self) => {
+              tl.progress(self.progress)
+            },
+          })
         }, section)
 
         ScrollTrigger.refresh()

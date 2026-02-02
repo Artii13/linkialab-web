@@ -266,10 +266,13 @@ body {
     box-shadow 0.3s ease;
 }
 
-.card:hover {
-  border-color: var(--color-brand);
-  box-shadow: var(--shadow-lg);
-  transform: translateY(-4px);
+/* Solo en dispositivos con hover (evita tilt/transform fantasma en móvil táctil) */
+@media (hover: hover) {
+  .card:hover {
+    border-color: var(--color-brand);
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-4px);
+  }
 }
 
 .card-elevated {
