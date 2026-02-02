@@ -41,9 +41,11 @@ export function Header() {
       <header
         className={cn(
           "sticky top-0 z-[var(--z-sticky)] h-16 md:h-[72px] w-full border-b",
-          "bg-[var(--color-surface)] border-[var(--color-border)]",
+          "border-[var(--color-border)]",
           "transition-[background-color,border-color] duration-300",
-          scrolled && "md:bg-[var(--color-surface)]/80 md:backdrop-blur-md"
+          scrolled
+            ? "bg-[var(--color-surface)]/95 supports-[backdrop-filter]:bg-[var(--color-surface)]/80 supports-[backdrop-filter]:backdrop-blur-md"
+            : "bg-[var(--color-surface)]"
         )}
       >
         <div className="mx-auto flex h-full max-w-7xl items-center justify-between gap-4 px-4 md:px-6">

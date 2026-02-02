@@ -28,7 +28,7 @@ const LEGAL_LINKS = [
 ]
 
 const linkClass =
-  "text-sm text-foreground/80 transition-all duration-300 hover:text-[var(--color-brand)]"
+  "text-sm text-foreground/80 transition-colors duration-300 hover:text-[var(--color-brand)]"
 
 export function Footer() {
   return (
