@@ -51,35 +51,60 @@ export function Process() {
     const cardElements = cardRefs.current.filter(Boolean)
     const cta = ctaRef.current
 
-    if (!section || !trigger || !cards || !line) return
+    if (!section || !trigger || !cards || !line || !cta) return
 
     const isMobile = window.innerWidth < 768
-    const scrollDistance = isMobile
-      ? window.innerHeight * 2.5
-      : window.innerHeight * 3
 
     const ctx = gsap.context(() => {
-      // Calcular dimensiones
-      const cardWidth = isMobile ? 260 : 340
-      const gap = isMobile ? 24 : 32
-      const totalCardsWidth = cardWidth * 3 + gap * 2
-      const centerPosition = (window.innerWidth - totalCardsWidth) / 2
-
-      let startX: number
-      let finalX: number
-
       if (isMobile) {
-        startX = 20 // Pequeño margen inicial en móvil
-        finalX = -(cards.scrollWidth - window.innerWidth + 40)
-      } else {
-        startX = window.innerWidth + 50 // Cards empiezan fuera por la derecha
-        finalX = centerPosition // Cards terminan centradas
+        // Solo animaciones simples de fade-in para cada card
+        cardElements.forEach((card) => {
+          gsap.fromTo(
+            card,
+            { opacity: 0, y: 30 },
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.6,
+              ease: "power2.out",
+              scrollTrigger: {
+                trigger: card,
+                start: "top 85%",
+                toggleActions: "play none none none",
+              },
+            }
+          )
+        })
+
+        // CTA fade in
+        gsap.fromTo(
+          cta,
+          { opacity: 0, y: 20 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.5,
+            scrollTrigger: {
+              trigger: cta,
+              start: "top 90%",
+              toggleActions: "play none none none",
+            },
+          }
+        )
+
+        return
       }
 
-      // Posición inicial
-      gsap.set(cards, { x: startX })
+      // Desktop: scroll horizontal con pin
+      const scrollDistance = window.innerHeight * 3
+      const cardWidth = 340
+      const gap = 32
+      const totalCardsWidth = cardWidth * 3 + gap * 2
+      const centerPosition = (window.innerWidth - totalCardsWidth) / 2
+      const startX = window.innerWidth + 50
+      const finalX = centerPosition
 
-      // Asegurar que las cards empiezan invisibles
+      gsap.set(cards, { x: startX })
       cardElements.forEach((card) => {
         gsap.set(card, { opacity: 0, y: 50 })
       })
@@ -88,7 +113,7 @@ export function Process() {
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: trigger,
-          start: isMobile ? "top 10%" : "top 15%",
+          start: "top 15%",
           end: () => `+=${scrollDistance}`,
           pin: true,
           scrub: 1,
@@ -98,9 +123,6 @@ export function Process() {
 
       const totalDistance = Math.abs(startX - finalX)
 
-      // ===== TIMELINE CORREGIDO =====
-
-      // Fase 1 (0-20%): Scroll empieza + Card 1 aparece cuando entra
       tl.to(
         cards,
         {
@@ -120,9 +142,8 @@ export function Process() {
           ease: "power2.out",
         },
         0.05
-      ) // Card 1 aparece poco después de empezar el scroll
+      )
 
-      // Fase 2 (20-45%): Continúa scroll + Card 2 aparece
       tl.to(
         cards,
         {
@@ -142,9 +163,8 @@ export function Process() {
           ease: "power2.out",
         },
         0.3
-      ) // Card 2 aparece
+      )
 
-      // Fase 3 (45-70%): Continúa scroll + Card 3 aparece
       tl.to(
         cards,
         {
@@ -164,9 +184,8 @@ export function Process() {
           ease: "power2.out",
         },
         0.55
-      ) // Card 3 aparece
+      )
 
-      // Fase 4 (70-100%): Scroll final a posición centrada + CTA
       tl.to(
         cards,
         {
@@ -208,7 +227,7 @@ export function Process() {
       ref={sectionRef}
       className="relative bg-[var(--color-background)]"
     >
-      <div ref={triggerRef} className="relative min-h-screen">
+      <div ref={triggerRef} className="relative md:min-h-screen">
         {/* Header */}
         <div className="pb-6 pt-6 md:pb-8 md:pt-12">
           <div className="mx-auto max-w-5xl px-4 text-center md:px-6">
@@ -242,7 +261,7 @@ export function Process() {
           {/* Cards container */}
           <div
             ref={cardsRef}
-            className="absolute left-0 top-1/2 flex -translate-y-1/2 items-center gap-6 overflow-visible md:gap-8"
+            className="flex flex-col items-center gap-8 px-4 md:absolute md:left-0 md:top-1/2 md:flex-row md:-translate-y-1/2 md:gap-8 md:px-0 md:overflow-visible"
           >
             {STEPS.map((step, i) => (
               <div
