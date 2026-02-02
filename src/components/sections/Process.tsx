@@ -67,62 +67,53 @@ export function Process() {
 
     if (!section || !trigger || !cards || !line || !cta) return
 
-    // Móvil: diferir setup para que iOS Safari tenga layout estable (viewport, address bar)
+    // Móvil: scroll nativo, layout vertical, fade-in al entrar (sin pin; funciona en iOS Safari)
     if (isMobileDevice) {
-      let ctx: ReturnType<typeof gsap.context> | null = null
-      let resizeHandler: (() => void) | null = null
-      const timeoutId = setTimeout(() => {
-        ctx = gsap.context(() => {
-          const cardWidth = 260
-          const gap = 24
-          const startX = window.innerWidth + 100
-          const endX = -(cardWidth * 3 + gap * 2 - window.innerWidth + 100)
+      const ctx = gsap.context(() => {
+        cardElements.forEach((card, index) => {
+          gsap.set(card, { opacity: 0, y: 40 })
 
-          gsap.set(cards, { x: startX })
-          gsap.set(cards, { willChange: "transform" })
-          cardElements.forEach((card) => {
-            gsap.set(card, { opacity: 0 })
-          })
-          gsap.set(cta, { opacity: 0, y: 20 })
-
-          // Timeline sin scrub: lo conducimos manualmente desde ScrollTrigger (más fiable en iOS Safari)
-          const tl = gsap.timeline({ paused: true })
-
-          tl.to(cards, {
-            x: endX,
-            ease: "none",
-            duration: 1,
-          })
-          tl.to(cardElements[0], { opacity: 1, duration: 0.2 }, 0)
-          tl.to(cardElements[1], { opacity: 1, duration: 0.2 }, 0.3)
-          tl.to(cardElements[2], { opacity: 1, duration: 0.2 }, 0.6)
-          tl.to(cta, { opacity: 1, y: 0, duration: 0.2 }, 0.8)
-
-          // Pin + conducir timeline con onUpdate (evita fallos de scrub en iOS)
           ScrollTrigger.create({
-            trigger: trigger,
-            start: "top 8%",
-            end: "+=2000",
-            pin: true,
-            anticipatePin: 1,
-            onUpdate: (self) => {
-              tl.progress(self.progress)
+            trigger: card,
+            start: "top 85%",
+            toggleActions: "play none none none",
+            onEnter: () => {
+              gsap.to(card, {
+                opacity: 1,
+                y: 0,
+                duration: 0.6,
+                delay: index * 0.1,
+                ease: "power2.out",
+              })
             },
           })
-        }, section)
+        })
 
+        gsap.set(cta, { opacity: 0, y: 20 })
+        ScrollTrigger.create({
+          trigger: cta,
+          start: "top 90%",
+          toggleActions: "play none none none",
+          onEnter: () => {
+            gsap.to(cta, {
+              opacity: 1,
+              y: 0,
+              duration: 0.5,
+              ease: "power2.out",
+            })
+          },
+        })
+      }, section)
+
+      const handleResize = () => {
+        ctx.revert()
         ScrollTrigger.refresh()
-        resizeHandler = () => {
-          ctx?.revert()
-          ScrollTrigger.refresh()
-        }
-        window.addEventListener("resize", resizeHandler)
-      }, 150)
+      }
+      window.addEventListener("resize", handleResize)
 
       return () => {
-        clearTimeout(timeoutId)
-        if (resizeHandler) window.removeEventListener("resize", resizeHandler)
-        ctx?.revert()
+        window.removeEventListener("resize", handleResize)
+        ctx.revert()
       }
     }
 
@@ -264,7 +255,7 @@ export function Process() {
       ref={sectionRef}
       className="relative bg-[var(--color-background)]"
     >
-      <div ref={triggerRef} className="relative min-h-screen">
+      <div ref={triggerRef} className="relative md:min-h-screen">
         {/* Header */}
         <div className="pb-6 pt-6 md:pb-8 md:pt-12">
           <div className="mx-auto max-w-5xl px-4 text-center md:px-6">
@@ -283,11 +274,11 @@ export function Process() {
         </div>
 
         {/* Cards area */}
-        <div className="relative h-[60vh] overflow-hidden md:h-[55vh]">
-          {/* Línea conectora */}
+        <div className="relative h-auto md:h-[55vh] md:overflow-hidden">
+          {/* Línea conectora (solo desktop) */}
           <div
             ref={lineRef}
-            className="absolute left-[5%] right-[5%] top-1/2 h-[2px] -translate-y-1/2 origin-left scale-x-0"
+            className="hidden md:block absolute left-[5%] right-[5%] top-1/2 h-[2px] -translate-y-1/2 origin-left scale-x-0"
             style={{
               background:
                 "linear-gradient(90deg, var(--color-brand) 50%, transparent 50%)",
@@ -298,7 +289,7 @@ export function Process() {
           {/* Cards container */}
           <div
             ref={cardsRef}
-            className="absolute left-0 top-1/2 flex -translate-y-1/2 items-center gap-6 overflow-visible md:gap-8"
+            className="flex flex-col items-center gap-12 px-4 py-8 md:absolute md:left-0 md:top-1/2 md:flex-row md:-translate-y-1/2 md:items-center md:gap-8 md:px-0 md:py-0"
           >
             {STEPS.map((step, i) => (
               <div
@@ -309,7 +300,7 @@ export function Process() {
                 className={`w-[260px] flex-shrink-0 rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-5 shadow-lg md:w-[340px] md:p-8 ${isClient && !isMobile ? "opacity-0" : ""}`}
               >
                 {/* SVG */}
-                <div className="mb-3 flex h-32 items-center justify-center -mt-20 md:mb-4 md:h-44 md:-mt-28">
+                <div className="mb-3 flex h-20 items-center justify-center -mt-8 md:mb-4 md:h-44 md:-mt-28">
                   <img
                     src={step.image}
                     alt={step.title}

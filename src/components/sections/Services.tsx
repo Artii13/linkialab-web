@@ -119,11 +119,6 @@ export function Services() {
                   delay: i * 0.15,
                   ease: [0.25, 0.46, 0.45, 0.94],
                 }}
-                whileHover={{
-                  y: -4,
-                  boxShadow: "0 20px 40px -12px rgba(0, 0, 0, 0.25)",
-                  transition: { duration: 0.3 },
-                }}
               >
                 <motion.div
                   className="mb-4 flex size-12 items-center justify-center rounded-xl"
