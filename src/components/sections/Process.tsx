@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef, useLayoutEffect } from "react"
+import { useEffect, useRef, useLayoutEffect, useState } from "react"
 import { gsap, ScrollTrigger } from "@/lib/gsap"
 import { ArrowRight } from "@phosphor-icons/react"
 
@@ -41,8 +41,20 @@ export function Process() {
   const cardRefs = useRef<(HTMLDivElement | null)[]>([])
   const ctaRef = useRef<HTMLDivElement>(null)
 
+  const [isMobile, setIsMobile] = useState(false)
+  const [isClient, setIsClient] = useState(false)
+
+  useEffect(() => {
+    setIsClient(true)
+    setIsMobile(window.innerWidth < 768)
+
+    const handleResize = () => setIsMobile(window.innerWidth < 768)
+    window.addEventListener("resize", handleResize)
+    return () => window.removeEventListener("resize", handleResize)
+  }, [])
+
   useIsomorphicLayoutEffect(() => {
-    if (typeof window === "undefined") return
+    if (!isClient) return
 
     const section = sectionRef.current
     const trigger = triggerRef.current
@@ -52,8 +64,6 @@ export function Process() {
     const cta = ctaRef.current
 
     if (!section || !trigger || !cards || !line || !cta) return
-
-    const isMobile = window.innerWidth < 768
 
     const ctx = gsap.context(() => {
       if (isMobile) {
@@ -261,7 +271,7 @@ export function Process() {
       window.removeEventListener("resize", handleResize)
       ctx.revert()
     }
-  }, [])
+  }, [isClient, isMobile])
 
   return (
     <section
@@ -311,7 +321,7 @@ export function Process() {
                 ref={(el) => {
                   cardRefs.current[i] = el
                 }}
-                className="w-[260px] flex-shrink-0 rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-5 shadow-lg md:w-[340px] md:p-8"
+                className={`w-[260px] flex-shrink-0 rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-5 shadow-lg md:w-[340px] md:p-8 ${isClient ? "opacity-0" : ""}`}
               >
                 {/* SVG */}
                 <div className="mb-3 flex h-32 items-center justify-center -mt-20 md:mb-4 md:h-44 md:-mt-28">
