@@ -73,77 +73,39 @@ export function Process() {
       let resizeHandler: (() => void) | null = null
       const timeoutId = setTimeout(() => {
         ctx = gsap.context(() => {
-          const scrollDistance = window.innerHeight * 2
           const cardWidth = 260
           const gap = 24
 
-          const startX = window.innerWidth + 60
-          const finalX =
-            -((cardWidth + gap) * 2) + (window.innerWidth - cardWidth) / 2
+          const startX = window.innerWidth + 100
 
           gsap.set(cards, { x: startX })
+          gsap.set(cards, { willChange: "transform" })
           cardElements.forEach((card) => {
-            gsap.set(card, { opacity: 0, y: 30 })
+            gsap.set(card, { opacity: 0 })
           })
           gsap.set(cta, { opacity: 0, y: 20 })
 
           const tl = gsap.timeline({
             scrollTrigger: {
               trigger: trigger,
-              start: "top 10%",
-              end: () => `+=${scrollDistance}`,
+              start: "top top",
+              end: "+=2000",
               pin: true,
-              scrub: 1,
+              scrub: 0.5,
               anticipatePin: 1,
-              invalidateOnRefresh: true,
             },
           })
 
-          const totalDistance = Math.abs(startX - finalX)
+          tl.to(cards, {
+            x: -(cardWidth * 3 + gap * 2 - window.innerWidth + 100),
+            ease: "none",
+            duration: 1,
+          })
 
-          tl.to(
-            cards,
-            { x: startX - totalDistance * 0.2, duration: 0.2, ease: "none" },
-            0
-          )
-          tl.to(
-            cardElements[0],
-            { opacity: 1, y: 0, duration: 0.1, ease: "power2.out" },
-            0.05
-          )
-
-          tl.to(
-            cards,
-            { x: startX - totalDistance * 0.5, duration: 0.25, ease: "none" },
-            0.2
-          )
-          tl.to(
-            cardElements[1],
-            { opacity: 1, y: 0, duration: 0.1, ease: "power2.out" },
-            0.3
-          )
-
-          tl.to(
-            cards,
-            { x: startX - totalDistance * 0.8, duration: 0.25, ease: "none" },
-            0.45
-          )
-          tl.to(
-            cardElements[2],
-            { opacity: 1, y: 0, duration: 0.1, ease: "power2.out" },
-            0.55
-          )
-
-          tl.to(
-            cards,
-            { x: finalX, duration: 0.2, ease: "none" },
-            0.7
-          )
-          tl.to(
-            cta,
-            { opacity: 1, y: 0, duration: 0.15, ease: "power2.out" },
-            0.85
-          )
+          tl.to(cardElements[0], { opacity: 1, duration: 0.2 }, 0)
+          tl.to(cardElements[1], { opacity: 1, duration: 0.2 }, 0.3)
+          tl.to(cardElements[2], { opacity: 1, duration: 0.2 }, 0.6)
+          tl.to(cta, { opacity: 1, y: 0, duration: 0.2 }, 0.8)
         }, section)
 
         ScrollTrigger.refresh()
