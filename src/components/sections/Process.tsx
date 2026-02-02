@@ -57,39 +57,81 @@ export function Process() {
 
     const ctx = gsap.context(() => {
       if (isMobile) {
-        // Solo animaciones simples de fade-in para cada card
+        const scrollDistance = window.innerHeight * 2
+        const cardWidth = 260
+        const gap = 24
+
+        // Cards empiezan fuera por la derecha
+        const startX = window.innerWidth
+        // Cards terminan con card 3 centrada (cards 1 y 2 fuera por izquierda)
+        const finalX =
+          -((cardWidth + gap) * 2) + (window.innerWidth - cardWidth) / 2
+
+        gsap.set(cards, { x: startX })
         cardElements.forEach((card) => {
-          gsap.fromTo(
-            card,
-            { opacity: 0, y: 30 },
-            {
-              opacity: 1,
-              y: 0,
-              duration: 0.6,
-              ease: "power2.out",
-              scrollTrigger: {
-                trigger: card,
-                start: "top 85%",
-                toggleActions: "play none none none",
-              },
-            }
-          )
+          gsap.set(card, { opacity: 0, y: 30 })
+        })
+        gsap.set(cta, { opacity: 0, y: 20 })
+
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: trigger,
+            start: "top 10%",
+            end: () => `+=${scrollDistance}`,
+            pin: true,
+            scrub: 1,
+            anticipatePin: 1,
+          },
         })
 
-        // CTA fade in
-        gsap.fromTo(
+        const totalDistance = Math.abs(startX - finalX)
+
+        // Card 1 entra y aparece
+        tl.to(
+          cards,
+          { x: startX - totalDistance * 0.2, duration: 0.2, ease: "none" },
+          0
+        )
+        tl.to(
+          cardElements[0],
+          { opacity: 1, y: 0, duration: 0.1, ease: "power2.out" },
+          0.05
+        )
+
+        // Card 2 entra y aparece
+        tl.to(
+          cards,
+          { x: startX - totalDistance * 0.5, duration: 0.25, ease: "none" },
+          0.2
+        )
+        tl.to(
+          cardElements[1],
+          { opacity: 1, y: 0, duration: 0.1, ease: "power2.out" },
+          0.3
+        )
+
+        // Card 3 entra y aparece
+        tl.to(
+          cards,
+          { x: startX - totalDistance * 0.8, duration: 0.25, ease: "none" },
+          0.45
+        )
+        tl.to(
+          cardElements[2],
+          { opacity: 1, y: 0, duration: 0.1, ease: "power2.out" },
+          0.55
+        )
+
+        // Scroll final + CTA
+        tl.to(
+          cards,
+          { x: finalX, duration: 0.2, ease: "none" },
+          0.7
+        )
+        tl.to(
           cta,
-          { opacity: 0, y: 20 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.5,
-            scrollTrigger: {
-              trigger: cta,
-              start: "top 90%",
-              toggleActions: "play none none none",
-            },
-          }
+          { opacity: 1, y: 0, duration: 0.15, ease: "power2.out" },
+          0.85
         )
 
         return
@@ -246,7 +288,7 @@ export function Process() {
         </div>
 
         {/* Cards area */}
-        <div className="relative h-[50vh] md:h-[55vh]">
+        <div className="relative h-[60vh] overflow-hidden md:h-[55vh]">
           {/* Línea conectora */}
           <div
             ref={lineRef}
@@ -261,7 +303,7 @@ export function Process() {
           {/* Cards container */}
           <div
             ref={cardsRef}
-            className="flex flex-col items-center gap-8 px-4 md:absolute md:left-0 md:top-1/2 md:flex-row md:-translate-y-1/2 md:gap-8 md:px-0 md:overflow-visible"
+            className="absolute left-0 top-1/2 flex -translate-y-1/2 items-center gap-6 overflow-visible md:gap-8"
           >
             {STEPS.map((step, i) => (
               <div
