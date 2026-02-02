@@ -15,8 +15,8 @@ export function CTAFinal() {
       <div className="mx-auto max-w-4xl px-4 md:px-6">
         <motion.div
           className="mx-auto flex flex-col items-center rounded-3xl border-2 border-[var(--color-brand)] bg-[var(--color-surface)] p-8 text-center shadow-glow md:p-12"
-          initial={{ opacity: 0, scale: 0.9 }}
-          whileInView={{ opacity: 1, scale: 1 }}
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
         >

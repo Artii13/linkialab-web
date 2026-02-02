@@ -219,10 +219,12 @@ body {
   transition: all var(--duration-normal) var(--ease-out);
 }
 
-.btn-primary:hover {
-  background-color: #D97706;
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-glow);
+@media (hover: hover) {
+  .btn-primary:hover {
+    background-color: #D97706;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-glow);
+  }
 }
 
 .btn-secondary {

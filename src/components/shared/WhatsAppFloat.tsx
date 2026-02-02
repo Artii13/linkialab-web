@@ -26,16 +26,10 @@ export function WhatsAppFloat() {
           aria-label="Contactar por WhatsApp"
           className="fixed bottom-6 right-6 z-50 flex size-14 items-center justify-center rounded-full shadow-lg transition-shadow hover:shadow-xl"
           style={{ backgroundColor: "#25D366" }}
-          initial={{ opacity: 0, scale: 0, y: 20 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0 }}
-          transition={{
-            type: "spring",
-            stiffness: 300,
-            damping: 20,
-          }}
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.95 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.3 }}
         >
           <WhatsappLogo
             size={28}
