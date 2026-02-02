@@ -7,7 +7,7 @@ import { Testimonials } from '@/components/sections/Testimonials'
 import { FAQ } from '@/components/sections/FAQ'
 import { CTAFinal } from '@/components/sections/CTAFinal'
 
-import { motion, useScroll, useTransform } from "framer-motion"
+import { motion } from "framer-motion"
 import { ArrowRight } from "@phosphor-icons/react"
 
 const CAL_LINK = "https://cal.linkialab.com"
@@ -37,9 +37,10 @@ const heroItem = {
 }
 
 export default function Home() {
-  const { scrollY } = useScroll()
-  const heroY = useTransform(scrollY, [0, 400], [0, 200])
-  const heroOpacity = useTransform(scrollY, [0, 250], [1, 0])
+  // Parallax desactivado para evitar conflictos con GSAP ScrollTrigger en iOS Safari
+  // const { scrollY } = useScroll()
+  // const heroY = useTransform(scrollY, [0, 400], [0, 200])
+  // const heroOpacity = useTransform(scrollY, [0, 250], [1, 0])
 
   return (
     <main className="min-h-screen">
@@ -50,7 +51,6 @@ export default function Home() {
       >
         <motion.div
           className="mx-auto max-w-4xl px-4 text-center md:px-6"
-          style={{ y: heroY, opacity: heroOpacity }}
           variants={heroVariants}
           initial="hidden"
           animate="visible"
