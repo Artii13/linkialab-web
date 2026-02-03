@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useLayoutEffect, useState } from "react"
 import { gsap, ScrollTrigger } from "@/lib/gsap"
-import { motion } from "framer-motion"
 import { ArrowRight } from "@phosphor-icons/react"
 
 const CAL_LINK = "https://cal.linkialab.com"
@@ -44,6 +43,8 @@ export function Process() {
 
   const [isClient, setIsClient] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
+  const [activeCard, setActiveCard] = useState(0)
+  const scrollContainerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     setIsClient(true)
@@ -68,63 +69,9 @@ export function Process() {
 
     if (!section || !trigger || !cards || !line || !cta) return
 
-    // Móvil: scroll horizontal simplificado para iOS Safari
+    // Móvil: usa CSS Scroll-Snap (nativo, funciona en iOS Safari)
     if (isMobileDevice) {
-      const ctx = gsap.context(() => {
-        const cardWidth = 280
-        const gap = 24
-        const totalCardsWidth = cardWidth * 3 + gap * 2
-        const viewportWidth = window.innerWidth
-        const scrollDistance = totalCardsWidth - viewportWidth + 80
-
-        const startX = 40
-
-        gsap.set(cards, { x: startX })
-        cardElements.forEach((card) => {
-          gsap.set(card, { opacity: 1 })
-        })
-        gsap.set(cta, { opacity: 0 })
-
-        const tl = gsap.timeline({
-          scrollTrigger: {
-            trigger: trigger,
-            start: "top 5%",
-            end: () => `+=${window.innerHeight * 1.5}`,
-            pin: true,
-            scrub: 0.3,
-            anticipatePin: 1,
-            invalidateOnRefresh: true,
-          },
-        })
-
-        tl.to(cards, {
-          x: -scrollDistance,
-          ease: "none",
-          duration: 1,
-        })
-
-        tl.to(line, { scaleX: 1, ease: "none", duration: 1 }, 0)
-
-        tl.to(
-          cta,
-          {
-            opacity: 1,
-            duration: 0.2,
-          },
-          0.8
-        )
-      }, section)
-
-      const handleResize = () => {
-        ctx.revert()
-        ScrollTrigger.refresh()
-      }
-      window.addEventListener("resize", handleResize)
-
-      return () => {
-        window.removeEventListener("resize", handleResize)
-        ctx.revert()
-      }
+      return
     }
 
     // Desktop: scroll horizontal con pin
@@ -259,13 +206,30 @@ export function Process() {
     ScrollTrigger.refresh()
   }, [isClient])
 
+  // Detectar card activa en móvil (para indicadores)
+  useEffect(() => {
+    if (!isMobile || !scrollContainerRef.current) return
+
+    const container = scrollContainerRef.current
+
+    const handleScroll = () => {
+      const scrollLeft = container.scrollLeft
+      const cardWidth = 280 + 24
+      const activeIndex = Math.round(scrollLeft / cardWidth)
+      setActiveCard(Math.min(activeIndex, STEPS.length - 1))
+    }
+
+    container.addEventListener("scroll", handleScroll, { passive: true })
+    return () => container.removeEventListener("scroll", handleScroll)
+  }, [isMobile])
+
   return (
     <section
       id="proceso"
       ref={sectionRef}
       className="relative bg-[var(--color-background)]"
     >
-      <div ref={triggerRef} className="relative min-h-screen">
+      <div ref={triggerRef} className="relative md:min-h-screen">
         {/* Header */}
         <div className="pb-6 pt-6 md:pb-8 md:pt-12">
           <div className="mx-auto max-w-5xl px-4 text-center md:px-6">
@@ -284,7 +248,7 @@ export function Process() {
         </div>
 
         {/* Cards area */}
-        <div className="relative h-[50vh] overflow-hidden md:h-[55vh]">
+        <div className="relative h-auto md:h-[55vh] md:overflow-hidden">
           {/* Línea conectora (solo desktop) */}
           <div
             ref={lineRef}
@@ -296,63 +260,128 @@ export function Process() {
             }}
           />
 
-          {/* Cards container */}
-          <div
-            ref={cardsRef}
-            className="absolute left-0 top-1/2 flex -translate-y-1/2 items-center gap-6 px-4 md:gap-8 md:px-0"
-          >
-            {STEPS.map((step, i) => (
-              <motion.div
-                key={step.number}
-                ref={(el) => {
-                  cardRefs.current[i] = el
-                }}
-                className={`w-[280px] flex-shrink-0 rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-5 shadow-lg md:w-[340px] md:p-8 ${!isMobile ? "opacity-0" : ""}`}
-                initial={undefined}
-                whileInView={undefined}
-                viewport={undefined}
-                transition={undefined}
-              >
-                {/* SVG */}
-                <div className="mb-3 flex h-20 items-center justify-center -mt-8 md:mb-4 md:h-44 md:-mt-28">
-                  <img
-                    src={step.image}
-                    alt={step.title}
-                    className="h-full w-auto object-contain"
-                  />
-                </div>
-
-                {/* Número */}
-                <span
-                  className="mb-2 block font-serif text-3xl font-bold md:mb-3 md:text-5xl"
-                  style={{ color: "var(--color-brand)" }}
+          {/* Mobile: Scroll-Snap Container */}
+          {isMobile && (
+            <div
+              ref={scrollContainerRef}
+              className="flex snap-x snap-mandatory gap-6 overflow-x-auto px-8 py-8 scrollbar-hide"
+              style={{
+                scrollPaddingLeft: "32px",
+                scrollPaddingRight: "32px",
+                WebkitOverflowScrolling: "touch",
+              }}
+            >
+              {STEPS.map((step, i) => (
+                <div
+                  key={step.number}
+                  ref={(el) => {
+                    cardRefs.current[i] = el
+                  }}
+                  className="w-[280px] flex-shrink-0 snap-center rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-5 shadow-lg"
                 >
-                  {step.number}
-                </span>
+                  {/* SVG */}
+                  <div className="mb-3 flex h-24 items-center justify-center">
+                    <img
+                      src={step.image}
+                      alt={step.title}
+                      className="h-full w-auto object-contain"
+                    />
+                  </div>
 
-                {/* Título */}
-                <h3 className="mb-2 text-sm font-semibold text-foreground md:text-lg">
-                  {step.title}
-                </h3>
+                  {/* Número */}
+                  <span
+                    className="mb-2 block font-serif text-3xl font-bold"
+                    style={{ color: "var(--color-brand)" }}
+                  >
+                    {step.number}
+                  </span>
 
-                {/* Descripción */}
-                <p className="text-xs leading-relaxed text-muted md:text-sm">
-                  {step.description}
-                </p>
-              </motion.div>
-            ))}
-          </div>
+                  {/* Título */}
+                  <h3 className="mb-2 text-base font-semibold text-foreground">
+                    {step.title}
+                  </h3>
+
+                  {/* Descripción */}
+                  <p className="text-sm leading-relaxed text-muted">
+                    {step.description}
+                  </p>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Desktop: GSAP Horizontal Scroll */}
+          {!isMobile && (
+            <div
+              ref={cardsRef}
+              className="absolute left-0 top-1/2 flex -translate-y-1/2 items-center gap-8"
+            >
+              {STEPS.map((step, i) => (
+                <div
+                  key={step.number}
+                  ref={(el) => {
+                    cardRefs.current[i] = el
+                  }}
+                  className="w-[340px] flex-shrink-0 rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-8 opacity-0 shadow-lg"
+                >
+                  {/* SVG */}
+                  <div className="mb-4 flex h-44 items-center justify-center -mt-28">
+                    <img
+                      src={step.image}
+                      alt={step.title}
+                      className="h-full w-auto object-contain"
+                    />
+                  </div>
+
+                  {/* Número */}
+                  <span
+                    className="mb-3 block font-serif text-5xl font-bold"
+                    style={{ color: "var(--color-brand)" }}
+                  >
+                    {step.number}
+                  </span>
+
+                  {/* Título */}
+                  <h3 className="mb-2 text-lg font-semibold text-foreground">
+                    {step.title}
+                  </h3>
+
+                  {/* Descripción */}
+                  <p className="text-sm leading-relaxed text-muted">
+                    {step.description}
+                  </p>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
+        {/* Indicadores móvil (dots) */}
+        {isMobile && (
+          <div className="flex justify-center gap-2 pb-6">
+            {STEPS.map((_, i) => (
+              <button
+                key={i}
+                type="button"
+                onClick={() => {
+                  scrollContainerRef.current?.scrollTo({
+                    left: i * (280 + 24),
+                    behavior: "smooth",
+                  })
+                }}
+                className={`h-2 rounded-full transition-all duration-300 ${
+                  activeCard === i
+                    ? "w-6 bg-[var(--color-brand)]"
+                    : "w-2 bg-[var(--color-border)] hover:bg-[var(--color-foreground-muted)]"
+                }`}
+                aria-label={`Ir al paso ${i + 1}`}
+              />
+            ))}
+          </div>
+        )}
+
         {/* CTA - FUERA del contenedor de cards para centrado correcto */}
-        <motion.div
-          ref={ctaRef}
-          className="flex justify-center pb-8"
-          initial={undefined}
-          whileInView={undefined}
-          viewport={undefined}
-          transition={undefined}
-        >
+        <div ref={ctaRef} className="flex justify-center pb-8">
           <a
             href={CAL_LINK}
             target="_blank"
@@ -362,7 +391,7 @@ export function Process() {
             Empezar ahora
             <ArrowRight className="size-4 md:size-5" weight="bold" />
           </a>
-        </motion.div>
+        </div>
       </div>
     </section>
   )

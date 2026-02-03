@@ -514,3 +514,12 @@ body {
     transition: none !important;
   }
 }
+
+/* Hide scrollbar for scroll-snap containers */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
