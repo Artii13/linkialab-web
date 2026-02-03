@@ -535,19 +535,22 @@ body {
 }
 
 /* Chevron rotation con mismo easing */
-[data-radix-collection-item] svg {
+[data-radix-collection-item] svg,
+.accordion-trigger svg {
   transition: transform 400ms cubic-bezier(0.32, 0.72, 0, 1);
 }
 
 [data-state="open"] > button svg,
-[data-radix-collection-item][data-state="open"] svg {
+[data-radix-collection-item][data-state="open"] svg,
+.accordion-trigger[data-state="open"] svg {
   transform: rotate(180deg);
 }
 
 /* Respect reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .accordion-content,
-  [data-radix-collection-item] svg {
+  [data-radix-collection-item] svg,
+  .accordion-trigger svg {
     transition-duration: 0.01ms !important;
   }
 }
