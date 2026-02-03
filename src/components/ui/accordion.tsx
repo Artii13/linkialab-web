@@ -56,11 +56,7 @@ function AccordionContent({
   return (
     <AccordionPrimitive.Content
       data-slot="accordion-content"
-      className="overflow-hidden text-sm transition-all duration-300 ease-out data-[state=closed]:grid-rows-[0fr] data-[state=open]:grid-rows-[1fr]"
-      style={{
-        display: "grid",
-        gridTemplateRows: "0fr",
-      }}
+      className="accordion-content overflow-hidden text-sm"
       {...props}
     >
       <div className="overflow-hidden">

@@ -507,30 +507,20 @@ body {
   }
 }
 
-/* Accordion smooth animation con CSS Grid */
-[data-slot="accordion-content"] {
+/* ===========================================
+   ACCORDION ANIMATION
+   =========================================== */
+
+.accordion-content {
   display: grid;
   grid-template-rows: 0fr;
   transition: grid-template-rows 300ms ease-out;
 }
 
-[data-slot="accordion-content"][data-state="open"] {
+.accordion-content[data-state="open"] {
   grid-template-rows: 1fr;
 }
 
-[data-slot="accordion-content"][data-state="closed"] {
+.accordion-content[data-state="closed"] {
   grid-template-rows: 0fr;
-}
-
-[data-slot="accordion-content"] > div {
-  overflow: hidden;
-}
-
-/* Hide scrollbar for scroll-snap containers */
-.scrollbar-hide {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-.scrollbar-hide::-webkit-scrollbar {
-  display: none;
 }
