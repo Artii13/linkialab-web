@@ -500,19 +500,30 @@ body {
     -webkit-transform: none !important;
   }
 
-  /* Accordion sin animación de height en móvil para evitar flicker */
-  [data-slot="accordion-content"],
-  [data-state="open"] > [role="region"],
-  [data-state="closed"] > [role="region"] {
-    animation: none !important;
-    transition: none !important;
-  }
-
   /* Desactivar animaciones SVG en móvil */
   svg * {
     animation: none !important;
     transition: none !important;
   }
+}
+
+/* Accordion smooth animation con CSS Grid */
+[data-slot="accordion-content"] {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 300ms ease-out;
+}
+
+[data-slot="accordion-content"][data-state="open"] {
+  grid-template-rows: 1fr;
+}
+
+[data-slot="accordion-content"][data-state="closed"] {
+  grid-template-rows: 0fr;
+}
+
+[data-slot="accordion-content"] > div {
+  overflow: hidden;
 }
 
 /* Hide scrollbar for scroll-snap containers */
