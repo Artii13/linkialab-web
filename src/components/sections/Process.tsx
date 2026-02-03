@@ -68,9 +68,63 @@ export function Process() {
 
     if (!section || !trigger || !cards || !line || !cta) return
 
-    // Móvil: usa Framer Motion (whileInView), no GSAP
+    // Móvil: scroll horizontal simplificado para iOS Safari
     if (isMobileDevice) {
-      return // No hacer nada con GSAP en móvil
+      const ctx = gsap.context(() => {
+        const cardWidth = 280
+        const gap = 24
+        const totalCardsWidth = cardWidth * 3 + gap * 2
+        const viewportWidth = window.innerWidth
+        const scrollDistance = totalCardsWidth - viewportWidth + 80
+
+        const startX = 40
+
+        gsap.set(cards, { x: startX })
+        cardElements.forEach((card) => {
+          gsap.set(card, { opacity: 1 })
+        })
+        gsap.set(cta, { opacity: 0 })
+
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: trigger,
+            start: "top 5%",
+            end: () => `+=${window.innerHeight * 1.5}`,
+            pin: true,
+            scrub: 0.3,
+            anticipatePin: 1,
+            invalidateOnRefresh: true,
+          },
+        })
+
+        tl.to(cards, {
+          x: -scrollDistance,
+          ease: "none",
+          duration: 1,
+        })
+
+        tl.to(line, { scaleX: 1, ease: "none", duration: 1 }, 0)
+
+        tl.to(
+          cta,
+          {
+            opacity: 1,
+            duration: 0.2,
+          },
+          0.8
+        )
+      }, section)
+
+      const handleResize = () => {
+        ctx.revert()
+        ScrollTrigger.refresh()
+      }
+      window.addEventListener("resize", handleResize)
+
+      return () => {
+        window.removeEventListener("resize", handleResize)
+        ctx.revert()
+      }
     }
 
     // Desktop: scroll horizontal con pin
@@ -211,7 +265,7 @@ export function Process() {
       ref={sectionRef}
       className="relative bg-[var(--color-background)]"
     >
-      <div ref={triggerRef} className="relative md:min-h-screen">
+      <div ref={triggerRef} className="relative min-h-screen">
         {/* Header */}
         <div className="pb-6 pt-6 md:pb-8 md:pt-12">
           <div className="mx-auto max-w-5xl px-4 text-center md:px-6">
@@ -230,7 +284,7 @@ export function Process() {
         </div>
 
         {/* Cards area */}
-        <div className="relative h-auto md:h-[55vh] md:overflow-hidden">
+        <div className="relative h-[50vh] overflow-hidden md:h-[55vh]">
           {/* Línea conectora (solo desktop) */}
           <div
             ref={lineRef}
@@ -245,7 +299,7 @@ export function Process() {
           {/* Cards container */}
           <div
             ref={cardsRef}
-            className="flex flex-col items-center gap-12 px-4 py-8 md:absolute md:left-0 md:top-1/2 md:flex-row md:-translate-y-1/2 md:items-center md:gap-8 md:px-0 md:py-0"
+            className="absolute left-0 top-1/2 flex -translate-y-1/2 items-center gap-6 px-4 md:gap-8 md:px-0"
           >
             {STEPS.map((step, i) => (
               <motion.div
@@ -253,11 +307,11 @@ export function Process() {
                 ref={(el) => {
                   cardRefs.current[i] = el
                 }}
-                className={`w-[260px] flex-shrink-0 rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-5 shadow-lg md:w-[340px] md:p-8 ${!isMobile ? "opacity-0" : ""}`}
-                initial={isMobile ? { opacity: 0, filter: "blur(4px)" } : undefined}
-                whileInView={isMobile ? { opacity: 1, filter: "blur(0px)" } : undefined}
-                viewport={isMobile ? { once: true, amount: 0.3 } : undefined}
-                transition={isMobile ? { duration: 0.8, delay: i * 0.15, ease: "easeOut" as const } : undefined}
+                className={`w-[280px] flex-shrink-0 rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-5 shadow-lg md:w-[340px] md:p-8 ${!isMobile ? "opacity-0" : ""}`}
+                initial={undefined}
+                whileInView={undefined}
+                viewport={undefined}
+                transition={undefined}
               >
                 {/* SVG */}
                 <div className="mb-3 flex h-20 items-center justify-center -mt-8 md:mb-4 md:h-44 md:-mt-28">
@@ -294,10 +348,10 @@ export function Process() {
         <motion.div
           ref={ctaRef}
           className="flex justify-center pb-8"
-          initial={isMobile ? { opacity: 0, filter: "blur(4px)" } : undefined}
-          whileInView={isMobile ? { opacity: 1, filter: "blur(0px)" } : undefined}
-          viewport={isMobile ? { once: true, amount: 0.5 } : undefined}
-          transition={isMobile ? { duration: 0.8, delay: 0.3, ease: "easeOut" as const } : undefined}
+          initial={undefined}
+          whileInView={undefined}
+          viewport={undefined}
+          transition={undefined}
         >
           <a
             href={CAL_LINK}
