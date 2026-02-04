@@ -2,7 +2,7 @@
 
 import { SmileyXEyes } from "@phosphor-icons/react"
 
-const WHATSAPP_LINK = "https://wa.me/34622779639"
+const WHATSAPP_LINK = "https://wa.me/34647186479"
 
 export default function NotFound() {
   return (

@@ -4,7 +4,7 @@ import Link from "next/link"
 import { ChatCircle } from "@phosphor-icons/react"
 
 const CAL_LINK = "https://cal.linkialab.com"
-const WHATSAPP_LINK = "https://wa.me/34622779639"
+const WHATSAPP_LINK = "https://wa.me/34647186479"
 const EMAIL = "hola@linkialab.com"
 
 const SERVICIOS_LINKS = [
@@ -100,7 +100,7 @@ export function Footer() {
                 className="btn-primary inline-flex w-fit items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm"
               >
                 <ChatCircle size={20} weight="fill" />
-                +34 622 779 639
+                +34 647 186 479
               </a>
               <a
                 href={CAL_LINK}
