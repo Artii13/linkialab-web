@@ -260,27 +260,23 @@ export function Process() {
             }}
           />
 
-          {/* Mobile: Scroll-Snap Container */}
-          {isMobile && (
-            <div
-              ref={scrollContainerRef}
-              className="flex snap-x snap-mandatory gap-6 overflow-x-auto px-8 py-8 scrollbar-hide"
-              style={{
-                scrollPaddingLeft: "32px",
-                scrollPaddingRight: "32px",
-                WebkitOverflowScrolling: "touch",
-              }}
-            >
-              {STEPS.map((step, i) => (
-                <div
-                  key={step.number}
-                  ref={(el) => {
-                    cardRefs.current[i] = el
-                  }}
-                  className="w-[280px] flex-shrink-0 snap-center rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-5 shadow-lg"
-                >
-                  {/* SVG */}
-                  <div className="process-svg-illustration mb-3 flex h-24 items-center justify-center">
+          {/* Mobile: Scroll-Snap (visible solo en viewport < md; no depende de JS para pintar) */}
+          <div
+            ref={scrollContainerRef}
+            className="flex snap-x snap-mandatory gap-6 overflow-x-auto px-8 py-8 scrollbar-hide md:hidden"
+            style={{
+              scrollPaddingLeft: "32px",
+              scrollPaddingRight: "32px",
+              WebkitOverflowScrolling: "touch",
+            }}
+          >
+            {STEPS.map((step) => (
+              <div
+                key={step.number}
+                className="w-[280px] flex-shrink-0 snap-center rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-5 shadow-lg"
+              >
+                {/* SVG */}
+                <div className="process-svg-illustration mb-3 flex h-24 items-center justify-center">
                     <img
                       src={step.image}
                       alt={step.title}
@@ -307,23 +303,21 @@ export function Process() {
                   </p>
                 </div>
               ))}
-            </div>
-          )}
+          </div>
 
-          {/* Desktop: GSAP Horizontal Scroll */}
-          {!isMobile && (
-            <div
-              ref={cardsRef}
-              className="absolute left-0 top-1/2 flex -translate-y-1/2 items-center gap-8"
-            >
-              {STEPS.map((step, i) => (
-                <div
-                  key={step.number}
-                  ref={(el) => {
-                    cardRefs.current[i] = el
-                  }}
-                  className="w-[340px] flex-shrink-0 rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-8 opacity-0 shadow-lg"
-                >
+          {/* Desktop: GSAP Horizontal Scroll (visible solo en md+; opacity la controla GSAP para fallback visible si GSAP falla) */}
+          <div
+            ref={cardsRef}
+            className="hidden absolute left-0 top-1/2 flex -translate-y-1/2 items-center gap-8 md:flex"
+          >
+            {STEPS.map((step, i) => (
+              <div
+                key={step.number}
+                ref={(el) => {
+                  cardRefs.current[i] = el
+                }}
+                className="process-desktop-card w-[340px] flex-shrink-0 rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-8 shadow-lg"
+              >
                   {/* SVG */}
                   <div className="process-svg-illustration mb-4 flex h-44 items-center justify-center -mt-28">
                     <img
@@ -352,8 +346,7 @@ export function Process() {
                   </p>
                 </div>
               ))}
-            </div>
-          )}
+          </div>
         </div>
 
         {/* Indicadores móvil (dots) */}

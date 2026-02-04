@@ -581,6 +581,15 @@ body {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+  /* Restaurar transiciones del accordion (UX crítica) */
+  .accordion-content,
+  .accordion-content > div,
+  .accordion-trigger,
+  .accordion-trigger svg {
+    transition-duration: 400ms !important;
+    animation-duration: unset !important;
+    animation-iteration-count: unset !important;
+  }
 }
 
 /* ===========================================
