@@ -1,11 +1,6 @@
 "use client"
 
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion"
+import { Accordion } from "@/components/ui/accordion-custom"
 
 const CAL_LINK = "https://cal.linkialab.com"
 
