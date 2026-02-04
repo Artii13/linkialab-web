@@ -280,7 +280,7 @@ export function Process() {
                   className="w-[280px] flex-shrink-0 snap-center rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-5 shadow-lg"
                 >
                   {/* SVG */}
-                  <div className="mb-3 flex h-24 items-center justify-center">
+                  <div className="process-svg-illustration mb-3 flex h-24 items-center justify-center">
                     <img
                       src={step.image}
                       alt={step.title}
@@ -325,7 +325,7 @@ export function Process() {
                   className="w-[340px] flex-shrink-0 rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-8 opacity-0 shadow-lg"
                 >
                   {/* SVG */}
-                  <div className="mb-4 flex h-44 items-center justify-center -mt-28">
+                  <div className="process-svg-illustration mb-4 flex h-44 items-center justify-center -mt-28">
                     <img
                       src={step.image}
                       alt={step.title}

@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 /* ===========================================
-   LINK IA LAB - DESIGN SYSTEM TOKENS
+   LAYER 1: DESIGN SYSTEM TOKENS
    =========================================== */
 
 @theme inline {
@@ -47,7 +47,7 @@
   --font-sans: var(--font-plus-jakarta), ui-sans-serif, system-ui, sans-serif;
   --font-serif: var(--font-instrument-serif), ui-serif, Georgia, serif;
 
-  /* Espaciado (tokens extra) */
+  /* Espaciado */
   --spacing-section: 6rem;
   --spacing-section-mobile: 4rem;
 
@@ -73,6 +73,7 @@
   --duration-slower: 600ms;
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-apple: cubic-bezier(0.32, 0.72, 0, 1);
 
   /* Z-index */
   --z-dropdown: 50;
@@ -84,12 +85,8 @@
 }
 
 /* ===========================================
-   BASE STYLES
+   LAYER 2: BASE STYLES
    =========================================== */
-
-* {
-  border-color: var(--color-border);
-}
 
 body {
   font-family: var(--font-sans);
@@ -99,8 +96,15 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Border color por defecto - solo en elementos con borde explícito */
+*,
+*::before,
+*::after {
+  border-color: var(--color-border);
+}
+
 /* ===========================================
-   DARK MODE
+   LAYER 3: DARK MODE
    =========================================== */
 
 .dark {
@@ -115,17 +119,8 @@ body {
   --color-brand: #FBBF24;
 }
 
-.dark * {
-  border-color: var(--color-border-dark);
-}
-
-.dark body {
-  background-color: var(--color-background-dark);
-  color: var(--color-foreground-dark);
-}
-
 /* ===========================================
-   TYPOGRAPHY UTILITIES
+   LAYER 4: TYPOGRAPHY UTILITIES
    =========================================== */
 
 .font-serif {
@@ -144,7 +139,6 @@ body {
   color: var(--color-foreground-subtle);
 }
 
-/* Display headlines con Instrument Serif para acentos */
 .headline-accent {
   font-family: var(--font-serif);
   font-style: italic;
@@ -152,7 +146,7 @@ body {
 }
 
 /* ===========================================
-   BACKGROUND UTILITIES
+   LAYER 5: BACKGROUND UTILITIES
    =========================================== */
 
 .bg-surface {
@@ -172,23 +166,19 @@ body {
 }
 
 /* ===========================================
-   BORDER UTILITIES
-   =========================================== */
-
-.border-default {
-  border-color: var(--color-border);
-}
-
-/* ===========================================
-   SHADOW UTILITIES
+   LAYER 6: SHADOW & BORDER UTILITIES
    =========================================== */
 
 .shadow-glow {
   box-shadow: var(--shadow-glow);
 }
 
+.border-default {
+  border-color: var(--color-border);
+}
+
 /* ===========================================
-   TRANSITION UTILITIES
+   LAYER 7: TRANSITION UTILITIES
    =========================================== */
 
 .transition-fast {
@@ -207,7 +197,8 @@ body {
 }
 
 /* ===========================================
-   COMPONENT: BUTTONS
+   LAYER 8: COMPONENT - BUTTONS
+   Transiciones específicas, no "all"
    =========================================== */
 
 .btn-primary {
@@ -216,7 +207,10 @@ body {
   font-weight: 600;
   padding: 0.75rem 1.5rem;
   border-radius: var(--radius-lg);
-  transition: all var(--duration-normal) var(--ease-out);
+  transition: 
+    background-color var(--duration-normal) var(--ease-out),
+    box-shadow var(--duration-normal) var(--ease-out),
+    transform var(--duration-normal) var(--ease-out);
 }
 
 @media (hover: hover) {
@@ -234,7 +228,9 @@ body {
   padding: 0.75rem 1.5rem;
   border-radius: var(--radius-lg);
   border: 1px solid var(--color-border);
-  transition: all var(--duration-normal) var(--ease-out);
+  transition: 
+    background-color var(--duration-normal) var(--ease-out),
+    border-color var(--duration-normal) var(--ease-out);
 }
 
 .btn-secondary:hover {
@@ -248,7 +244,7 @@ body {
   font-weight: 500;
   padding: 0.5rem 1rem;
   border-radius: var(--radius-md);
-  transition: all var(--duration-fast) var(--ease-out);
+  transition: background-color var(--duration-fast) var(--ease-out);
 }
 
 .btn-ghost:hover {
@@ -256,7 +252,7 @@ body {
 }
 
 /* ===========================================
-   COMPONENT: CARDS
+   LAYER 9: COMPONENT - CARDS
    =========================================== */
 
 .card {
@@ -264,12 +260,12 @@ body {
   border: 1px solid var(--color-border);
   border-radius: var(--radius-xl);
   padding: 1.5rem;
-  transition: border-color var(--duration-normal) var(--ease-out),
+  transition: 
+    border-color var(--duration-normal) var(--ease-out),
     box-shadow var(--duration-normal) var(--ease-out),
     background-color var(--duration-normal) var(--ease-out);
 }
 
-/* Solo en dispositivos con hover (evita tilt/transform fantasma en móvil táctil) */
 @media (hover: hover) {
   .card:hover {
     border-color: var(--color-brand);
@@ -284,7 +280,55 @@ body {
 }
 
 /* ===========================================
-   ANIMATIONS
+   LAYER 10: COMPONENT - ACCORDION
+   Apple-style smooth animation
+   Aislado completamente de otras reglas
+   =========================================== */
+
+/* Desactivar animaciones por defecto de Radix UI */
+.accordion-content[data-state="open"],
+.accordion-content[data-state="closed"] {
+  animation: none;
+}
+
+/* Grid animation trick para height suave */
+.accordion-content {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  overflow: hidden;
+  transition:
+    grid-template-rows 500ms var(--ease-apple),
+    opacity 400ms var(--ease-apple);
+}
+
+.accordion-content[data-state="open"] {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+
+.accordion-content[data-state="closed"] {
+  grid-template-rows: 0fr;
+  opacity: 0;
+}
+
+/* El div interno DEBE tener overflow hidden y min-height 0 */
+.accordion-content > div {
+  overflow: hidden;
+  min-height: 0;
+}
+
+/* Chevron rotation - selector específico para no conflictar */
+.accordion-trigger svg {
+  transition: transform 400ms var(--ease-apple);
+}
+
+.accordion-trigger[data-state="open"] svg {
+  transform: rotate(180deg);
+}
+
+/* ===========================================
+   LAYER 11: KEYFRAME ANIMATIONS
    =========================================== */
 
 @keyframes fade-in {
@@ -354,25 +398,12 @@ body {
   animation: scale-in var(--duration-slow) var(--ease-out) forwards;
 }
 
-/* Desactivar animaciones con transform en móvil */
-@media (max-width: 767px) {
-  .animate-fade-in,
-  .animate-blur-fade-in,
-  .animate-scale-in,
-  .animate-slide-in-right {
-    animation: none;
-    opacity: 1;
-    transform: none;
-    filter: none;
-  }
-}
-
 .animate-pulse-glow {
   animation: pulse-glow 2s ease-in-out infinite;
 }
 
 /* ===========================================
-   SECTION SPACING
+   LAYER 12: LAYOUT - SECTIONS & CONTAINERS
    =========================================== */
 
 .section {
@@ -386,10 +417,6 @@ body {
     padding-bottom: var(--spacing-section);
   }
 }
-
-/* ===========================================
-   CONTAINER
-   =========================================== */
 
 .container-custom {
   width: 100%;
@@ -415,7 +442,7 @@ body {
 }
 
 /* ===========================================
-   SCROLLBAR CUSTOM (opcional)
+   LAYER 13: BROWSER CUSTOMIZATION
    =========================================== */
 
 ::-webkit-scrollbar {
@@ -436,49 +463,46 @@ body {
   background: var(--color-foreground-subtle);
 }
 
-/* ===========================================
-   SELECTION
-   =========================================== */
-
 ::selection {
   background-color: var(--color-brand);
   color: #1C1917;
 }
 
-/* Horizontal scroll section */
+/* ===========================================
+   LAYER 14: THIRD-PARTY OVERRIDES
+   GSAP ScrollTrigger
+   =========================================== */
+
 .pin-spacer {
   background: var(--color-background) !important;
 }
 
 /* ===========================================
-   iOS SAFARI FIXES - ANTI-TILT
+   LAYER 15: MOBILE OPTIMIZATIONS
+   Solo las reglas estrictamente necesarias
    =========================================== */
 
-@supports (-webkit-touch-callout: none) {
-  /* iOS Safari específico */
-
-  /* Prevenir transforms accidentales en elementos fixed/sticky */
-  .fixed,
-  .sticky,
-  [data-slot="sheet-content"],
-  [data-slot="sheet-overlay"] {
-    -webkit-transform: none !important;
-    transform: none !important;
-  }
-
-  /* Solo permitir transforms en elementos que lo necesitan explícitamente */
-  .allow-transform {
-    -webkit-transform: unset !important;
-    transform: unset !important;
-  }
-}
-
-/* Desactivar todas las animaciones de slide en móvil */
 @media (max-width: 767px) {
-  .animate-in,
-  .animate-out,
-  [data-state="open"]:not(.accordion-content):not([data-slot="accordion-item"]),
-  [data-state="closed"]:not(.accordion-content):not([data-slot="accordion-item"]) {
+  /* 
+   * Desactivar animaciones CSS custom con transform en móvil
+   * para evitar problemas de rendimiento en iOS Safari
+   */
+  .animate-fade-in,
+  .animate-blur-fade-in,
+  .animate-scale-in,
+  .animate-slide-in-right {
+    animation: none;
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+
+  /* 
+   * Neutralizar variables de animación de Tailwind 
+   * PERO excluir accordion para que funcione su animación
+   */
+  .animate-in:not(.accordion-content),
+  .animate-out:not(.accordion-content) {
     --tw-enter-translate-x: 0 !important;
     --tw-enter-translate-y: 0 !important;
     --tw-exit-translate-x: 0 !important;
@@ -487,7 +511,10 @@ body {
     --tw-exit-scale: 1 !important;
   }
 
-  /* Forzar que las transiciones sean solo de opacity */
+  /* 
+   * Desactivar slide transforms de Tailwind en móvil
+   * para Sheet y otros componentes con slide
+   */
   .slide-in-from-right,
   .slide-in-from-left,
   .slide-in-from-top,
@@ -497,67 +524,65 @@ body {
   .slide-out-to-top,
   .slide-out-to-bottom {
     transform: none !important;
-    -webkit-transform: none !important;
   }
 
-  /* Desactivar animaciones SVG en móvil */
-  svg * {
+  /* 
+   * Desactivar animaciones SOLO de los SVGs ilustrativos de Process
+   * NO afecta a iconos como el chevron del accordion
+   */
+  .process-svg-illustration,
+  .process-svg-illustration * {
     animation: none !important;
     transition: none !important;
   }
 }
 
-/* ============================================
-   ACCORDION - Apple-style smooth animation
-   ============================================ */
+/* ===========================================
+   LAYER 16: iOS SAFARI SPECIFIC FIXES
+   Solo cuando es estrictamente necesario
+   =========================================== */
 
-/* Desactivar animaciones por defecto de Radix */
-.accordion-content[data-state="open"],
-.accordion-content[data-state="closed"] {
-  animation: none !important;
+@supports (-webkit-touch-callout: none) {
+  /* 
+   * Prevenir transform accidentales SOLO en sheet overlay/content
+   * No aplicar globalmente a .fixed/.sticky
+   */
+  [data-slot="sheet-content"],
+  [data-slot="sheet-overlay"] {
+    -webkit-transform: none !important;
+    transform: none !important;
+  }
 }
 
-/* Grid animation trick */
-.accordion-content {
-  display: grid !important;
-  grid-template-rows: 0fr;
-  opacity: 0;
-  transition:
-    grid-template-rows 500ms cubic-bezier(0.32, 0.72, 0, 1),
-    opacity 400ms cubic-bezier(0.32, 0.72, 0, 1) !important;
-  overflow: hidden;
-}
+/* ===========================================
+   LAYER 17: ACCESSIBILITY
+   =========================================== */
 
-.accordion-content[data-state="open"] {
-  grid-template-rows: 1fr;
-  opacity: 1;
-}
-
-.accordion-content[data-state="closed"] {
-  grid-template-rows: 0fr;
-  opacity: 0;
-}
-
-.accordion-content > div {
-  overflow: hidden;
-  min-height: 0;
-}
-
-/* Chevron rotation */
-.accordion-trigger svg {
-  transition: transform 400ms cubic-bezier(0.32, 0.72, 0, 1) !important;
-}
-
-.accordion-trigger[data-state="open"] svg {
-  transform: rotate(180deg);
-}
-
-/* Respect reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  .accordion-content {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
-  .accordion-trigger svg {
-    transition-duration: 0.01ms !important;
-  }
+}
+
+/* ===========================================
+   LAYER 18: UTILITY CLASSES
+   =========================================== */
+
+/* Ocultar scrollbar para contenedores scroll-snap */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Clase para permitir transforms cuando sea necesario */
+.allow-transform {
+  transform: unset !important;
 }

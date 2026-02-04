@@ -34,13 +34,15 @@ const AccordionTrigger = React.forwardRef<
       ref={ref}
       data-slot="accordion-trigger"
       className={cn(
-        "accordion-trigger flex flex-1 items-center justify-between py-4 font-medium transition-colors hover:text-primary focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:outline-none focus-visible:ring-[3px] disabled:pointer-events-none disabled:opacity-50",
+        "accordion-trigger flex flex-1 items-center justify-between py-4 text-left font-medium",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2",
+        "disabled:pointer-events-none disabled:opacity-50",
         className
       )}
       {...props}
     >
       {children}
-      <ChevronDownIcon className="size-4 shrink-0 text-muted-foreground" />
+      <ChevronDownIcon className="size-4 shrink-0 text-[var(--color-foreground-muted)]" />
     </AccordionPrimitive.Trigger>
   </AccordionPrimitive.Header>
 ))
@@ -57,7 +59,7 @@ const AccordionContent = React.forwardRef<
     className="accordion-content"
     {...props}
   >
-    <div className={cn("pb-4 pt-0 text-sm text-muted-foreground", className)}>
+    <div className={cn("pb-4 pt-0 text-sm", className)}>
       {children}
     </div>
   </AccordionPrimitive.Content>

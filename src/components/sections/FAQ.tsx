@@ -76,10 +76,10 @@ export function FAQ() {
               value={item.question}
               className="border-b border-[var(--color-border)]"
             >
-              <AccordionTrigger className="py-4 font-medium text-left transition-colors hover:no-underline hover:text-[var(--color-brand)]">
+              <AccordionTrigger>
                 {item.question}
               </AccordionTrigger>
-              <AccordionContent className="pb-4 text-muted">
+              <AccordionContent>
                 {item.answer}
               </AccordionContent>
             </AccordionItem>
