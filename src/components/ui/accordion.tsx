@@ -35,7 +35,6 @@ const AccordionTrigger = React.forwardRef<
       data-slot="accordion-trigger"
       className={cn(
         "accordion-trigger flex flex-1 items-center justify-between py-4 font-medium transition-colors hover:text-primary focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:outline-none focus-visible:ring-[3px] disabled:pointer-events-none disabled:opacity-50",
-        "[&[data-state=open]>svg]:rotate-180",
         className
       )}
       {...props}
