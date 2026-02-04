@@ -64,27 +64,8 @@ export function FAQ() {
           </p>
         </div>
 
-        {/* Accordion */}
-        <Accordion
-          type="single"
-          collapsible
-          className="mx-auto max-w-3xl"
-        >
-          {FAQ_ITEMS.map((item) => (
-            <AccordionItem
-              key={item.question}
-              value={item.question}
-              className="border-b border-[var(--color-border)]"
-            >
-              <AccordionTrigger>
-                {item.question}
-              </AccordionTrigger>
-              <AccordionContent>
-                {item.answer}
-              </AccordionContent>
-            </AccordionItem>
-          ))}
-        </Accordion>
+        {/* Accordion custom: contenido siempre en DOM para animar apertura y cierre */}
+        <Accordion items={FAQ_ITEMS} className="mx-auto max-w-3xl" />
 
         {/* CTA */}
         <div className="mt-12 flex flex-col items-center justify-center gap-4 text-center">
