@@ -24,7 +24,7 @@ export default function ParticlesBackground() {
       y: Math.random() * height,
       vx: (Math.random() - 0.5) * 0.3,
       vy: (Math.random() - 0.5) * 0.3,
-      radius: Math.random() * 1.5 + 0.5,
+      radius: Math.random() * 2 + 0.8,
     }))
   }, [])
 
@@ -58,13 +58,13 @@ export default function ParticlesBackground() {
       ctx.clearRect(0, 0, canvas.width, canvas.height)
 
       const isDark = resolvedTheme === "dark"
-      // Usar color indigo para las partículas (primary-light en dark, primary en light)
+      // Usar color ámbar para las partículas
       const particleColor = isDark
-        ? "rgba(165, 180, 252,"
-        : "rgba(99, 102, 241,"
+        ? "rgba(251, 191, 36,"
+        : "rgba(245, 158, 11,"
       const lineColor = isDark
-        ? "rgba(165, 180, 252,"
-        : "rgba(99, 102, 241,"
+        ? "rgba(251, 191, 36,"
+        : "rgba(245, 158, 11,"
 
       const particles = particlesRef.current
 
@@ -85,9 +85,9 @@ export default function ParticlesBackground() {
           const dist = Math.sqrt(dx * dx + dy * dy)
 
           if (dist < connectionDistance) {
-            const opacity = (1 - dist / connectionDistance) * 0.12
+            const opacity = (1 - dist / connectionDistance) * (isDark ? 0.15 : 0.2)
             ctx.strokeStyle = `${lineColor} ${opacity})`
-            ctx.lineWidth = 0.5
+            ctx.lineWidth = 0.8
             ctx.beginPath()
             ctx.moveTo(particles[i].x, particles[i].y)
             ctx.lineTo(particles[j].x, particles[j].y)
@@ -98,7 +98,7 @@ export default function ParticlesBackground() {
 
       // Dibujar partículas
       particles.forEach((p) => {
-        ctx.fillStyle = `${particleColor} 0.15)`
+        ctx.fillStyle = `${particleColor} ${isDark ? 0.35 : 0.4})`
         ctx.beginPath()
         ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2)
         ctx.fill()
@@ -119,7 +119,7 @@ export default function ParticlesBackground() {
     <canvas
       ref={canvasRef}
       className="absolute inset-0 h-full w-full pointer-events-none"
-      style={{ opacity: 0.6 }}
+      style={{ opacity: 0.85 }}
       aria-hidden="true"
     />
   )

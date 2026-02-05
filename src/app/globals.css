@@ -173,15 +173,15 @@ section,
 }
 
 :root {
-  --gradient-start: #6366f1;
-  --gradient-mid: #8b5cf6;
-  --gradient-end: #6366f1;
+  --gradient-start: #D97706;
+  --gradient-mid: #F59E0B;
+  --gradient-end: #D97706;
 }
 
 .dark {
-  --gradient-start: #818cf8;
-  --gradient-mid: #a78bfa;
-  --gradient-end: #818cf8;
+  --gradient-start: #FBBF24;
+  --gradient-mid: #FDE68A;
+  --gradient-end: #FBBF24;
 }
 
 @keyframes gradient-shift {
