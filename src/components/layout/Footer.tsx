@@ -17,7 +17,6 @@ const SERVICIOS_LINKS = [
 ]
 
 const EMPRESA_LINKS = [
-  { href: "#sobre", label: "Sobre nosotros" },
   { href: "#proceso", label: "Proceso" },
   { href: "#faq", label: "FAQ" },
   { href: "#contacto", label: "Contacto" },
@@ -136,7 +135,7 @@ export function Footer() {
       {/* Sección inferior */}
       <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-4 py-6 md:flex-row md:px-6">
         <p className="text-center text-sm text-[var(--color-foreground-subtle)] md:text-left">
-          © 2025 Link IA Lab. Todos los derechos reservados.
+          © 2026 Link IA Lab. Todos los derechos reservados.
         </p>
         <nav className="flex flex-wrap items-center justify-center gap-6 md:justify-end">
           {LEGAL_LINKS.map((item) => (
