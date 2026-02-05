@@ -6,6 +6,15 @@ import { ArrowRight } from "@phosphor-icons/react"
 
 const CAL_LINK = "https://cal.linkialab.com"
 
+const PROCESS_CONFIG = {
+  CARD_WIDTH: 280,
+  CARD_WIDTH_ACTIVE: 340,
+  CARD_GAP: 24,
+  CARD_GAP_DESKTOP: 32,
+  ANIMATION_DURATION: 0.6,
+  STAGGER_DELAY: 0.15,
+} as const
+
 const STEPS = [
   {
     number: "01",
@@ -48,156 +57,104 @@ export function Process() {
 
   useEffect(() => {
     setIsClient(true)
-    setIsMobile(window.innerWidth < 768)
 
-    const handleResize = () => setIsMobile(window.innerWidth < 768)
-    window.addEventListener("resize", handleResize)
-    return () => window.removeEventListener("resize", handleResize)
+    const mql = window.matchMedia("(min-width: 768px)")
+    const handleChange = (e: MediaQueryListEvent | MediaQueryList) => {
+      setIsMobile(!e.matches)
+    }
+    handleChange(mql)
+    mql.addEventListener("change", handleChange)
+    return () => mql.removeEventListener("change", handleChange)
   }, [])
 
   useIsomorphicLayoutEffect(() => {
     if (typeof window === "undefined") return
 
-    const isMobileDevice = window.innerWidth < 768
+    let cleanup: (() => void) | null = null
 
-    const section = sectionRef.current
-    const trigger = triggerRef.current
-    const cards = cardsRef.current
-    const line = lineRef.current
-    const cardElements = cardRefs.current.filter(Boolean)
-    const cta = ctaRef.current
+    const initGSAP = (): (() => void) | null => {
+      const section = sectionRef.current
+      const trigger = triggerRef.current
+      const cards = cardsRef.current
+      const line = lineRef.current
+      const cardElements = cardRefs.current.filter(Boolean)
+      const cta = ctaRef.current
 
-    if (!section || !trigger || !cards || !line || !cta) return
+      if (!section || !trigger || !cards || !line || !cta || cardElements.length === 0)
+        return null
 
-    // Móvil: usa CSS Scroll-Snap (nativo, funciona en iOS Safari)
-    if (isMobileDevice) {
-      return
+      const mql = window.matchMedia("(min-width: 768px)")
+      if (!mql.matches) return null
+
+      const ctx = gsap.context(() => {
+        const scrollDistance = window.innerHeight * 3
+        const { CARD_WIDTH_ACTIVE, CARD_GAP_DESKTOP } = PROCESS_CONFIG
+        const totalCardsWidth = CARD_WIDTH_ACTIVE * 3 + CARD_GAP_DESKTOP * 2
+        const centerPosition = (window.innerWidth - totalCardsWidth) / 2
+        const startX = window.innerWidth + 50
+        const finalX = centerPosition
+
+        gsap.set(cards, { x: startX })
+        cardElements.forEach((card) => {
+          gsap.set(card, { opacity: 0, y: 50 })
+        })
+        gsap.set(cta, { opacity: 0, y: 20 })
+
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: trigger,
+            start: "top 15%",
+            end: () => `+=${scrollDistance}`,
+            pin: true,
+            scrub: 1,
+            anticipatePin: 1,
+          },
+        })
+
+        const totalDistance = Math.abs(startX - finalX)
+
+        tl.to(cards, { x: startX - totalDistance * 0.25, duration: 0.2, ease: "none" }, 0)
+        tl.to(line, { scaleX: 0.2, duration: 0.2, ease: "none" }, 0)
+        tl.to(cardElements[0], { opacity: 1, y: 0, duration: 0.15, ease: "power2.out" }, 0.05)
+
+        tl.to(cards, { x: startX - totalDistance * 0.55, duration: 0.25, ease: "none" }, 0.2)
+        tl.to(line, { scaleX: 0.5, duration: 0.25, ease: "none" }, 0.2)
+        tl.to(cardElements[1], { opacity: 1, y: 0, duration: 0.15, ease: "power2.out" }, 0.3)
+
+        tl.to(cards, { x: startX - totalDistance * 0.85, duration: 0.25, ease: "none" }, 0.45)
+        tl.to(line, { scaleX: 0.85, duration: 0.25, ease: "none" }, 0.45)
+        tl.to(cardElements[2], { opacity: 1, y: 0, duration: 0.15, ease: "power2.out" }, 0.55)
+
+        tl.to(cards, { x: finalX, duration: 0.3, ease: "none" }, 0.7)
+        tl.to(line, { scaleX: 1, duration: 0.3, ease: "none" }, 0.7)
+        tl.to(cta, { opacity: 1, y: 0, duration: 0.2, ease: "power2.out" }, 0.85)
+      }, section)
+
+      const handleResize = () => {
+        ctx.revert()
+        ScrollTrigger.refresh()
+      }
+      window.addEventListener("resize", handleResize)
+
+      return () => {
+        window.removeEventListener("resize", handleResize)
+        ctx.revert()
+      }
     }
 
-    // Desktop: scroll horizontal con pin
-    const ctx = gsap.context(() => {
-      const scrollDistance = window.innerHeight * 3
-      const cardWidth = 340
-      const gap = 32
-      const totalCardsWidth = cardWidth * 3 + gap * 2
-      const centerPosition = (window.innerWidth - totalCardsWidth) / 2
-      const startX = window.innerWidth + 50
-      const finalX = centerPosition
-
-      gsap.set(cards, { x: startX })
-      cardElements.forEach((card) => {
-        gsap.set(card, { opacity: 0, y: 50 })
-      })
-      gsap.set(cta, { opacity: 0, y: 20 })
-
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: trigger,
-          start: "top 15%",
-          end: () => `+=${scrollDistance}`,
-          pin: true,
-          scrub: 1,
-          anticipatePin: 1,
-        },
-      })
-
-      const totalDistance = Math.abs(startX - finalX)
-
-      tl.to(
-        cards,
-        {
-          x: startX - totalDistance * 0.25,
-          duration: 0.2,
-          ease: "none",
-        },
-        0
-      )
-      tl.to(line, { scaleX: 0.2, duration: 0.2, ease: "none" }, 0)
-      tl.to(
-        cardElements[0],
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.15,
-          ease: "power2.out",
-        },
-        0.05
-      )
-
-      tl.to(
-        cards,
-        {
-          x: startX - totalDistance * 0.55,
-          duration: 0.25,
-          ease: "none",
-        },
-        0.2
-      )
-      tl.to(line, { scaleX: 0.5, duration: 0.25, ease: "none" }, 0.2)
-      tl.to(
-        cardElements[1],
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.15,
-          ease: "power2.out",
-        },
-        0.3
-      )
-
-      tl.to(
-        cards,
-        {
-          x: startX - totalDistance * 0.85,
-          duration: 0.25,
-          ease: "none",
-        },
-        0.45
-      )
-      tl.to(line, { scaleX: 0.85, duration: 0.25, ease: "none" }, 0.45)
-      tl.to(
-        cardElements[2],
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.15,
-          ease: "power2.out",
-        },
-        0.55
-      )
-
-      tl.to(
-        cards,
-        {
-          x: finalX,
-          duration: 0.3,
-          ease: "none",
-        },
-        0.7
-      )
-      tl.to(line, { scaleX: 1, duration: 0.3, ease: "none" }, 0.7)
-      tl.to(
-        cta,
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.2,
-          ease: "power2.out",
-        },
-        0.85
-      )
-    }, section)
-
-    const handleResize = () => {
-      ctx.revert()
-      ScrollTrigger.refresh()
+    const tryInit = (attempts = 0) => {
+      if (attempts > 5) return
+      if (sectionRef.current && cardsRef.current && cardRefs.current.filter(Boolean).length > 0) {
+        cleanup = initGSAP()
+      } else {
+        requestAnimationFrame(() => tryInit(attempts + 1))
+      }
     }
 
-    window.addEventListener("resize", handleResize)
+    tryInit()
 
     return () => {
-      window.removeEventListener("resize", handleResize)
-      ctx.revert()
+      cleanup?.()
     }
   }, [])
 
@@ -214,8 +171,8 @@ export function Process() {
 
     const handleScroll = () => {
       const scrollLeft = container.scrollLeft
-      const cardWidth = 280 + 24
-      const activeIndex = Math.round(scrollLeft / cardWidth)
+      const cardStep = PROCESS_CONFIG.CARD_WIDTH + PROCESS_CONFIG.CARD_GAP
+      const activeIndex = Math.round(scrollLeft / cardStep)
       setActiveCard(Math.min(activeIndex, STEPS.length - 1))
     }
 
@@ -273,7 +230,8 @@ export function Process() {
             {STEPS.map((step) => (
               <div
                 key={step.number}
-                className="w-[280px] flex-shrink-0 snap-center rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-5 shadow-lg"
+                className="flex-shrink-0 snap-center rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-5 shadow-lg"
+                style={{ width: `${PROCESS_CONFIG.CARD_WIDTH}px` }}
               >
                 {/* SVG */}
                 <div className="process-svg-illustration mb-3 flex h-24 items-center justify-center">
@@ -316,7 +274,8 @@ export function Process() {
                 ref={(el) => {
                   cardRefs.current[i] = el
                 }}
-                className="process-desktop-card w-[340px] flex-shrink-0 rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-8 shadow-lg"
+                className="process-desktop-card flex-shrink-0 rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-8 shadow-lg"
+                style={{ width: `${PROCESS_CONFIG.CARD_WIDTH_ACTIVE}px` }}
               >
                   {/* SVG */}
                   <div className="process-svg-illustration mb-4 flex h-44 items-center justify-center -mt-28">
@@ -357,8 +316,9 @@ export function Process() {
                 key={i}
                 type="button"
                 onClick={() => {
+                  const cardStep = PROCESS_CONFIG.CARD_WIDTH + PROCESS_CONFIG.CARD_GAP
                   scrollContainerRef.current?.scrollTo({
-                    left: i * (280 + 24),
+                    left: i * cardStep,
                     behavior: "smooth",
                   })
                 }}

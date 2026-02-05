@@ -190,25 +190,6 @@ section,
 }
 
 /* ===========================================
-   LAYER 7: TRANSITION UTILITIES
-   =========================================== */
-
-.transition-fast {
-  transition-duration: var(--duration-fast);
-  transition-timing-function: var(--ease-out);
-}
-
-.transition-normal {
-  transition-duration: var(--duration-normal);
-  transition-timing-function: var(--ease-out);
-}
-
-.transition-slow {
-  transition-duration: var(--duration-slow);
-  transition-timing-function: var(--ease-out);
-}
-
-/* ===========================================
    LAYER 8: COMPONENT - BUTTONS
    Transiciones específicas, no "all"
    =========================================== */
@@ -358,30 +339,6 @@ section,
    LAYER 11: KEYFRAME ANIMATIONS
    =========================================== */
 
-@keyframes fade-in {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes blur-fade-in {
-  from {
-    opacity: 0;
-    filter: blur(10px);
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    filter: blur(0);
-    transform: translateY(0);
-  }
-}
-
 @keyframes scale-in {
   from {
     opacity: 0;
@@ -411,14 +368,6 @@ section,
   50% {
     box-shadow: 0 0 40px -5px var(--color-brand);
   }
-}
-
-.animate-fade-in {
-  animation: fade-in var(--duration-slower) var(--ease-out) forwards;
-}
-
-.animate-blur-fade-in {
-  animation: blur-fade-in var(--duration-slower) var(--ease-out) forwards;
 }
 
 .animate-scale-in {
@@ -514,8 +463,6 @@ section,
    * Desactivar animaciones CSS custom con transform en móvil
    * para evitar problemas de rendimiento en iOS Safari
    */
-  .animate-fade-in,
-  .animate-blur-fade-in,
   .animate-scale-in,
   .animate-slide-in-right {
     animation: none;
