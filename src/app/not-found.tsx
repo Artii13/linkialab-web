@@ -1,8 +1,8 @@
 "use client"
 
 import { SmileyXEyes } from "@phosphor-icons/react"
-
-const WHATSAPP_LINK = "https://wa.me/34647186479"
+import { analytics } from "@/lib/analytics"
+import { LINKS } from "@/lib/links"
 
 export default function NotFound() {
   return (
@@ -29,9 +29,10 @@ export default function NotFound() {
             Volver al inicio
           </a>
           <a
-            href={WHATSAPP_LINK}
+            href={LINKS.whatsapp.notFound}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() => analytics.clickWhatsApp("not_found")}
             className="btn-secondary"
           >
             Contactar

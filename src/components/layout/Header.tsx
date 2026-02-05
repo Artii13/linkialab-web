@@ -4,6 +4,8 @@ import { useState, useEffect } from "react"
 import Link from "next/link"
 import { useTheme } from "next-themes"
 import { List, X } from "@phosphor-icons/react"
+import { analytics } from "@/lib/analytics"
+import { LINKS } from "@/lib/links"
 import {
   Sheet,
   SheetContent,
@@ -20,8 +22,6 @@ const NAV_LINKS = [
   { href: "#faq", label: "FAQ" },
   { href: "#contacto", label: "Contacto" },
 ]
-
-const CAL_LINK = "https://cal.linkialab.com"
 
 export function Header() {
   const [menuOpen, setMenuOpen] = useState(false)
@@ -84,9 +84,10 @@ export function Header() {
             ))}
             <ThemeToggle />
             <a
-              href={CAL_LINK}
+              href={LINKS.calendar.header}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => analytics.clickCTA("header")}
               className="btn-primary inline-flex items-center justify-center rounded-lg px-4 py-2.5 text-sm"
             >
               Reservar llamada
@@ -144,10 +145,13 @@ export function Header() {
             </div>
             <div className="my-4 border-t border-[var(--color-border)]" />
             <a
-              href={CAL_LINK}
+              href={LINKS.calendar.header}
               target="_blank"
               rel="noopener noreferrer"
-              onClick={closeMenu}
+              onClick={() => {
+                closeMenu()
+                analytics.clickCTA("header")
+              }}
               className="btn-primary inline-flex w-full items-center justify-center rounded-lg px-4 py-3 text-center text-sm"
             >
               Reservar llamada

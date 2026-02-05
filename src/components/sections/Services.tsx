@@ -7,6 +7,7 @@ import {
   Brain,
   Plugs,
 } from "@phosphor-icons/react"
+import { useTrackSection } from "@/hooks/useTrackSection"
 
 const SERVICES = [
   {
@@ -37,8 +38,10 @@ const SERVICES = [
 ]
 
 export function Services() {
+  const sectionRef = useTrackSection("services")
   return (
     <section
+      ref={sectionRef}
       id="servicios"
       className="section bg-[var(--color-surface-muted)]"
     >

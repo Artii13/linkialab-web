@@ -1,17 +1,16 @@
 "use client"
 
-// import Hero from '@/components/sections/Hero'
 import { useEffect, useState } from "react"
-import { Services } from '@/components/sections/Services'
-import { Process } from '@/components/sections/Process'
-import { Testimonials } from '@/components/sections/Testimonials'
-import { FAQ } from '@/components/sections/FAQ'
-import { CTAFinal } from '@/components/sections/CTAFinal'
-
+import { Services } from "@/components/sections/Services"
+import { Process } from "@/components/sections/Process"
+import { Testimonials } from "@/components/sections/Testimonials"
+import { FAQ } from "@/components/sections/FAQ"
+import { CTAFinal } from "@/components/sections/CTAFinal"
 import { motion } from "framer-motion"
 import { ArrowRight } from "@phosphor-icons/react"
-
-const CAL_LINK = "https://cal.linkialab.com"
+import { useTrackSection } from "@/hooks/useTrackSection"
+import { analytics } from "@/lib/analytics"
+import { LINKS } from "@/lib/links"
 
 const heroVariants = {
   hidden: { opacity: 0, filter: "blur(8px)" },
@@ -36,6 +35,7 @@ const heroItem = {
 
 export default function Home() {
   const [heroReady, setHeroReady] = useState(false)
+  const heroRef = useTrackSection("hero")
 
   useEffect(() => {
     const onPreloaderDone = () => setHeroReady(true)
@@ -58,6 +58,7 @@ export default function Home() {
     <main className="min-h-screen">
       {/* Hero (inline; animación empieza cuando el preloader dispara preloaderDone) */}
       <section
+        ref={heroRef}
         id="hero"
         className="pt-32 pb-20"
       >
@@ -100,9 +101,10 @@ export default function Home() {
             className="flex flex-col items-center justify-center gap-4 sm:flex-row"
           >
             <a
-              href={CAL_LINK}
+              href={LINKS.calendar.hero}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => analytics.clickCalendar("hero")}
               className="btn-primary inline-flex items-center justify-center gap-2"
             >
               Reservar llamada gratuita

@@ -1,8 +1,9 @@
 "use client"
 
 import { Accordion } from "@/components/ui/accordion-custom"
-
-const CAL_LINK = "https://cal.linkialab.com"
+import { useTrackSection } from "@/hooks/useTrackSection"
+import { analytics } from "@/lib/analytics"
+import { LINKS } from "@/lib/links"
 
 const FAQ_ITEMS = [
   {
@@ -38,8 +39,10 @@ const FAQ_ITEMS = [
 ]
 
 export function FAQ() {
+  const sectionRef = useTrackSection("faq")
   return (
     <section
+      ref={sectionRef}
       id="faq"
       className="section bg-[var(--color-background)]"
     >
@@ -68,9 +71,10 @@ export function FAQ() {
             ¿Más preguntas? Hablemos
           </p>
           <a
-            href={CAL_LINK}
+            href={LINKS.calendar.faq}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() => analytics.clickCalendar("faq")}
             className="btn-primary"
           >
             Reservar llamada

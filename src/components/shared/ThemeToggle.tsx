@@ -2,6 +2,7 @@
 
 import { useTheme } from "next-themes"
 import { useEffect, useState } from "react"
+import { analytics } from "@/lib/analytics"
 
 export function ThemeToggle() {
   const { theme, setTheme } = useTheme()
@@ -24,7 +25,11 @@ export function ThemeToggle() {
       role="switch"
       aria-checked={!isLight}
       aria-label={isLight ? "Activar modo oscuro" : "Activar modo claro"}
-      onClick={() => setTheme(isLight ? "dark" : "light")}
+      onClick={() => {
+        const newTheme = isLight ? "dark" : "light"
+        setTheme(newTheme)
+        analytics.toggleDarkMode(newTheme)
+      }}
       className="relative inline-flex h-[26px] w-[48px] shrink-0 cursor-pointer items-center rounded-full transition-colors duration-200"
       style={{
         backgroundColor: isLight ? "#E7E5E4" : "#292524",

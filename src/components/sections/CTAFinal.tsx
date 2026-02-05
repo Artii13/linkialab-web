@@ -2,13 +2,15 @@
 
 import { motion } from "framer-motion"
 import { CalendarBlank, WhatsappLogo } from "@phosphor-icons/react"
-
-const CAL_LINK = "https://cal.linkialab.com"
-const WHATSAPP_LINK = "https://wa.me/34647186479"
+import { analytics } from "@/lib/analytics"
+import { LINKS } from "@/lib/links"
+import { useTrackSection } from "@/hooks/useTrackSection"
 
 export function CTAFinal() {
+  const sectionRef = useTrackSection("cta")
   return (
     <section
+      ref={sectionRef}
       id="contacto"
       className="section bg-[var(--color-surface-muted)] pt-8 md:pt-0"
     >
@@ -30,18 +32,20 @@ export function CTAFinal() {
 
           <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
             <a
-              href={CAL_LINK}
+              href={LINKS.calendar.ctaSection}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => analytics.clickCalendar("cta_section")}
               className="btn-primary inline-flex items-center justify-center gap-2 px-5 py-3 text-sm md:px-6 md:py-2.5 md:text-base"
             >
               <CalendarBlank className="size-5" weight="bold" />
               Consultoría Gratuita
             </a>
             <a
-              href={WHATSAPP_LINK}
+              href={LINKS.whatsapp.ctaSection}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => analytics.clickWhatsApp("cta_section")}
               className="btn-secondary inline-flex items-center justify-center gap-2 px-5 py-3 text-sm md:px-6 md:py-2.5 md:text-base"
             >
               <WhatsappLogo className="size-5" weight="fill" />

@@ -4,9 +4,9 @@ import { useEffect, useState } from "react"
 import Link from "next/link"
 import { useTheme } from "next-themes"
 import { ChatCircle } from "@phosphor-icons/react"
+import { analytics } from "@/lib/analytics"
+import { LINKS } from "@/lib/links"
 
-const CAL_LINK = "https://cal.linkialab.com"
-const WHATSAPP_LINK = "https://wa.me/34647186479"
 const EMAIL = "hola@linkialab.com"
 
 const SERVICIOS_LINKS = [
@@ -102,22 +102,25 @@ export function Footer() {
               <a
                 href={`mailto:${EMAIL}`}
                 className={linkClass}
+                onClick={() => analytics.clickEmail("footer")}
               >
                 {EMAIL}
               </a>
               <a
-                href={WHATSAPP_LINK}
+                href={LINKS.whatsapp.footer}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => analytics.clickWhatsApp("footer")}
                 className="btn-primary inline-flex w-fit items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm"
               >
                 <ChatCircle size={20} weight="fill" />
                 +34 647 186 479
               </a>
               <a
-                href={CAL_LINK}
+                href={LINKS.calendar.footer}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => analytics.clickCalendar("footer")}
                 className={linkClass}
               >
                 Reservar llamada

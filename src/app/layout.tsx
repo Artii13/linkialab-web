@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from 'next'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 import { plusJakarta, instrumentSerif } from '@/styles/fonts'
 import { ThemeProvider } from '@/components/providers/ThemeProvider'
 import { Preloader } from '@/components/shared/Preloader'
@@ -6,6 +7,8 @@ import { Header } from '@/components/layout/Header'
 import { Footer } from '@/components/layout/Footer'
 import { WhatsAppFloat } from '@/components/shared/WhatsAppFloat'
 import { CookieBanner } from '@/components/shared/CookieBanner'
+import ClarityScript from '@/components/ClarityScript'
+import ScrollTracker from '@/components/ScrollTracker'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -110,7 +113,10 @@ export default function RootLayout({
           {children}
           <Footer />
           <CookieBanner />
+          <ClarityScript />
+          <ScrollTracker />
         </ThemeProvider>
+        <SpeedInsights />
       </body>
     </html>
   )

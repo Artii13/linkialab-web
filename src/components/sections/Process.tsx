@@ -3,8 +3,9 @@
 import { useEffect, useRef, useLayoutEffect, useState } from "react"
 import { gsap, ScrollTrigger } from "@/lib/gsap"
 import { ArrowRight } from "@phosphor-icons/react"
-
-const CAL_LINK = "https://cal.linkialab.com"
+import { useTrackSection } from "@/hooks/useTrackSection"
+import { analytics } from "@/lib/analytics"
+import { LINKS } from "@/lib/links"
 
 const PROCESS_CONFIG = {
   CARD_WIDTH: 280,
@@ -44,6 +45,7 @@ const useIsomorphicLayoutEffect =
 
 export function Process() {
   const sectionRef = useRef<HTMLElement>(null)
+  useTrackSection("process", sectionRef)
   const triggerRef = useRef<HTMLDivElement>(null)
   const cardsRef = useRef<HTMLDivElement>(null)
   const lineRef = useRef<HTMLDivElement>(null)
@@ -336,9 +338,10 @@ export function Process() {
         {/* CTA - FUERA del contenedor de cards para centrado correcto */}
         <div ref={ctaRef} className="flex justify-center pb-8">
           <a
-            href={CAL_LINK}
+            href={LINKS.calendar.process}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() => analytics.clickCTA("process")}
             className="btn-primary inline-flex items-center justify-center gap-2 px-6 py-3 text-base md:px-8 md:py-4 md:text-lg"
           >
             Empezar ahora

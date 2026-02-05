@@ -3,8 +3,8 @@
 import { useState, useEffect } from "react"
 import { AnimatePresence, motion } from "framer-motion"
 import { WhatsappLogo } from "@phosphor-icons/react"
-
-const WHATSAPP_LINK = "https://wa.me/34647186479"
+import { analytics } from "@/lib/analytics"
+import { LINKS } from "@/lib/links"
 
 export function WhatsAppFloat() {
   const [isVisible, setIsVisible] = useState(false)
@@ -20,9 +20,10 @@ export function WhatsAppFloat() {
     <AnimatePresence>
       {isVisible && (
         <motion.a
-          href={WHATSAPP_LINK}
+          href={LINKS.whatsapp.floatingButton}
           target="_blank"
           rel="noopener noreferrer"
+          onClick={() => analytics.clickWhatsApp("floating_button")}
           aria-label="Contactar por WhatsApp"
           className="fixed bottom-6 right-6 z-50 flex size-14 items-center justify-center rounded-full shadow-lg transition-shadow hover:shadow-xl"
           style={{ backgroundColor: "#25D366" }}
