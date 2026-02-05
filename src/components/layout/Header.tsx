@@ -98,10 +98,10 @@ export function Header() {
             <button
               type="button"
               onClick={() => setMenuOpen(true)}
-              className="inline-flex h-10 w-10 items-center justify-center rounded-lg border-none bg-transparent p-2 text-foreground transition-colors duration-200 hover:bg-[var(--color-surface-muted)]"
+              className="inline-flex h-10 w-10 items-center justify-center rounded-lg border-none bg-transparent p-2 text-[var(--color-foreground)] transition-colors duration-200 hover:bg-[var(--color-surface-muted)]"
               aria-label="Abrir menú"
             >
-              <List className="size-6" weight="bold" />
+              <List className="size-6 shrink-0 text-[var(--color-foreground)]" weight="bold" />
             </button>
           </div>
         </div>
@@ -109,7 +109,7 @@ export function Header() {
 
       {/* Menú móvil (Sheet) */}
       <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
-        <SheetContent side="right" showCloseButton={false} className="w-full max-w-[280px] sm:max-w-[320px]">
+        <SheetContent side="right" showCloseButton={false} className="w-full max-w-[280px] bg-[var(--color-surface)] sm:max-w-[320px]">
           <SheetHeader className="flex flex-row items-center justify-between border-b border-[var(--color-border)] pb-4">
             <SheetTitle asChild>
               <Link href="/" onClick={closeMenu} className="flex items-center">
@@ -121,10 +121,10 @@ export function Header() {
               </Link>
             </SheetTitle>
             <SheetClose
-              className="inline-flex size-10 items-center justify-center rounded-lg border-none bg-transparent p-2 transition-colors duration-200 hover:bg-[var(--color-surface-muted)]"
+              className="inline-flex size-10 items-center justify-center rounded-lg border-none bg-transparent p-2 text-[var(--color-foreground)] transition-colors duration-200 hover:bg-[var(--color-surface-muted)]"
               aria-label="Cerrar menú"
             >
-              <X className="size-6" weight="bold" />
+              <X className="size-6 shrink-0 text-[var(--color-foreground)]" weight="bold" />
             </SheetClose>
           </SheetHeader>
           <nav className="mt-6 flex flex-col gap-1">
@@ -133,7 +133,7 @@ export function Header() {
                 key={item.href}
                 href={item.href}
                 onClick={closeMenu}
-                className="rounded-lg px-3 py-3 text-base font-medium text-foreground transition-colors duration-200 hover:bg-[var(--color-surface-muted)] hover:text-[var(--color-brand)]"
+                className="rounded-lg px-3 py-3 text-base font-medium text-[var(--color-foreground)] transition-colors duration-200 hover:bg-[var(--color-surface-muted)] hover:text-[var(--color-brand)]"
               >
                 {item.label}
               </Link>

@@ -77,7 +77,8 @@ export function Preloader() {
         alt="Link IA Lab"
         draggable={false}
         style={{
-          width: 120,
+          width: 360,
+          maxWidth: "90vw",
           height: "auto",
           objectFit: "contain",
           transform: `translateY(${logoTranslateY}px)`,
