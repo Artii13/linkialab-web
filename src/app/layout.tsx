@@ -73,12 +73,18 @@ export const metadata: Metadata = {
     apple: '/apple-touch-icon.png',
   },
   manifest: '/site.webmanifest',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title: 'Link IA Lab',
+  },
 }
 
 export const viewport: Viewport = {
   themeColor: [
     { media: '(prefers-color-scheme: light)', color: '#FAFAF9' },
     { media: '(prefers-color-scheme: dark)', color: '#0C0A09' },
+    { color: '#6366f1' },
   ],
   width: 'device-width',
   initialScale: 1,
