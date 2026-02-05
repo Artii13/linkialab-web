@@ -1,6 +1,7 @@
 "use client"
 
 // import Hero from '@/components/sections/Hero'
+import { useEffect, useState } from "react"
 import { Services } from '@/components/sections/Services'
 import { Process } from '@/components/sections/Process'
 import { Testimonials } from '@/components/sections/Testimonials'
@@ -34,14 +35,28 @@ const heroItem = {
 }
 
 export default function Home() {
-  // Parallax desactivado para evitar conflictos con GSAP ScrollTrigger en iOS Safari
-  // const { scrollY } = useScroll()
-  // const heroY = useTransform(scrollY, [0, 400], [0, 200])
-  // const heroOpacity = useTransform(scrollY, [0, 250], [1, 0])
+  const [heroReady, setHeroReady] = useState(false)
+
+  useEffect(() => {
+    const onPreloaderDone = () => setHeroReady(true)
+    window.addEventListener("preloaderDone", onPreloaderDone)
+
+    // Si no hay preloader en DOM (ej. navegación interna al home), iniciar Hero en el siguiente tick
+    const fallback = setTimeout(() => {
+      if (!document.querySelector('[role="status"][aria-label="Cargando"]')) {
+        setHeroReady(true)
+      }
+    }, 0)
+
+    return () => {
+      window.removeEventListener("preloaderDone", onPreloaderDone)
+      clearTimeout(fallback)
+    }
+  }, [])
 
   return (
     <main className="min-h-screen">
-      {/* Hero (inline; mover a Hero después) */}
+      {/* Hero (inline; animación empieza cuando el preloader dispara preloaderDone) */}
       <section
         id="hero"
         className="pt-32 pb-20"
@@ -50,7 +65,7 @@ export default function Home() {
           className="mx-auto max-w-4xl px-4 text-center md:px-6"
           variants={heroVariants}
           initial="hidden"
-          animate="visible"
+          animate={heroReady ? "visible" : "hidden"}
         >
           <motion.div
             variants={heroItem}

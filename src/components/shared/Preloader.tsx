@@ -17,8 +17,13 @@ export function Preloader() {
     // Phase 2: Logo sale hacia arriba
     const t1 = setTimeout(() => setPhase("logoOut"), 2000)
 
-    // Phase 3: Eliminar preloader del DOM
-    const t2 = setTimeout(() => setPhase("done"), 2700)
+    // Phase 3: Eliminar preloader del DOM y avisar al Hero para que inicie su animación
+    const t2 = setTimeout(() => {
+      setPhase("done")
+      if (typeof window !== "undefined") {
+        window.dispatchEvent(new CustomEvent("preloaderDone"))
+      }
+    }, 2700)
 
     return () => {
       clearTimeout(t0)
