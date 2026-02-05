@@ -42,7 +42,7 @@ export function CookieBanner() {
               Usamos cookies para mejorar tu experiencia. Al continuar
               navegando, aceptas nuestra{" "}
               <Link
-                href="/cookies"
+                href="/legal/cookies"
                 className="underline transition-colors hover:text-[var(--color-brand)]"
               >
                 política de cookies

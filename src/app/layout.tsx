@@ -28,32 +28,30 @@ export const metadata: Metadata = {
   authors: [{ name: 'Link IA Lab', url: 'https://linkialab.com' }],
   creator: 'Link IA Lab',
   publisher: 'Link IA Lab',
-  metadataBase: new URL('https://linkialab-web.vercel.app'),
+  metadataBase: new URL('https://linkialab.com'),
   alternates: {
     canonical: '/',
   },
   openGraph: {
-    type: 'website',
-    locale: 'es_ES',
+    title: 'Link IA Lab | Automatización Inteligente para Negocios',
+    description: 'Diseñamos sistemas con IA que captan clientes, agendan citas y dan seguimiento 24/7.',
     url: 'https://linkialab.com',
     siteName: 'Link IA Lab',
-    title: 'Link IA Lab | Automatización Inteligente para tu Negocio',
-    description:
-      'Transformamos tu negocio con chatbots de IA, automatizaciones inteligentes y asistentes virtuales. Tu negocio funcionando 24/7.',
     images: [
       {
         url: '/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'Link IA Lab - Automatización Inteligente',
+        alt: 'Link IA Lab - Automatización con IA',
       },
     ],
+    locale: 'es_ES',
+    type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Link IA Lab | Automatización Inteligente para tu Negocio',
-    description:
-      'Transformamos tu negocio con chatbots de IA, automatizaciones inteligentes y asistentes virtuales.',
+    title: 'Link IA Lab | Automatización Inteligente para Negocios',
+    description: 'Diseñamos sistemas con IA que captan clientes, agendan citas y dan seguimiento 24/7.',
     images: ['/og-image.png'],
   },
   robots: {
@@ -69,11 +67,11 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/favicon.ico', sizes: '48x48' },
       { url: '/favicon.svg', type: 'image/svg+xml' },
       { url: '/favicon-96x96.png', sizes: '96x96', type: 'image/png' },
     ],
-    apple: [{ url: '/apple-touch-icon.png', sizes: '180x180' }],
+    apple: '/apple-touch-icon.png',
   },
   manifest: '/site.webmanifest',
 }

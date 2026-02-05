@@ -24,9 +24,9 @@ const EMPRESA_LINKS = [
 ]
 
 const LEGAL_LINKS = [
-  { href: "/privacidad", label: "Privacidad" },
-  { href: "/cookies", label: "Cookies" },
-  { href: "/terminos", label: "Términos" },
+  { href: "/legal/aviso-legal", label: "Aviso Legal" },
+  { href: "/legal/privacidad", label: "Privacidad" },
+  { href: "/legal/cookies", label: "Cookies" },
 ]
 
 const linkClass =
