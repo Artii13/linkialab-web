@@ -59,7 +59,7 @@ export function Services() {
           }}
         >
           <motion.div
-            className="mb-4 inline-flex items-center rounded-full border border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-2"
+            className="mb-4 inline-flex items-center rounded-full border border-[var(--color-border)] bg-[var(--color-surface-elevated)] px-4 py-2"
             variants={{
               hidden: { opacity: 0, filter: "blur(4px)" },
               visible: {
@@ -69,7 +69,7 @@ export function Services() {
               },
             }}
           >
-            <span className="text-sm font-medium text-foreground/80">
+            <span className="text-sm font-medium text-[var(--color-foreground)]">
               Lo que hacemos
             </span>
           </motion.div>
@@ -87,7 +87,7 @@ export function Services() {
             Soluciones que trabajan por ti
           </motion.h2>
           <motion.p
-            className="text-lg text-muted"
+            className="text-lg text-[var(--color-foreground-muted)]"
             variants={{
               hidden: { opacity: 0, filter: "blur(4px)" },
               visible: {
@@ -130,7 +130,7 @@ export function Services() {
                 >
                   <Icon size={32} weight="duotone" />
                 </motion.div>
-                <h3 className="mb-2 text-lg font-semibold text-foreground">
+                <h3 className="mb-2 text-lg font-semibold text-[var(--color-foreground)]">
                   {service.title}
                 </h3>
                 <p className="text-sm text-muted">{service.description}</p>

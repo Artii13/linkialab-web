@@ -38,7 +38,7 @@ export function CookieBanner() {
           transition={{ duration: 0.4, ease: "easeOut" as const }}
         >
           <div className="mx-auto flex max-w-5xl flex-col gap-4 rounded-lg border-t border-[var(--color-border)] bg-[var(--color-surface)] p-4 shadow-lg md:flex-row md:items-center md:justify-between md:rounded-b-none md:rounded-t-lg">
-            <p className="text-sm text-muted">
+            <p className="text-sm text-[var(--color-foreground-muted)]">
               Usamos cookies para mejorar tu experiencia. Al continuar
               navegando, aceptas nuestra{" "}
               <Link

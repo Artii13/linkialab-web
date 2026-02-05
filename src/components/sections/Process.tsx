@@ -233,15 +233,15 @@ export function Process() {
         {/* Header */}
         <div className="pb-6 pt-6 md:pb-8 md:pt-12">
           <div className="mx-auto max-w-5xl px-4 text-center md:px-6">
-            <div className="mb-3 inline-flex items-center rounded-full border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-1.5 md:mb-4 md:px-4 md:py-2">
-              <span className="text-xs font-medium text-foreground/80 md:text-sm">
+            <div className="mb-3 inline-flex items-center rounded-full border border-[var(--color-border)] bg-[var(--color-surface-elevated)] px-3 py-1.5 md:mb-4 md:px-4 md:py-2">
+              <span className="text-xs font-medium text-[var(--color-foreground)] md:text-sm">
                 Cómo trabajamos
               </span>
             </div>
-            <h2 className="mb-3 text-2xl font-bold tracking-tight md:mb-4 md:text-4xl">
+            <h2 className="mb-3 text-2xl font-bold tracking-tight text-[var(--color-foreground)] md:mb-4 md:text-4xl">
               De la idea a la automatización en 3 pasos
             </h2>
-            <p className="text-base text-muted md:text-lg">
+            <p className="text-base text-[var(--color-foreground-muted)] md:text-lg">
               Un proceso simple y transparente. Sin sorpresas, sin tecnicismos.
             </p>
           </div>
@@ -293,12 +293,12 @@ export function Process() {
                   </span>
 
                   {/* Título */}
-                  <h3 className="mb-2 text-base font-semibold text-foreground">
+                  <h3 className="mb-2 text-base font-semibold text-[var(--color-foreground)]">
                     {step.title}
                   </h3>
 
                   {/* Descripción */}
-                  <p className="text-sm leading-relaxed text-muted">
+                  <p className="text-sm leading-relaxed text-[var(--color-foreground-muted)]">
                     {step.description}
                   </p>
                 </div>
@@ -336,12 +336,12 @@ export function Process() {
                   </span>
 
                   {/* Título */}
-                  <h3 className="mb-2 text-lg font-semibold text-foreground">
+                  <h3 className="mb-2 text-lg font-semibold text-[var(--color-foreground)]">
                     {step.title}
                   </h3>
 
                   {/* Descripción */}
-                  <p className="text-sm leading-relaxed text-muted">
+                  <p className="text-sm leading-relaxed text-[var(--color-foreground-muted)]">
                     {step.description}
                   </p>
                 </div>

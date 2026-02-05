@@ -20,10 +20,10 @@ export function CTAFinal() {
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
         >
-          <h2 className="mb-4 text-xl font-bold tracking-tight md:mb-5 md:text-3xl">
+          <h2 className="mb-4 text-xl font-bold tracking-tight text-[var(--color-foreground)] md:mb-5 md:text-3xl">
             ¿Listo para automatizar tu negocio?
           </h2>
-          <p className="mx-auto mb-8 max-w-xl text-sm text-muted md:mb-10 md:text-lg">
+          <p className="mx-auto mb-8 max-w-xl text-sm text-[var(--color-foreground-muted)] md:mb-10 md:text-lg">
             Agenda una llamada gratuita de 30 minutos. Sin compromiso, sin
             tecnicismos. Solo soluciones.
           </p>
@@ -49,7 +49,7 @@ export function CTAFinal() {
             </a>
           </div>
 
-          <p className="mt-6 text-xs text-muted md:mt-8 md:text-sm">
+          <p className="mt-6 text-xs text-[var(--color-foreground-muted)] md:mt-8 md:text-sm">
             Contestamos en menos de 1 min
           </p>
         </motion.div>

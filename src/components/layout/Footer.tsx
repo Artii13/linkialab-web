@@ -30,7 +30,7 @@ const LEGAL_LINKS = [
 ]
 
 const linkClass =
-  "text-sm text-foreground/80 transition-colors duration-300 hover:text-[var(--color-brand)]"
+  "text-sm text-[var(--color-foreground-muted)] transition-colors duration-300 hover:text-[var(--color-brand)]"
 
 export function Footer() {
   const [mounted, setMounted] = useState(false)
@@ -44,7 +44,7 @@ export function Footer() {
       : "/logo-linkialab-claro.PNG"
 
   return (
-    <footer className="bg-surface-muted border-t border-[var(--color-border)]">
+    <footer className="bg-[var(--color-surface-muted)] border-t border-[var(--color-border)]">
       {/* Sección principal */}
       <div className="mx-auto max-w-7xl px-4 py-12 md:px-6 md:py-16">
         <div className="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-4">
@@ -61,7 +61,7 @@ export function Footer() {
                 className="h-16 w-auto md:h-[5.5rem]"
               />
             </Link>
-            <p className="max-w-[280px] text-sm text-foreground/80">
+            <p className="max-w-[280px] text-sm text-[var(--color-foreground-muted)]">
               Automatización inteligente para negocios que quieren crecer sin
               complicaciones técnicas.
             </p>
@@ -69,7 +69,7 @@ export function Footer() {
 
           {/* Columna 2: Servicios */}
           <div className="space-y-4">
-            <h3 className="font-semibold text-foreground">Servicios</h3>
+            <h3 className="font-semibold text-[var(--color-foreground)]">Servicios</h3>
             <ul className="flex flex-col gap-2">
               {SERVICIOS_LINKS.map((item) => (
                 <li key={item.label}>
@@ -83,7 +83,7 @@ export function Footer() {
 
           {/* Columna 3: Empresa */}
           <div className="space-y-4">
-            <h3 className="font-semibold text-foreground">Empresa</h3>
+            <h3 className="font-semibold text-[var(--color-foreground)]">Empresa</h3>
             <ul className="flex flex-col gap-2">
               {EMPRESA_LINKS.map((item) => (
                 <li key={item.href}>
@@ -97,7 +97,7 @@ export function Footer() {
 
           {/* Columna 4: Contacto */}
           <div className="space-y-4">
-            <h3 className="font-semibold text-foreground">Contacto</h3>
+            <h3 className="font-semibold text-[var(--color-foreground)]">Contacto</h3>
             <div className="flex flex-col gap-3">
               <a
                 href={`mailto:${EMAIL}`}
@@ -132,7 +132,7 @@ export function Footer() {
 
       {/* Sección inferior */}
       <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-4 py-6 md:flex-row md:px-6">
-        <p className="text-center text-sm text-foreground/70 md:text-left">
+        <p className="text-center text-sm text-[var(--color-foreground-subtle)] md:text-left">
           © 2025 Link IA Lab. Todos los derechos reservados.
         </p>
         <nav className="flex flex-wrap items-center justify-center gap-6 md:justify-end">

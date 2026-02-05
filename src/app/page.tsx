@@ -56,9 +56,9 @@ export default function Home() {
             variants={heroItem}
             className="mb-8 inline-flex items-center justify-center"
           >
-            <div className="inline-flex items-center gap-2 rounded-full border border-[var(--color-border)] bg-[var(--color-surface-muted)] px-4 py-2">
+            <div className="inline-flex items-center gap-2 rounded-full border border-[var(--color-border)] bg-[var(--color-surface-elevated)] px-4 py-2">
               <span className="h-2 w-2 rounded-full bg-[var(--color-success)] animate-pulse" />
-              <span className="text-sm font-medium text-foreground/80">
+              <span className="text-sm font-medium text-[var(--color-foreground)]">
                 Automatización inteligente
               </span>
             </div>
@@ -66,7 +66,7 @@ export default function Home() {
 
           <motion.h1
             variants={heroItem}
-            className="mb-6 text-4xl font-extrabold tracking-tight md:text-5xl lg:text-6xl"
+            className="mb-6 text-4xl font-extrabold tracking-tight text-[var(--color-foreground)] md:text-5xl lg:text-6xl"
           >
             Tu negocio funcionando{" "}
             <span className="headline-accent">por ti</span>, 24/7
@@ -74,7 +74,7 @@ export default function Home() {
 
           <motion.p
             variants={heroItem}
-            className="mx-auto mb-10 max-w-2xl text-lg text-muted md:text-xl"
+            className="mx-auto mb-10 max-w-2xl text-lg text-[var(--color-foreground-muted)] md:text-xl"
           >
             Chatbots de WhatsApp, automatizaciones y asistentes de IA que
             trabajan mientras tú descansas. Sin complicaciones técnicas.

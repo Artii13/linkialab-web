@@ -46,15 +46,15 @@ export function FAQ() {
       <div className="mx-auto max-w-5xl px-4 md:px-6">
         {/* Header de sección */}
         <div className="mx-auto mb-12 max-w-2xl text-center">
-          <div className="mb-4 inline-flex items-center rounded-full border border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-2">
-            <span className="text-sm font-medium text-foreground/80">
+          <div className="mb-4 inline-flex items-center rounded-full border border-[var(--color-border)] bg-[var(--color-surface-elevated)] px-4 py-2">
+            <span className="text-sm font-medium text-[var(--color-foreground)]">
               Preguntas frecuentes
             </span>
           </div>
-          <h2 className="mb-4 text-3xl font-bold tracking-tight md:text-4xl">
+          <h2 className="mb-4 text-3xl font-bold tracking-tight text-[var(--color-foreground)] md:text-4xl">
             ¿Tienes dudas? Te las resolvemos
           </h2>
-          <p className="text-lg text-muted">
+          <p className="text-lg text-[var(--color-foreground-muted)]">
             Las respuestas a lo que más nos preguntan
           </p>
         </div>
@@ -64,7 +64,7 @@ export function FAQ() {
 
         {/* CTA */}
         <div className="mt-12 flex flex-col items-center justify-center gap-4 text-center">
-          <p className="text-lg font-medium text-foreground">
+          <p className="text-lg font-medium text-[var(--color-foreground)]">
             ¿Más preguntas? Hablemos
           </p>
           <a

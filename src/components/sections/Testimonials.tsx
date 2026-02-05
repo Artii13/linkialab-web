@@ -36,15 +36,15 @@ export function Testimonials() {
       <div className="mx-auto max-w-5xl px-4 md:px-6">
         {/* Header de sección */}
         <div className="mx-auto mb-12 max-w-2xl text-center">
-          <div className="mb-4 inline-flex items-center rounded-full border border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-2">
-            <span className="text-sm font-medium text-foreground/80">
+          <div className="mb-4 inline-flex items-center rounded-full border border-[var(--color-border)] bg-[var(--color-surface-elevated)] px-4 py-2">
+            <span className="text-sm font-medium text-[var(--color-foreground)]">
               Resultados reales
             </span>
           </div>
-          <h2 className="mb-4 text-3xl font-bold tracking-tight md:text-4xl">
+          <h2 className="mb-4 text-3xl font-bold tracking-tight text-[var(--color-foreground)] md:text-4xl">
             Lo que dicen nuestros clientes
           </h2>
-          <p className="text-lg text-muted">
+          <p className="text-lg text-[var(--color-foreground-muted)]">
             Empresas que ya automatizaron su día a día
           </p>
         </div>
@@ -67,7 +67,7 @@ export function Testimonials() {
                 style={{ color: "var(--color-brand)" }}
                 aria-hidden
               />
-              <p className="mt-3 italic text-foreground/90">{t.text}</p>
+              <p className="mt-3 italic text-[var(--color-foreground)]">{t.text}</p>
               <div className="my-4 h-px bg-[var(--color-border)]" />
               <div className="flex items-center gap-3">
                 <div
@@ -76,8 +76,8 @@ export function Testimonials() {
                   {t.initials}
                 </div>
                 <div>
-                  <p className="font-semibold text-foreground">{t.name}</p>
-                  <p className="text-sm text-muted">{t.role}</p>
+                  <p className="font-semibold text-[var(--color-foreground)]">{t.name}</p>
+                  <p className="text-sm text-[var(--color-foreground-muted)]">{t.role}</p>
                 </div>
               </div>
             </motion.div>
