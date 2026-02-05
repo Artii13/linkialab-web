@@ -608,6 +608,11 @@ section,
    LAYER 18: UTILITY CLASSES
    =========================================== */
 
+/* Bloquear scroll durante preloader */
+body:has([role="status"][aria-label="Cargando"]) {
+  overflow: hidden;
+}
+
 /* Ocultar scrollbar para contenedores scroll-snap */
 .scrollbar-hide {
   -ms-overflow-style: none;

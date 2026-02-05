@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next'
 import Script from 'next/script'
 import { plusJakarta, instrumentSerif } from '@/styles/fonts'
 import { ThemeProvider } from '@/components/providers/ThemeProvider'
+import { Preloader } from '@/components/shared/Preloader'
 import { Header } from '@/components/layout/Header'
 import { Footer } from '@/components/layout/Footer'
 import { WhatsAppFloat } from '@/components/shared/WhatsAppFloat'
@@ -112,6 +113,7 @@ export default function RootLayout({
       </Script>
       <body className="min-h-screen bg-background font-sans antialiased">
         <ThemeProvider>
+          <Preloader />
           <Header />
           <WhatsAppFloat />
           {children}
