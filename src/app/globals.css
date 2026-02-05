@@ -157,6 +157,38 @@ section,
   color: var(--color-brand);
 }
 
+/* Gradient animado para headlines destacados */
+.headline-gradient {
+  background: linear-gradient(
+    90deg,
+    var(--gradient-start),
+    var(--gradient-mid),
+    var(--gradient-start)
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradient-shift 4s ease-in-out infinite;
+}
+
+:root {
+  --gradient-start: #6366f1;
+  --gradient-mid: #8b5cf6;
+  --gradient-end: #6366f1;
+}
+
+.dark {
+  --gradient-start: #818cf8;
+  --gradient-mid: #a78bfa;
+  --gradient-end: #818cf8;
+}
+
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% center; }
+  50% { background-position: 100% center; }
+}
+
 /* ===========================================
    LAYER 5: BACKGROUND UTILITIES
    =========================================== */

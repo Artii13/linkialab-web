@@ -6,6 +6,7 @@ import { Process } from "@/components/sections/Process"
 import { Testimonials } from "@/components/sections/Testimonials"
 import { FAQ } from "@/components/sections/FAQ"
 import { CTAFinal } from "@/components/sections/CTAFinal"
+import ParticlesBackground from "@/components/ui/ParticlesBackground"
 import { motion } from "framer-motion"
 import { ArrowRight } from "@phosphor-icons/react"
 import { useTrackSection } from "@/hooks/useTrackSection"
@@ -25,11 +26,12 @@ const heroVariants = {
 }
 
 const heroItem = {
-  hidden: { opacity: 0, filter: "blur(8px)" },
+  hidden: { opacity: 0, y: 20, filter: "blur(8px)" },
   visible: {
     opacity: 1,
+    y: 0,
     filter: "blur(0px)",
-    transition: { duration: 0.7, ease: "easeOut" as const },
+    transition: { duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] },
   },
 }
 
@@ -60,10 +62,11 @@ export default function Home() {
       <section
         ref={heroRef}
         id="hero"
-        className="pt-32 pb-20"
+        className="relative overflow-hidden pt-32 pb-20"
       >
+        <ParticlesBackground />
         <motion.div
-          className="mx-auto max-w-4xl px-4 text-center md:px-6"
+          className="relative z-10 mx-auto max-w-4xl px-4 text-center md:px-6"
           variants={heroVariants}
           initial="hidden"
           animate={heroReady ? "visible" : "hidden"}
@@ -75,7 +78,7 @@ export default function Home() {
             <div className="inline-flex items-center gap-2 rounded-full border border-[var(--color-border)] bg-[var(--color-surface-elevated)] px-4 py-2">
               <span className="h-2 w-2 rounded-full bg-[var(--color-success)] animate-pulse" />
               <span className="text-sm font-medium text-[var(--color-foreground)]">
-                Automatización inteligente
+                Automatización con IA
               </span>
             </div>
           </motion.div>
@@ -84,16 +87,17 @@ export default function Home() {
             variants={heroItem}
             className="mb-6 text-4xl font-extrabold tracking-tight text-[var(--color-foreground)] md:text-5xl lg:text-6xl"
           >
-            Tu negocio funcionando{" "}
-            <span className="headline-accent">por ti</span>, 24/7
+            Tecnología que no se ve.
+            <br />
+            <span className="headline-gradient">Resultados que sí se notan.</span>
           </motion.h1>
 
           <motion.p
             variants={heroItem}
             className="mx-auto mb-10 max-w-2xl text-lg text-[var(--color-foreground-muted)] md:text-xl"
           >
-            Chatbots de WhatsApp, automatizaciones y asistentes de IA que
-            trabajan mientras tú descansas. Sin complicaciones técnicas.
+            Diseñamos sistemas invisibles que atienden, agendan y hacen
+            seguimiento 24/7, para que tú te dediques a lo que importa.
           </motion.p>
 
           <motion.div
