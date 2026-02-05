@@ -1,6 +1,8 @@
 "use client"
 
+import { useEffect, useState } from "react"
 import Link from "next/link"
+import { useTheme } from "next-themes"
 import { ChatCircle } from "@phosphor-icons/react"
 
 const CAL_LINK = "https://cal.linkialab.com"
@@ -31,6 +33,16 @@ const linkClass =
   "text-sm text-foreground/80 transition-colors duration-300 hover:text-[var(--color-brand)]"
 
 export function Footer() {
+  const [mounted, setMounted] = useState(false)
+  const { theme } = useTheme()
+
+  useEffect(() => setMounted(true), [])
+
+  const logoSrc =
+    mounted && theme === "dark"
+      ? "/logo-linkialab-oscuro.PNG"
+      : "/logo-linkialab-claro.PNG"
+
   return (
     <footer className="bg-surface-muted border-t border-[var(--color-border)]">
       {/* Sección principal */}
@@ -44,7 +56,7 @@ export function Footer() {
               aria-label="Link IA Lab - Inicio"
             >
               <img
-                src="/logo-linkialab-claro.PNG"
+                src={logoSrc}
                 alt="Link IA Lab"
                 className="h-16 w-auto md:h-[5.5rem]"
               />

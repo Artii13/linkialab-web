@@ -94,6 +94,7 @@ body {
   color: var(--color-foreground);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color 300ms ease, color 300ms ease;
 }
 
 /* Border color por defecto - solo en elementos con borde explícito */
@@ -117,6 +118,17 @@ body {
   --color-foreground-subtle: var(--color-foreground-subtle-dark);
   --color-border: var(--color-border-dark);
   --color-brand: #FBBF24;
+}
+
+/* Transición suave al cambiar de tema */
+header,
+footer,
+section,
+.card,
+.bg-surface,
+.bg-surface-elevated,
+.bg-surface-muted {
+  transition: background-color 300ms ease, color 300ms ease, border-color 300ms ease;
 }
 
 /* ===========================================

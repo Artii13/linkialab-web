@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
+import { useTheme } from "next-themes"
 import { List, X } from "@phosphor-icons/react"
 import {
   Sheet,
@@ -10,6 +11,7 @@ import {
   SheetTitle,
   SheetClose,
 } from "@/components/ui/sheet"
+import { ThemeToggle } from "@/components/shared/ThemeToggle"
 import { cn } from "@/lib/utils"
 
 const NAV_LINKS = [
@@ -24,6 +26,12 @@ const CAL_LINK = "https://cal.linkialab.com"
 export function Header() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const [mounted, setMounted] = useState(false)
+  const { theme } = useTheme()
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   useEffect(() => {
     const handleScroll = () => {
@@ -33,6 +41,11 @@ export function Header() {
     window.addEventListener("scroll", handleScroll, { passive: true })
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
+
+  const logoSrc =
+    mounted && theme === "dark"
+      ? "/logo-linkialab-oscuro.PNG"
+      : "/logo-linkialab-claro.PNG"
 
   const closeMenu = () => setMenuOpen(false)
 
@@ -52,7 +65,7 @@ export function Header() {
           {/* Logo */}
           <Link href="/" className="flex items-center" aria-label="Link IA Lab - Inicio">
             <img
-              src="/logo-linkialab-claro.PNG"
+              src={logoSrc}
               alt="Link IA Lab"
               className="h-12 w-auto md:h-14"
             />
@@ -69,6 +82,7 @@ export function Header() {
                 {item.label}
               </Link>
             ))}
+            <ThemeToggle />
             <a
               href={CAL_LINK}
               target="_blank"
@@ -100,7 +114,7 @@ export function Header() {
             <SheetTitle asChild>
               <Link href="/" onClick={closeMenu} className="flex items-center">
                 <img
-                  src="/logo-linkialab-claro.PNG"
+                  src={logoSrc}
                   alt="Link IA Lab"
                   className="h-12 w-auto"
                 />
@@ -124,6 +138,10 @@ export function Header() {
                 {item.label}
               </Link>
             ))}
+            <div className="flex items-center justify-between px-3 py-2">
+              <span className="text-sm text-[var(--color-foreground-muted)]">Tema</span>
+              <ThemeToggle />
+            </div>
             <div className="my-4 border-t border-[var(--color-border)]" />
             <a
               href={CAL_LINK}
