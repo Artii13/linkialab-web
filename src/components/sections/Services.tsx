@@ -114,7 +114,7 @@ export function Services() {
             return (
               <motion.div
                 key={service.title}
-                className="card group"
+                className="service-card relative group rounded-2xl p-5 md:p-6 overflow-hidden"
                 initial={{ opacity: 0, filter: "blur(4px)" }}
                 whileInView={{ opacity: 1, filter: "blur(0px)" }}
                 viewport={{ once: true, amount: 0.3 }}
@@ -124,19 +124,50 @@ export function Services() {
                   ease: [0.25, 0.46, 0.45, 0.94],
                 }}
               >
-                <motion.div
-                  className="mb-4 flex size-12 items-center justify-center rounded-xl"
+                {/* Capa del borde animado */}
+                <div className="absolute inset-0 -z-10 rounded-2xl overflow-hidden">
+                  <div 
+                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200%] h-40 animate-border-rotate origin-center"
+                    style={{
+                      backgroundImage: 'linear-gradient(0deg, transparent 0%, rgba(251,191,36,0.8) 40%, rgba(245,158,11,0.8) 60%, transparent 100%)'
+                    }}
+                  />
+                </div>
+                
+                {/* Fondo de la card con gradients */}
+                <div 
+                  className="absolute inset-[1px] rounded-2xl -z-5"
                   style={{
-                    backgroundColor: "var(--color-brand-muted)",
-                    color: service.iconColor ?? "var(--color-brand)",
+                    backgroundColor: 'var(--card-bg)',
+                    backgroundImage: `
+                      radial-gradient(at 88% 40%, var(--card-bg) 0px, transparent 85%),
+                      radial-gradient(at 49% 30%, var(--card-bg) 0px, transparent 85%),
+                      radial-gradient(at 14% 26%, var(--card-bg) 0px, transparent 85%),
+                      radial-gradient(at 0% 64%, rgba(251,191,36,0.15) 0px, transparent 85%),
+                      radial-gradient(at 41% 94%, rgba(252,211,77,0.1) 0px, transparent 85%),
+                      radial-gradient(at 100% 99%, rgba(245,158,11,0.15) 0px, transparent 85%)
+                    `,
+                    boxShadow: 'inset 0px -16px 24px 0px rgba(255,255,255,0.06)'
                   }}
-                >
-                  <Icon size={32} weight="duotone" />
-                </motion.div>
-                <h3 className="mb-2 text-lg font-semibold text-[var(--color-foreground)]">
-                  {service.title}
-                </h3>
-                <p className="text-sm text-muted">{service.description}</p>
+                />
+                
+                {/* Contenido */}
+                <div className="relative z-10">
+                  {/* Icono */}
+                  <div className="h-12 w-12 rounded-xl border border-amber-500/20 bg-gradient-to-br from-amber-500/20 to-amber-600/20 flex items-center justify-center mb-4">
+                    <Icon size={32} weight="duotone" className="text-amber-500" />
+                  </div>
+                  
+                  {/* Título */}
+                  <h3 className="text-xl font-semibold text-[var(--color-foreground)] mb-2">
+                    {service.title}
+                  </h3>
+                  
+                  {/* Descripción */}
+                  <p className="text-sm text-[var(--color-foreground-muted)]">
+                    {service.description}
+                  </p>
+                </div>
               </motion.div>
             )
           })}

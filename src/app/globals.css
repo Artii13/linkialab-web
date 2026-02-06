@@ -178,12 +178,14 @@ section,
   --gradient-start: #D97706;
   --gradient-mid: #F59E0B;
   --gradient-end: #D97706;
+  --card-bg: hsl(40, 30%, 96%);
 }
 
 .dark {
   --gradient-start: #FBBF24;
   --gradient-mid: #FDE68A;
   --gradient-end: #FBBF24;
+  --card-bg: hsl(240, 15%, 9%);
 }
 
 @keyframes gradient-shift {
@@ -419,7 +421,34 @@ section,
 }
 
 .animate-scroll-x {
-  animation: scroll-x 70s linear infinite;
+  animation: scroll-x 111s linear infinite;
+}
+
+/* Service cards animated border */
+@keyframes border-rotate {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+.animate-border-rotate {
+  animation: border-rotate 8s linear infinite;
+}
+
+/* Service card hover effects */
+.service-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.service-card:hover {
+  transform: translateY(-4px);
+}
+
+.service-card:hover .animate-border-rotate {
+  animation-duration: 4s;
 }
 
 /* Fade in with delay for carousel */
