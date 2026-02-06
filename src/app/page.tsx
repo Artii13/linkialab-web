@@ -62,20 +62,20 @@ export default function Home() {
       <section
         ref={heroRef}
         id="hero"
-        className="relative flex flex-col items-center justify-center overflow-hidden min-h-[calc(100dvh-64px)] md:min-h-[calc(100dvh-72px)] pt-16 pb-12 md:pt-20 md:pb-16"
+        className="relative flex flex-col items-center justify-center overflow-hidden min-h-[calc(100dvh-64px)] md:min-h-[calc(100dvh-72px)] pt-16 pb-12 md:pt-20 md:pb-16 px-6 md:px-8"
       >
         <ParticlesBackground />
         <motion.div
-          className="relative z-10 mx-auto max-w-4xl px-4 text-center md:px-6"
+          className="relative z-10 mx-auto w-full max-w-4xl text-center"
           variants={heroVariants}
           initial="hidden"
           animate={heroReady ? "visible" : "hidden"}
         >
           <motion.div
             variants={heroItem}
-            className="mb-8 inline-flex items-center justify-center"
+            className="mb-8 flex items-center justify-center"
           >
-            <div className="inline-flex items-center gap-2 rounded-full border border-[var(--color-border)] bg-[var(--color-surface-elevated)] px-4 py-2">
+            <div className="inline-flex items-center justify-center gap-2 rounded-full border border-[var(--color-border)] bg-[var(--color-surface-elevated)] px-4 py-2">
               <span className="h-2 w-2 rounded-full bg-[var(--color-success)] animate-pulse" />
               <span className="text-sm font-medium text-[var(--color-foreground)]">
                 Automatización con IA
@@ -85,7 +85,7 @@ export default function Home() {
 
           <motion.h1
             variants={heroItem}
-            className="mb-6 text-4xl font-extrabold tracking-tight text-[var(--color-foreground)] md:text-5xl lg:text-6xl"
+            className="mb-6 text-center text-3xl font-extrabold tracking-tight text-[var(--color-foreground)] sm:text-4xl md:text-5xl lg:text-6xl"
           >
             Tecnología que no se ve.
             <br />
@@ -94,7 +94,7 @@ export default function Home() {
 
           <motion.p
             variants={heroItem}
-            className="mx-auto mb-10 max-w-2xl text-lg text-[var(--color-foreground-muted)] md:text-xl"
+            className="mx-auto mb-10 max-w-2xl px-4 text-center text-base text-[var(--color-foreground-muted)] md:text-lg"
           >
             Diseñamos sistemas invisibles que atienden, agendan y hacen
             seguimiento 24/7, para que tú te dediques a lo que importa.
@@ -102,7 +102,7 @@ export default function Home() {
 
           <motion.div
             variants={heroItem}
-            className="flex flex-col items-center justify-center gap-4 sm:flex-row"
+            className="flex flex-col items-center justify-center gap-4 text-center sm:flex-row"
           >
             <a
               href={LINKS.calendar.hero}
@@ -120,8 +120,8 @@ export default function Home() {
           </motion.div>
 
           {/* Tech Stack Carousel */}
-          <div className="mt-12 md:mt-16 w-full max-w-3xl mx-auto opacity-0 animate-fade-in-delay">
-            <p className="text-[11px] text-center text-[var(--color-foreground-muted)]/50 mb-4 tracking-[0.2em] uppercase font-medium">
+          <div className="mt-16 md:mt-20 w-full max-w-3xl mx-auto opacity-0 animate-fade-in-delay">
+            <p className="text-[11px] text-center text-[var(--color-foreground-muted)]/50 mb-6 md:mb-8 tracking-[0.2em] uppercase font-medium">
               Trabajamos con
             </p>
             <div className="relative overflow-hidden">
@@ -136,15 +136,15 @@ export default function Home() {
                     <img src="/tech/OpenAI-dark.svg" alt="OpenAI" className="h-5 md:h-6 opacity-40 hidden dark:block" />
                     <img src="/tech/ClaudeAI-light.svg" alt="Claude AI" className="h-5 md:h-6 opacity-40 dark:hidden" />
                     <img src="/tech/ClaudeAI-dark.svg" alt="Claude AI" className="h-5 md:h-6 opacity-40 hidden dark:block" />
-                    <img src="/tech/Cursor-light.svg" alt="Cursor" className="h-5 md:h-6 opacity-40 dark:hidden" />
-                    <img src="/tech/Cursor-dark.svg" alt="Cursor" className="h-5 md:h-6 opacity-40 hidden dark:block" />
+                    <img src="/tech/Cursor-light.svg" alt="Cursor" className="h-7 md:h-8 opacity-40 dark:hidden" />
+                    <img src="/tech/Cursor-dark.svg" alt="Cursor" className="h-7 md:h-8 opacity-40 hidden dark:block" />
                     <img src="/tech/Supabase-light.svg" alt="Supabase" className="h-5 md:h-6 opacity-40 dark:hidden" />
                     <img src="/tech/Supabase-dark.svg" alt="Supabase" className="h-5 md:h-6 opacity-40 hidden dark:block" />
                     <img src="/tech/Vercel-light.svg" alt="Vercel" className="h-5 md:h-6 opacity-40 dark:hidden" />
                     <img src="/tech/Vercel-dark.svg" alt="Vercel" className="h-5 md:h-6 opacity-40 hidden dark:block" />
-                    <img src="/tech/GitHub-light.svg" alt="GitHub" className="h-5 md:h-6 opacity-40 dark:hidden" />
-                    <img src="/tech/GitHub-dark.svg" alt="GitHub" className="h-5 md:h-6 opacity-40 hidden dark:block" />
-                    <img src="/tech/whatsapp-wordmark.svg" alt="WhatsApp" className="h-5 md:h-6 opacity-40" />
+                    <img src="/tech/GitHub-light.svg" alt="GitHub" className="h-7 md:h-8 opacity-40 dark:hidden" />
+                    <img src="/tech/GitHub-dark.svg" alt="GitHub" className="h-7 md:h-8 opacity-40 hidden dark:block" />
+                    <img src="/tech/whatsapp-wordmark.svg" alt="WhatsApp" className="h-5 md:h-6 opacity-40 dark:invert" />
                   </div>
                 ))}
               </div>
