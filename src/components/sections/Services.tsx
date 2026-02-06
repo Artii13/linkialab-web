@@ -14,26 +14,26 @@ const SERVICES = [
     icon: WhatsappLogo,
     title: "Chatbots WhatsApp",
     description:
-      "Atiende a tus clientes 24/7 con inteligencia artificial conversacional. Respuestas instantáneas, citas automáticas y soporte sin esperas.",
+      "Tu recepcionista virtual en WhatsApp. Responde, agenda y cualifica leads a cualquier hora. Sin esperas, sin excusas.",
     iconColor: "var(--color-brand)",
   },
   {
     icon: GearSix,
     title: "Automatizaciones inteligentes",
     description:
-      "Conecta tus herramientas y elimina tareas manuales. Facturas, emails, seguimientos... todo funcionando solo.",
+      "Conectamos tus herramientas para que trabajen solas. Facturas, seguimientos, recordatorios... en piloto automático.",
   },
   {
     icon: Brain,
     title: "Asistentes IA personalizados",
     description:
-      "Agentes virtuales que aprenden de tu negocio y ayudan a tu equipo. Responden preguntas, generan informes y más.",
+      "Un experto en tu negocio disponible 24/7. Responde al equipo, genera contenido y automatiza tareas que consumen horas.",
   },
   {
     icon: Plugs,
     title: "Integraciones a medida",
     description:
-      "Conectamos cualquier herramienta que uses: CRM, email, calendario, WhatsApp, bases de datos... todo sincronizado.",
+      "CRM, calendario, email, WhatsApp, bases de datos... todo hablando entre sí. Cero copiar y pegar.",
   },
 ]
 
@@ -73,7 +73,7 @@ export function Services() {
             }}
           >
             <span className="text-sm font-medium text-[var(--color-foreground)]">
-              Lo que hacemos
+              Servicios
             </span>
           </motion.div>
           <motion.h2
@@ -100,8 +100,7 @@ export function Services() {
               },
             }}
           >
-            Automatizamos las tareas repetitivas de tu negocio para que tú
-            puedas enfocarte en lo que importa.
+            Automatización inteligente que libera tu tiempo y tú puedas enfocarte en lo que importa.
           </motion.p>
         </motion.div>
 
