@@ -127,38 +127,38 @@ export default function Home() {
             <div className="relative overflow-hidden">
               <div className="absolute left-0 top-0 bottom-0 w-16 z-10 bg-gradient-to-r from-[var(--color-background)] to-transparent pointer-events-none" />
               <div className="absolute right-0 top-0 bottom-0 w-16 z-10 bg-gradient-to-l from-[var(--color-background)] to-transparent pointer-events-none" />
-              <div className="flex animate-scroll-x gap-10 md:gap-14 items-center">
+              <div className="flex w-max animate-scroll-x gap-10 md:gap-14 items-center">
                 {[0, 1, 2].map((setIndex) => (
                   <div key={setIndex} className="flex shrink-0 gap-10 md:gap-14 items-center">
-                    <span className="relative inline-flex items-center h-5 md:h-6">
+                    <span className="relative inline-flex shrink-0 items-center h-5 md:h-6">
                       <img src="/tech/n8n-light.svg" alt="n8n" className="h-full w-auto opacity-40 transition-opacity duration-300 dark:opacity-0" />
                       <img src="/tech/n8n-dark.svg" alt="n8n" className="h-full w-auto opacity-0 transition-opacity duration-300 dark:opacity-40 absolute inset-0 object-contain" />
                     </span>
-                    <span className="relative inline-flex items-center h-5 md:h-6">
+                    <span className="relative inline-flex shrink-0 items-center h-5 md:h-6">
                       <img src="/tech/OpenAI-light.svg" alt="OpenAI" className="h-full w-auto opacity-40 transition-opacity duration-300 dark:opacity-0" />
                       <img src="/tech/OpenAI-dark.svg" alt="OpenAI" className="h-full w-auto opacity-0 transition-opacity duration-300 dark:opacity-40 absolute inset-0 object-contain" />
                     </span>
-                    <span className="relative inline-flex items-center h-5 md:h-6">
+                    <span className="relative inline-flex shrink-0 items-center h-5 md:h-6">
                       <img src="/tech/ClaudeAI-light.svg" alt="Claude AI" className="h-full w-auto opacity-40 transition-opacity duration-300 dark:opacity-0" />
                       <img src="/tech/ClaudeAI-dark.svg" alt="Claude AI" className="h-full w-auto opacity-0 transition-opacity duration-300 dark:opacity-40 absolute inset-0 object-contain" />
                     </span>
-                    <span className="relative inline-flex items-center h-16 md:h-20">
+                    <span className="relative inline-flex shrink-0 items-center h-20 md:h-24">
                       <img src="/tech/Cursor-light.svg" alt="Cursor" className="h-full w-auto opacity-40 transition-opacity duration-300 dark:opacity-0" />
                       <img src="/tech/Cursor-dark.svg" alt="Cursor" className="h-full w-auto opacity-0 transition-opacity duration-300 dark:opacity-40 absolute inset-0 object-contain" />
                     </span>
-                    <span className="relative inline-flex items-center h-5 md:h-6">
+                    <span className="relative inline-flex shrink-0 items-center h-5 md:h-6">
                       <img src="/tech/Supabase-light.svg" alt="Supabase" className="h-full w-auto opacity-40 transition-opacity duration-300 dark:opacity-0" />
                       <img src="/tech/Supabase-dark.svg" alt="Supabase" className="h-full w-auto opacity-0 transition-opacity duration-300 dark:opacity-40 absolute inset-0 object-contain" />
                     </span>
-                    <span className="relative inline-flex items-center h-5 md:h-6">
+                    <span className="relative inline-flex shrink-0 items-center h-5 md:h-6">
                       <img src="/tech/Vercel-light.svg" alt="Vercel" className="h-full w-auto opacity-40 transition-opacity duration-300 dark:opacity-0" />
                       <img src="/tech/Vercel-dark.svg" alt="Vercel" className="h-full w-auto opacity-0 transition-opacity duration-300 dark:opacity-40 absolute inset-0 object-contain" />
                     </span>
-                    <span className="relative inline-flex items-center h-16 md:h-20">
+                    <span className="relative inline-flex shrink-0 items-center h-16 md:h-20">
                       <img src="/tech/GitHub-light.svg" alt="GitHub" className="h-full w-auto opacity-40 transition-opacity duration-300 dark:opacity-0" />
                       <img src="/tech/GitHub-dark.svg" alt="GitHub" className="h-full w-auto opacity-0 transition-opacity duration-300 dark:opacity-40 absolute inset-0 object-contain" />
                     </span>
-                    <img src="/tech/whatsapp-wordmark.svg" alt="WhatsApp" className="h-5 md:h-6 opacity-40" />
+                    <img src="/tech/whatsapp-wordmark.svg" alt="WhatsApp" className="h-5 md:h-6 shrink-0 opacity-40" />
                   </div>
                 ))}
               </div>
