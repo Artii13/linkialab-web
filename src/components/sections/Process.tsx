@@ -21,7 +21,7 @@ const STEPS = [
     number: "01",
     title: "Llamada de descubrimiento",
     description:
-      "Hablamos 30 minutos para entender tu negocio, tus procesos actuales y dónde pierdes más tiempo.",
+      "Una llamada corta donde identificamos qué tareas te roban tiempo y cómo automatizarlas.",
     image: "/animations/step-01.svg",
   },
   {
@@ -35,7 +35,7 @@ const STEPS = [
     number: "03",
     title: "Implementación y soporte",
     description:
-      "Construimos, probamos y lanzamos. Tú solo ves el resultado. Soporte incluido para que todo funcione perfecto.",
+      "Lo montamos, lo probamos, lo lanzamos. Con mantenimiento continuo para que nunca deje de funcionar.",
     image: "/animations/step-03.svg",
   },
 ]
@@ -198,10 +198,10 @@ export function Process() {
               </span>
             </div>
             <h2 className="mb-3 text-2xl font-bold tracking-tight text-[var(--color-foreground)] md:mb-4 md:text-4xl">
-              De la idea a la automatización en 3 pasos
+              Del problema a la solución en 3 pasos
             </h2>
             <p className="text-base text-[var(--color-foreground-muted)] md:text-lg">
-              Un proceso simple y transparente. Sin sorpresas, sin tecnicismos.
+              Simple, rápido y sin letra pequeña.
             </p>
           </div>
         </div>
