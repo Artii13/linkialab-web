@@ -419,7 +419,7 @@ section,
 }
 
 .animate-scroll-x {
-  animation: scroll-x 50s linear infinite;
+  animation: scroll-x 70s linear infinite;
 }
 
 /* Fade in with delay for carousel */
