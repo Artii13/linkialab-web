@@ -136,15 +136,15 @@ export default function Home() {
                     <img src="/tech/OpenAI-dark.svg" alt="OpenAI" className="h-5 md:h-6 opacity-40 hidden dark:block" />
                     <img src="/tech/ClaudeAI-light.svg" alt="Claude AI" className="h-5 md:h-6 opacity-40 dark:hidden" />
                     <img src="/tech/ClaudeAI-dark.svg" alt="Claude AI" className="h-5 md:h-6 opacity-40 hidden dark:block" />
-                    <img src="/tech/Cursor-light.svg" alt="Cursor" className="h-7 md:h-8 opacity-40 dark:hidden" />
-                    <img src="/tech/Cursor-dark.svg" alt="Cursor" className="h-7 md:h-8 opacity-40 hidden dark:block" />
+                    <img src="/tech/Cursor-light.svg" alt="Cursor" className="h-10 md:h-12 opacity-40 dark:hidden" />
+                    <img src="/tech/Cursor-dark.svg" alt="Cursor" className="h-10 md:h-12 opacity-40 hidden dark:block" />
                     <img src="/tech/Supabase-light.svg" alt="Supabase" className="h-5 md:h-6 opacity-40 dark:hidden" />
                     <img src="/tech/Supabase-dark.svg" alt="Supabase" className="h-5 md:h-6 opacity-40 hidden dark:block" />
                     <img src="/tech/Vercel-light.svg" alt="Vercel" className="h-5 md:h-6 opacity-40 dark:hidden" />
                     <img src="/tech/Vercel-dark.svg" alt="Vercel" className="h-5 md:h-6 opacity-40 hidden dark:block" />
-                    <img src="/tech/GitHub-light.svg" alt="GitHub" className="h-7 md:h-8 opacity-40 dark:hidden" />
-                    <img src="/tech/GitHub-dark.svg" alt="GitHub" className="h-7 md:h-8 opacity-40 hidden dark:block" />
-                    <img src="/tech/whatsapp-wordmark.svg" alt="WhatsApp" className="h-5 md:h-6 opacity-40 dark:invert" />
+                    <img src="/tech/GitHub-light.svg" alt="GitHub" className="h-10 md:h-12 opacity-40 dark:hidden" />
+                    <img src="/tech/GitHub-dark.svg" alt="GitHub" className="h-10 md:h-12 opacity-40 hidden dark:block" />
+                    <img src="/tech/whatsapp-wordmark.svg" alt="WhatsApp" className="h-5 md:h-6 opacity-40" />
                   </div>
                 ))}
               </div>
