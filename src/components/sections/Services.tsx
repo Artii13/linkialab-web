@@ -114,7 +114,7 @@ export function Services() {
             return (
               <motion.div
                 key={service.title}
-                className="service-card relative group rounded-2xl p-5 md:p-6 overflow-hidden"
+                className="service-card relative group rounded-2xl p-5 md:p-6 transition-all duration-300 hover:-translate-y-2"
                 initial={{ opacity: 0, filter: "blur(4px)" }}
                 whileInView={{ opacity: 1, filter: "blur(0px)" }}
                 viewport={{ once: true, amount: 0.3 }}
@@ -124,20 +124,30 @@ export function Services() {
                   ease: [0.25, 0.46, 0.45, 0.94],
                 }}
               >
-                {/* Capa del borde animado */}
-                <div className="absolute inset-0 -z-10 rounded-2xl overflow-hidden">
+                {/* Contenedor del borde - debe tener overflow:hidden y cubrir toda la card */}
+                <div className="absolute inset-0 rounded-2xl overflow-hidden">
+                  {/* Fondo base del borde (gris sutil) */}
                   <div 
-                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200%] h-40 animate-border-rotate origin-center"
+                    className="absolute inset-0"
                     style={{
-                      backgroundImage: 'linear-gradient(0deg, transparent 0%, rgba(251,191,36,0.8) 40%, rgba(245,158,11,0.8) 60%, transparent 100%)'
+                      background: 'linear-gradient(180deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%)'
+                    }}
+                  />
+                  
+                  {/* Gradiente rotativo - DEBE ser mucho más grande que la card */}
+                  <div 
+                    className="absolute top-1/2 left-1/2 w-[150%] aspect-square animate-border-rotate"
+                    style={{
+                      background: 'conic-gradient(from 0deg, transparent 0%, rgba(251,191,36,0.8) 10%, rgba(245,158,11,0.9) 20%, transparent 30%, transparent 100%)',
+                      transform: 'translate(-50%, -50%)',
                     }}
                   />
                 </div>
                 
-                {/* Fondo de la card con gradients */}
+                {/* Fondo interior de la card - cubre el centro dejando solo el borde visible */}
                 <div 
-                  className="absolute inset-[1px] rounded-2xl -z-5"
-                  style={{
+                  className="absolute inset-[2px] rounded-2xl z-10"
+                  style={{ 
                     backgroundColor: 'var(--card-bg)',
                     backgroundImage: `
                       radial-gradient(at 88% 40%, var(--card-bg) 0px, transparent 85%),
@@ -152,7 +162,7 @@ export function Services() {
                 />
                 
                 {/* Contenido */}
-                <div className="relative z-10">
+                <div className="relative z-20">
                   {/* Icono */}
                   <div className="h-12 w-12 rounded-xl border border-amber-500/20 bg-gradient-to-br from-amber-500/20 to-amber-600/20 flex items-center justify-center mb-4">
                     <Icon size={32} weight="duotone" className="text-amber-500" />

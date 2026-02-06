@@ -426,29 +426,40 @@ section,
 
 /* Service cards animated border */
 @keyframes border-rotate {
-  0% {
+  from {
     transform: translate(-50%, -50%) rotate(0deg);
   }
-  100% {
+  to {
     transform: translate(-50%, -50%) rotate(360deg);
   }
 }
 
 .animate-border-rotate {
-  animation: border-rotate 8s linear infinite;
+  animation: border-rotate 6s linear infinite;
+  transform-origin: center center;
 }
 
 /* Service card hover effects */
 .service-card {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .service-card:hover {
-  transform: translateY(-4px);
+  box-shadow: 
+    0 20px 40px -12px rgba(251, 191, 36, 0.25),
+    0 12px 24px -8px rgba(0, 0, 0, 0.15);
 }
 
 .service-card:hover .animate-border-rotate {
-  animation-duration: 4s;
+  animation-duration: 3s;
+}
+
+/* Dark mode shadow */
+.dark .service-card:hover {
+  box-shadow: 
+    0 20px 40px -12px rgba(251, 191, 36, 0.3),
+    0 12px 24px -8px rgba(0, 0, 0, 0.4);
 }
 
 /* Fade in with delay for carousel */
