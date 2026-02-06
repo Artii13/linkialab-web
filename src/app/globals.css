@@ -410,6 +410,26 @@ section,
   animation: pulse-glow 2s ease-in-out infinite;
 }
 
+/* Tech stack carousel */
+@keyframes scroll-x {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-scroll-x {
+  animation: scroll-x 35s linear infinite;
+}
+
+/* Fade in with delay for carousel */
+@keyframes fade-in-delay {
+  0% { opacity: 0; transform: translateY(10px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in-delay {
+  animation: fade-in-delay 0.8s ease-out 1.5s forwards;
+}
+
 /* ===========================================
    LAYER 12: LAYOUT - SECTIONS & CONTAINERS
    =========================================== */

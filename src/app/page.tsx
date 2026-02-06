@@ -62,7 +62,7 @@ export default function Home() {
       <section
         ref={heroRef}
         id="hero"
-        className="relative overflow-hidden pt-32 pb-20"
+        className="relative flex flex-col items-center justify-center overflow-hidden min-h-[calc(100dvh-64px)] md:min-h-[calc(100dvh-72px)] pt-16 pb-12 md:pt-20 md:pb-16"
       >
         <ParticlesBackground />
         <motion.div
@@ -118,6 +118,38 @@ export default function Home() {
               Ver servicios
             </a>
           </motion.div>
+
+          {/* Tech Stack Carousel */}
+          <div className="mt-12 md:mt-16 w-full max-w-3xl mx-auto opacity-0 animate-fade-in-delay">
+            <p className="text-[11px] text-center text-[var(--color-foreground-muted)]/50 mb-4 tracking-[0.2em] uppercase font-medium">
+              Trabajamos con
+            </p>
+            <div className="relative overflow-hidden">
+              <div className="absolute left-0 top-0 bottom-0 w-16 z-10 bg-gradient-to-r from-[var(--color-background)] to-transparent pointer-events-none" />
+              <div className="absolute right-0 top-0 bottom-0 w-16 z-10 bg-gradient-to-l from-[var(--color-background)] to-transparent pointer-events-none" />
+              <div className="flex animate-scroll-x gap-10 md:gap-14 items-center">
+                {[0, 1].map((setIndex) => (
+                  <div key={setIndex} className="flex shrink-0 gap-10 md:gap-14 items-center">
+                    <img src="/tech/n8n-light.svg" alt="n8n" className="h-5 md:h-6 opacity-40 dark:hidden" />
+                    <img src="/tech/n8n-dark.svg" alt="n8n" className="h-5 md:h-6 opacity-40 hidden dark:block" />
+                    <img src="/tech/OpenAI-light.svg" alt="OpenAI" className="h-5 md:h-6 opacity-40 dark:hidden" />
+                    <img src="/tech/OpenAI-dark.svg" alt="OpenAI" className="h-5 md:h-6 opacity-40 hidden dark:block" />
+                    <img src="/tech/ClaudeAI-light.svg" alt="Claude AI" className="h-5 md:h-6 opacity-40 dark:hidden" />
+                    <img src="/tech/ClaudeAI-dark.svg" alt="Claude AI" className="h-5 md:h-6 opacity-40 hidden dark:block" />
+                    <img src="/tech/Cursor-light.svg" alt="Cursor" className="h-5 md:h-6 opacity-40 dark:hidden" />
+                    <img src="/tech/Cursor-dark.svg" alt="Cursor" className="h-5 md:h-6 opacity-40 hidden dark:block" />
+                    <img src="/tech/Supabase-light.svg" alt="Supabase" className="h-5 md:h-6 opacity-40 dark:hidden" />
+                    <img src="/tech/Supabase-dark.svg" alt="Supabase" className="h-5 md:h-6 opacity-40 hidden dark:block" />
+                    <img src="/tech/Vercel-light.svg" alt="Vercel" className="h-5 md:h-6 opacity-40 dark:hidden" />
+                    <img src="/tech/Vercel-dark.svg" alt="Vercel" className="h-5 md:h-6 opacity-40 hidden dark:block" />
+                    <img src="/tech/GitHub-light.svg" alt="GitHub" className="h-5 md:h-6 opacity-40 dark:hidden" />
+                    <img src="/tech/GitHub-dark.svg" alt="GitHub" className="h-5 md:h-6 opacity-40 hidden dark:block" />
+                    <img src="/tech/whatsapp-wordmark.svg" alt="WhatsApp" className="h-5 md:h-6 opacity-40" />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
         </motion.div>
       </section>
 
