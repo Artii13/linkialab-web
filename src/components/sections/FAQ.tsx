@@ -9,32 +9,32 @@ const FAQ_ITEMS = [
   {
     question: "¿Cuánto tiempo tarda la implementación?",
     answer:
-      "Depende del proyecto, pero la mayoría de automatizaciones están funcionando en 1-2 semanas. Proyectos más complejos como chatbots personalizados pueden tardar 3-4 semanas. Siempre te damos un timeline claro antes de empezar.",
+      "La mayoría están funcionando en 2 semanas. Si es algo más complejo, puede tardar más. Antes de empezar te decimos exactamente cuánto.",
   },
   {
     question: "¿Necesito conocimientos técnicos?",
     answer:
-      "Para nada. Nosotros nos encargamos de todo lo técnico. Tú solo nos explicas cómo funciona tu negocio y qué tareas quieres automatizar. El resultado final es algo que cualquiera de tu equipo puede usar sin formación especial.",
+      "Cero. Tú nos cuentas qué te quita tiempo y nosotros lo montamos. Una vez funcionando, tú solo ves los resultados: clientes que entran, citas agendadas, respuestas automáticas. De lo técnico nos encargamos nosotros.",
   },
   {
     question: "¿Qué pasa si algo deja de funcionar?",
     answer:
-      "Todos nuestros proyectos incluyen soporte. Si algo falla, lo arreglamos. Además, construimos las automatizaciones con monitorización para detectar problemas antes de que te afecten.",
+      "Lo arreglamos cuanto antes. Todos los proyectos incluyen soporte, así que estamos encima.",
   },
   {
     question: "¿Puedo integrar herramientas que ya uso?",
     answer:
-      "Sí, esa es nuestra especialidad. Trabajamos con +200 herramientas: CRMs, email marketing, calendarios, WhatsApp Business, bases de datos, ERPs... Si usas una herramienta, probablemente podemos conectarla.",
+      "Seguramente sí. CRM, calendario, WhatsApp, email... lo que uses. Si no lo conocemos, nos ponemos en contacto con la empresa para confirmar que se puede conectar antes de prometerte nada.",
   },
   {
     question: "¿Cuánto cuesta?",
     answer:
-      "Cada proyecto es diferente. Tras la llamada de descubrimiento, te enviamos un presupuesto cerrado sin sorpresas. Nuestros proyectos suelen arrancar desde 1.500€ para automatizaciones simples hasta 8.000€+ para sistemas completos con IA.",
+      "Depende de lo que necesites. En la llamada lo vemos y en 48h tienes presupuesto cerrado, sin sorpresas. Cada proyecto es diferente, pero para que tengas una idea: hemos hecho proyectos desde los 1.000€ en adelante. Tu caso puede ser diferente.",
   },
   {
     question: "¿Ofrecéis mantenimiento?",
     answer:
-      "Sí, ofrecemos planes de mantenimiento mensual para quienes quieren soporte continuo, actualizaciones y nuevas automatizaciones. Pero no es obligatorio: muchos clientes solo contratan el proyecto inicial.",
+      "Sí. En proyectos complejos es obligatorio, no dejamos sistemas sin soporte. Incluye corrección de errores y actualizaciones. En proyectos más sencillos, lo hablamos y decidimos juntos.",
   },
 ]
 
