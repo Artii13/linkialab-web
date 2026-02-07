@@ -1,8 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { motion } from "framer-motion"
-import { Quotes } from "@phosphor-icons/react"
+import { Quotes, CaretLeft, CaretRight, Star } from "@phosphor-icons/react"
 
 const TESTIMONIALS = [
   {
@@ -51,31 +50,83 @@ function useMediaQuery(query: string): boolean {
 }
 
 export function Testimonials() {
-  const [currentSlide, setCurrentSlide] = useState(0)
-  const [isPaused, setIsPaused] = useState(false)
+  const [activeIndex, setActiveIndex] = useState(0)
+  const isMobile = !useMediaQuery("(min-width: 768px)")
 
-  const isLg = useMediaQuery("(min-width: 1024px)")
-  const isMd = useMediaQuery("(min-width: 768px)")
+  const next = () => {
+    setActiveIndex((prev) => (prev + 1) % TESTIMONIALS.length)
+  }
 
-  const maxSlides = isLg ? 2 : isMd ? 2 : 4
+  const prev = () => {
+    setActiveIndex((prev) => (prev - 1 + TESTIMONIALS.length) % TESTIMONIALS.length)
+  }
 
-  useEffect(() => {
-    setCurrentSlide((prev) => Math.min(prev, Math.max(0, maxSlides - 1)))
-  }, [maxSlides])
+  const goToIndex = (index: number) => {
+    setActiveIndex(index)
+  }
 
-  useEffect(() => {
-    if (isPaused || maxSlides <= 1) return
-    const id = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % maxSlides)
-    }, 5000)
-    return () => clearInterval(id)
-  }, [isPaused, maxSlides])
+  const getCardStyle = (index: number) => {
+    if (isMobile) {
+      // Móvil: solo mostrar la card activa
+      if (index === activeIndex) {
+        return {
+          opacity: 1,
+          transform: "translateX(0) scale(1) rotate(0deg)",
+          zIndex: 10,
+          pointerEvents: "auto" as const,
+        }
+      }
+      return {
+        opacity: 0,
+        transform: "translateX(0) scale(0.8) rotate(0deg)",
+        zIndex: 0,
+        pointerEvents: "none" as const,
+      }
+    }
 
-  const cardsPerSlide = isLg ? 3 : isMd ? 2 : 1
+    // Desktop: efecto fan/abanico
+    const diff = index - activeIndex
+    const totalCards = TESTIMONIALS.length
 
-  const getCardsForSlide = (slideIndex: number) => {
-    const start = slideIndex * cardsPerSlide
-    return TESTIMONIALS.slice(start, start + cardsPerSlide)
+    // Normalizar diff para que esté en el rango [-totalCards/2, totalCards/2]
+    let normalizedDiff = diff
+    if (Math.abs(diff) > totalCards / 2) {
+      normalizedDiff = diff > 0 ? diff - totalCards : diff + totalCards
+    }
+
+    if (normalizedDiff === 0) {
+      // Card central (activa)
+      return {
+        opacity: 1,
+        transform: "translateX(0) scale(1) rotate(0deg)",
+        zIndex: 30,
+        pointerEvents: "auto" as const,
+      }
+    } else if (normalizedDiff === -1) {
+      // Card izquierda
+      return {
+        opacity: 0.7,
+        transform: "translateX(-85%) scale(0.9) rotate(-6deg)",
+        zIndex: 20,
+        pointerEvents: "auto" as const,
+      }
+    } else if (normalizedDiff === 1) {
+      // Card derecha
+      return {
+        opacity: 0.7,
+        transform: "translateX(85%) scale(0.9) rotate(6deg)",
+        zIndex: 20,
+        pointerEvents: "auto" as const,
+      }
+    } else {
+      // Cards ocultas
+      return {
+        opacity: 0,
+        transform: `translateX(${normalizedDiff > 0 ? "200%" : "-200%"}) scale(0.7) rotate(${normalizedDiff > 0 ? "12deg" : "-12deg"})`,
+        zIndex: 10,
+        pointerEvents: "none" as const,
+      }
+    }
   }
 
   return (
@@ -83,7 +134,7 @@ export function Testimonials() {
       id="testimonios"
       className="section bg-[var(--color-surface-muted)]"
     >
-      <div className="mx-auto max-w-5xl px-4 md:px-6">
+      <div className="mx-auto max-w-6xl px-4 md:px-6">
         {/* Header de sección */}
         <div className="mx-auto mb-12 max-w-2xl text-center">
           <div className="mb-4 inline-flex items-center rounded-full border border-[var(--color-border)] bg-[var(--color-surface-elevated)] px-4 py-2">
@@ -99,67 +150,90 @@ export function Testimonials() {
           </p>
         </div>
 
-        {/* Slider de testimonios */}
-        <div
-          className="relative overflow-hidden"
-          onMouseEnter={() => setIsPaused(true)}
-          onMouseLeave={() => setIsPaused(false)}
-        >
-          <motion.div
-            className="flex"
-            animate={{ x: `-${currentSlide * 100}%` }}
-            transition={{ duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
-          >
-            {Array.from({ length: maxSlides }).map((_, slideIndex) => (
-              <div
-                key={slideIndex}
-                className={`flex w-full shrink-0 gap-6 px-1 ${cardsPerSlide === 1 ? "justify-center" : ""}`}
-                style={{ minWidth: "100%" }}
-              >
-                {getCardsForSlide(slideIndex).map((t) => (
+        {/* Fan de testimonios (desktop) o single card (mobile) */}
+        <div className="relative mx-auto mb-12 h-[500px] md:h-[420px]">
+          <div className="relative flex h-full items-center justify-center">
+            {TESTIMONIALS.map((testimonial, index) => {
+              const style = getCardStyle(index)
+              return (
+                <div
+                  key={testimonial.initials}
+                  className="absolute left-1/2 top-1/2 w-[90%] max-w-md -translate-x-1/2 -translate-y-1/2 transition-all duration-700 ease-out md:w-[400px]"
+                  style={{
+                    opacity: style.opacity,
+                    transform: `translate(-50%, -50%) ${style.transform}`,
+                    zIndex: style.zIndex,
+                    pointerEvents: style.pointerEvents,
+                  }}
+                >
                   <div
-                    key={t.initials}
-                    className={`card flex min-h-0 flex-1 flex-col ${cardsPerSlide === 1 ? "max-w-md" : "w-full"}`}
+                    className="flex h-full flex-col rounded-[2rem] border border-[var(--color-border)] bg-[var(--color-surface)] p-6 md:p-8"
+                    style={{
+                      boxShadow:
+                        "rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset, rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px",
+                    }}
                   >
+                    {/* Comillas */}
                     <Quotes
-                      size={32}
+                      size={40}
                       weight="fill"
-                      className="shrink-0 opacity-20"
+                      className="mb-4 shrink-0 opacity-20"
                       style={{ color: "var(--color-brand)" }}
                       aria-hidden
                     />
-                    <p className="mt-3 flex-1 italic text-[var(--color-foreground)]">
-                      {t.quote}
+
+                    {/* Quote */}
+                    <p className="mb-4 flex-1 text-base italic leading-relaxed text-[var(--color-foreground)] md:text-lg">
+                      {testimonial.quote}
                     </p>
-                    <div className="my-4 h-px shrink-0 bg-[var(--color-border)]" />
+
+                    {/* Estrellas */}
+                    <div className="mb-4 flex gap-1">
+                      {Array.from({ length: 5 }).map((_, i) => (
+                        <Star
+                          key={i}
+                          size={20}
+                          weight="fill"
+                          style={{ color: "var(--color-brand)" }}
+                        />
+                      ))}
+                    </div>
+
+                    {/* Divider */}
+                    <div className="mb-4 h-px shrink-0 bg-[var(--color-border)]" />
+
+                    {/* Author info */}
                     <div className="flex shrink-0 items-center gap-3">
                       <div className="flex size-12 shrink-0 items-center justify-center rounded-full bg-[var(--color-brand)]/10 text-sm font-semibold text-[var(--color-brand)]">
-                        {t.initials}
+                        {testimonial.initials}
                       </div>
                       <div>
                         <p className="font-semibold text-[var(--color-foreground)]">
-                          {t.role}
+                          {testimonial.role}
                         </p>
                         <p className="text-sm text-[var(--color-foreground-muted)]">
-                          {t.location}
+                          {testimonial.location}
                         </p>
                       </div>
                     </div>
                   </div>
-                ))}
-              </div>
-            ))}
-          </motion.div>
+                </div>
+              )
+            })}
+          </div>
+        </div>
 
-          {/* Dots de navegación */}
-          <div className="mt-8 flex justify-center gap-2">
-            {Array.from({ length: maxSlides }).map((_, i) => (
+        {/* Navegación */}
+        {isMobile ? (
+          // Dots para móvil
+          <div className="flex justify-center gap-2">
+            {TESTIMONIALS.map((_, i) => (
               <button
                 key={i}
                 type="button"
-                onClick={() => setCurrentSlide(i)}
+                onClick={() => goToIndex(i)}
                 className={`h-2 rounded-full transition-all duration-300 ${
-                  currentSlide === i
+                  activeIndex === i
                     ? "w-6 bg-[var(--color-brand)]"
                     : "w-2 bg-[var(--color-border)] hover:bg-[var(--color-foreground-muted)]"
                 }`}
@@ -167,7 +241,44 @@ export function Testimonials() {
               />
             ))}
           </div>
-        </div>
+        ) : (
+          // Flechas para desktop
+          <div className="flex items-center justify-center gap-4">
+            <button
+              type="button"
+              onClick={prev}
+              className="flex size-12 items-center justify-center rounded-full border border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-foreground)] transition-all duration-300 hover:border-[var(--color-brand)] hover:bg-[var(--color-brand)]/10 hover:text-[var(--color-brand)]"
+              aria-label="Testimonio anterior"
+            >
+              <CaretLeft size={24} weight="bold" />
+            </button>
+
+            <div className="flex gap-2">
+              {TESTIMONIALS.map((_, i) => (
+                <button
+                  key={i}
+                  type="button"
+                  onClick={() => goToIndex(i)}
+                  className={`h-2 rounded-full transition-all duration-300 ${
+                    activeIndex === i
+                      ? "w-8 bg-[var(--color-brand)]"
+                      : "w-2 bg-[var(--color-border)] hover:bg-[var(--color-foreground-muted)]"
+                  }`}
+                  aria-label={`Ir al testimonio ${i + 1}`}
+                />
+              ))}
+            </div>
+
+            <button
+              type="button"
+              onClick={next}
+              className="flex size-12 items-center justify-center rounded-full border border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-foreground)] transition-all duration-300 hover:border-[var(--color-brand)] hover:bg-[var(--color-brand)]/10 hover:text-[var(--color-brand)]"
+              aria-label="Siguiente testimonio"
+            >
+              <CaretRight size={24} weight="bold" />
+            </button>
+          </div>
+        )}
       </div>
     </section>
   )
