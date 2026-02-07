@@ -132,11 +132,11 @@ export function Testimonials() {
   return (
     <section
       id="testimonios"
-      className="section bg-[var(--color-surface-muted)]"
+      className="section bg-[var(--color-surface-muted)] py-24 md:py-32"
     >
       <div className="mx-auto max-w-6xl px-4 md:px-6">
         {/* Header de sección */}
-        <div className="mx-auto mb-12 max-w-2xl text-center">
+        <div className="mx-auto mb-20 max-w-2xl text-center md:mb-24">
           <div className="mb-4 inline-flex items-center rounded-full border border-[var(--color-border)] bg-[var(--color-surface-elevated)] px-4 py-2">
             <span className="text-sm font-medium text-[var(--color-foreground)]">
               Esto dicen de nosotros
@@ -151,8 +151,8 @@ export function Testimonials() {
         </div>
 
         {/* Fan de testimonios (desktop) o single card (mobile) */}
-        <div className="relative mx-auto mb-12 h-[500px] md:h-[420px]">
-          <div className="relative flex h-full items-center justify-center">
+        <div className="relative mx-auto mb-12 mt-24 w-full min-h-[500px] md:mt-[120px]">
+          <div className="relative flex h-full min-h-[500px] w-full items-center justify-center">
             {TESTIMONIALS.map((testimonial, index) => {
               const style = getCardStyle(index)
               return (
