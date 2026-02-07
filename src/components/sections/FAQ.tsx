@@ -66,10 +66,7 @@ export function FAQ() {
         <Accordion items={FAQ_ITEMS} className="mx-auto max-w-3xl" />
 
         {/* CTA */}
-        <div className="mt-12 flex flex-col items-center justify-center gap-4 text-center">
-          <p className="text-lg font-medium text-[var(--color-foreground)]">
-            ¿Más preguntas? Hablemos
-          </p>
+        <div className="mt-12 flex justify-center">
           <a
             href={LINKS.calendar.faq}
             target="_blank"
@@ -77,7 +74,7 @@ export function FAQ() {
             onClick={() => analytics.clickCalendar("faq")}
             className="btn-primary"
           >
-            Reservar llamada
+            ¿Hablamos?
           </a>
         </div>
       </div>
