@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef, useCallback } from "react"
 import { Quotes, CaretLeft, CaretRight, Star } from "@phosphor-icons/react"
 
 const TESTIMONIALS = [
@@ -34,6 +34,8 @@ const TESTIMONIALS = [
   },
 ]
 
+const SWIPE_THRESHOLD = 50
+
 function useMediaQuery(query: string): boolean {
   const [matches, setMatches] = useState(false)
 
@@ -51,44 +53,48 @@ function useMediaQuery(query: string): boolean {
 
 export function Testimonials() {
   const [activeIndex, setActiveIndex] = useState(0)
-  const isMobile = !useMediaQuery("(min-width: 768px)")
+  const isDesktop = useMediaQuery("(min-width: 768px)")
+  const touchStartX = useRef(0)
+  const touchDeltaX = useRef(0)
 
-  const next = () => {
+  const next = useCallback(() => {
     setActiveIndex((prev) => (prev + 1) % TESTIMONIALS.length)
-  }
+  }, [])
 
-  const prev = () => {
+  const prev = useCallback(() => {
     setActiveIndex((prev) => (prev - 1 + TESTIMONIALS.length) % TESTIMONIALS.length)
-  }
+  }, [])
 
   const goToIndex = (index: number) => {
     setActiveIndex(index)
   }
 
+  /* ---- Swipe handlers ---- */
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX
+    touchDeltaX.current = 0
+  }
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    touchDeltaX.current = e.touches[0].clientX - touchStartX.current
+  }
+
+  const handleTouchEnd = () => {
+    if (touchDeltaX.current > SWIPE_THRESHOLD) {
+      prev()
+    } else if (touchDeltaX.current < -SWIPE_THRESHOLD) {
+      next()
+    }
+    touchDeltaX.current = 0
+  }
+
+  /* ---- Card positioning ---- */
   const getCardTransform = (index: number): {
     opacity: number
     transform: string
     zIndex: number
     visible: boolean
   } => {
-    if (isMobile) {
-      if (index === activeIndex) {
-        return {
-          opacity: 1,
-          transform: "translate(-50%, -50%) scale(1)",
-          zIndex: 10,
-          visible: true,
-        }
-      }
-      return {
-        opacity: 0,
-        transform: "translate(-50%, -50%) scale(0.8)",
-        zIndex: 0,
-        visible: false,
-      }
-    }
-
-    // Desktop: efecto fan/abanico
     const diff = index - activeIndex
     const totalCards = TESTIMONIALS.length
     let normalizedDiff = diff
@@ -96,34 +102,69 @@ export function Testimonials() {
       normalizedDiff = diff > 0 ? diff - totalCards : diff + totalCards
     }
 
-    if (normalizedDiff === 0) {
-      return {
-        opacity: 1,
-        transform: "translate(-50%, -50%) translateX(0) scale(1) rotate(0deg)",
-        zIndex: 30,
-        visible: true,
-      }
-    } else if (normalizedDiff === -1) {
-      return {
-        opacity: 0.7,
-        transform: "translate(-50%, -50%) translateX(-85%) scale(0.9) rotate(-6deg)",
-        zIndex: 20,
-        visible: true,
-      }
-    } else if (normalizedDiff === 1) {
-      return {
-        opacity: 0.7,
-        transform: "translate(-50%, -50%) translateX(85%) scale(0.9) rotate(6deg)",
-        zIndex: 20,
-        visible: true,
+    if (isDesktop) {
+      // Desktop
+      if (normalizedDiff === 0) {
+        return {
+          opacity: 1,
+          transform: "translate(-50%, -50%) translateX(0) scale(1) rotate(0deg)",
+          zIndex: 30,
+          visible: true,
+        }
+      } else if (normalizedDiff === -1) {
+        return {
+          opacity: 0.7,
+          transform: "translate(-50%, -50%) translateX(-85%) scale(0.9) rotate(-6deg)",
+          zIndex: 20,
+          visible: true,
+        }
+      } else if (normalizedDiff === 1) {
+        return {
+          opacity: 0.7,
+          transform: "translate(-50%, -50%) translateX(85%) scale(0.9) rotate(6deg)",
+          zIndex: 20,
+          visible: true,
+        }
+      } else {
+        const dir = normalizedDiff > 0 ? 1 : -1
+        return {
+          opacity: 0,
+          transform: `translate(-50%, -50%) translateX(${dir * 200}%) scale(0.7) rotate(${dir * 12}deg)`,
+          zIndex: 10,
+          visible: false,
+        }
       }
     } else {
-      const dir = normalizedDiff > 0 ? 1 : -1
-      return {
-        opacity: 0,
-        transform: `translate(-50%, -50%) translateX(${dir * 200}%) scale(0.7) rotate(${dir * 12}deg)`,
-        zIndex: 10,
-        visible: false,
+      // Móvil – efecto fan adaptado
+      if (normalizedDiff === 0) {
+        return {
+          opacity: 1,
+          transform: "translate(-50%, -50%) translateX(0) scale(1) rotate(0deg)",
+          zIndex: 30,
+          visible: true,
+        }
+      } else if (normalizedDiff === -1) {
+        return {
+          opacity: 0.6,
+          transform: "translate(-50%, -50%) translateX(-70%) scale(0.85) rotate(-5deg)",
+          zIndex: 10,
+          visible: true,
+        }
+      } else if (normalizedDiff === 1) {
+        return {
+          opacity: 0.6,
+          transform: "translate(-50%, -50%) translateX(70%) scale(0.85) rotate(5deg)",
+          zIndex: 10,
+          visible: true,
+        }
+      } else {
+        const dir = normalizedDiff > 0 ? 1 : -1
+        return {
+          opacity: 0,
+          transform: `translate(-50%, -50%) translateX(${dir * 160}%) scale(0.7) rotate(${dir * 10}deg)`,
+          zIndex: 5,
+          visible: false,
+        }
       }
     }
   }
@@ -134,7 +175,7 @@ export function Testimonials() {
       className="section bg-[var(--color-surface-muted)] py-24 md:py-32"
     >
       <div className="mx-auto max-w-6xl px-4 md:px-6">
-        {/* Header de sección - z-50 para estar SIEMPRE encima de las cards */}
+        {/* Header de sección */}
         <div className="relative z-50 mx-auto mb-16 max-w-2xl text-center md:mb-20">
           <div className="mb-4 inline-flex items-center rounded-full border border-[var(--color-border)] bg-[var(--color-surface-elevated)] px-4 py-2">
             <span className="text-sm font-medium text-[var(--color-foreground)]">
@@ -149,14 +190,19 @@ export function Testimonials() {
           </p>
         </div>
 
-        {/* Contenedor de cards - altura fija, cards centradas dentro con absolute */}
-        <div className="relative mx-auto h-[460px] w-full max-w-[1000px] overflow-visible md:h-[420px]">
+        {/* Contenedor de cards con soporte swipe */}
+        <div
+          className="relative mx-auto h-[460px] w-full max-w-[1000px] overflow-visible md:h-[420px]"
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+        >
           {TESTIMONIALS.map((testimonial, index) => {
             const card = getCardTransform(index)
             return (
               <div
                 key={testimonial.initials}
-                className="absolute left-1/2 top-1/2 w-[88%] max-w-md transition-all duration-700 ease-out md:w-[400px]"
+                className="absolute left-1/2 top-1/2 w-[85%] max-w-md transition-all duration-700 ease-out md:w-[400px]"
                 style={{
                   opacity: card.opacity,
                   transform: card.transform,
@@ -220,9 +266,10 @@ export function Testimonials() {
           })}
         </div>
 
-        {/* Navegación - mt-8 justo debajo de las cards */}
+        {/* Navegación */}
         <div className="mt-8">
-          {isMobile ? (
+          {!isDesktop ? (
+            /* Dots para móvil */
             <div className="flex justify-center gap-2">
               {TESTIMONIALS.map((_, i) => (
                 <button
@@ -239,6 +286,7 @@ export function Testimonials() {
               ))}
             </div>
           ) : (
+            /* Flechas + dots para desktop */
             <div className="flex items-center justify-center gap-4">
               <button
                 type="button"
