@@ -10,15 +10,15 @@ import { LINKS } from "@/lib/links"
 const EMAIL = "hola@linkialab.com"
 
 const SERVICIOS_LINKS = [
-  { href: "#servicios", label: "Chatbots WhatsApp" },
+  { href: "#servicios", label: "Agentes IA WhatsApp" },
   { href: "#servicios", label: "Automatizaciones" },
   { href: "#servicios", label: "Asistentes IA" },
   { href: "#servicios", label: "Integraciones" },
 ]
 
 const EMPRESA_LINKS = [
-  { href: "#proceso", label: "Proceso" },
-  { href: "#faq", label: "FAQ" },
+  { href: "#proceso", label: "Cómo trabajamos" },
+  { href: "#faq", label: "Preguntas frecuentes" },
   { href: "#contacto", label: "Contacto" },
 ]
 
@@ -61,8 +61,7 @@ export function Footer() {
               />
             </Link>
             <p className="max-w-[280px] text-sm text-[var(--color-foreground-muted)]">
-              Automatización inteligente para negocios que quieren crecer sin
-              complicaciones técnicas.
+              Consultoría y automatización IA en Ibiza. Menos tareas, más resultados.
             </p>
           </div>
 
