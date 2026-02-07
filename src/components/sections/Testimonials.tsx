@@ -151,19 +151,26 @@ export function Testimonials() {
         </div>
 
         {/* Fan de testimonios (desktop) o single card (mobile) */}
-        <div className="relative mx-auto mb-12 mt-24 w-full min-h-[500px] md:mt-[120px]">
-          <div className="relative flex h-full min-h-[500px] w-full items-center justify-center">
+        <div className="relative mx-auto mt-16 mb-8 md:mt-20">
+          <div className="relative mx-auto flex min-h-[480px] w-full max-w-[1000px] items-center justify-center md:min-h-[420px]">
             {TESTIMONIALS.map((testimonial, index) => {
               const style = getCardStyle(index)
+              const isVisible = style.opacity > 0
+              
               return (
                 <div
                   key={testimonial.initials}
-                  className="absolute left-1/2 top-1/2 w-[90%] max-w-md -translate-x-1/2 -translate-y-1/2 transition-all duration-700 ease-out md:w-[400px]"
+                  className={`absolute w-[90%] max-w-md transition-all duration-700 ease-out md:w-[400px] ${
+                    isVisible ? "pointer-events-auto" : "pointer-events-none"
+                  }`}
                   style={{
                     opacity: style.opacity,
-                    transform: `translate(-50%, -50%) ${style.transform}`,
+                    transform: style.transform,
                     zIndex: style.zIndex,
-                    pointerEvents: style.pointerEvents,
+                    left: "50%",
+                    top: "50%",
+                    marginLeft: "-50%",
+                    marginTop: isMobile ? "-240px" : "-210px",
                   }}
                 >
                   <div
@@ -224,36 +231,11 @@ export function Testimonials() {
         </div>
 
         {/* Navegación */}
-        {isMobile ? (
-          // Dots para móvil
-          <div className="flex justify-center gap-2">
-            {TESTIMONIALS.map((_, i) => (
-              <button
-                key={i}
-                type="button"
-                onClick={() => goToIndex(i)}
-                className={`h-2 rounded-full transition-all duration-300 ${
-                  activeIndex === i
-                    ? "w-6 bg-[var(--color-brand)]"
-                    : "w-2 bg-[var(--color-border)] hover:bg-[var(--color-foreground-muted)]"
-                }`}
-                aria-label={`Ir al testimonio ${i + 1}`}
-              />
-            ))}
-          </div>
-        ) : (
-          // Flechas para desktop
-          <div className="flex items-center justify-center gap-4">
-            <button
-              type="button"
-              onClick={prev}
-              className="flex size-12 items-center justify-center rounded-full border border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-foreground)] transition-all duration-300 hover:border-[var(--color-brand)] hover:bg-[var(--color-brand)]/10 hover:text-[var(--color-brand)]"
-              aria-label="Testimonio anterior"
-            >
-              <CaretLeft size={24} weight="bold" />
-            </button>
-
-            <div className="flex gap-2">
+        <div className="mt-8">
+          {isMobile ? (
+          {isMobile ? (
+            // Dots para móvil
+            <div className="flex justify-center gap-2">
               {TESTIMONIALS.map((_, i) => (
                 <button
                   key={i}
@@ -261,24 +243,52 @@ export function Testimonials() {
                   onClick={() => goToIndex(i)}
                   className={`h-2 rounded-full transition-all duration-300 ${
                     activeIndex === i
-                      ? "w-8 bg-[var(--color-brand)]"
+                      ? "w-6 bg-[var(--color-brand)]"
                       : "w-2 bg-[var(--color-border)] hover:bg-[var(--color-foreground-muted)]"
                   }`}
                   aria-label={`Ir al testimonio ${i + 1}`}
                 />
               ))}
             </div>
+          ) : (
+            // Flechas para desktop
+            <div className="flex items-center justify-center gap-4">
+              <button
+                type="button"
+                onClick={prev}
+                className="flex size-12 items-center justify-center rounded-full border border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-foreground)] transition-all duration-300 hover:border-[var(--color-brand)] hover:bg-[var(--color-brand)]/10 hover:text-[var(--color-brand)]"
+                aria-label="Testimonio anterior"
+              >
+                <CaretLeft size={24} weight="bold" />
+              </button>
 
-            <button
-              type="button"
-              onClick={next}
-              className="flex size-12 items-center justify-center rounded-full border border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-foreground)] transition-all duration-300 hover:border-[var(--color-brand)] hover:bg-[var(--color-brand)]/10 hover:text-[var(--color-brand)]"
-              aria-label="Siguiente testimonio"
-            >
-              <CaretRight size={24} weight="bold" />
-            </button>
-          </div>
-        )}
+              <div className="flex gap-2">
+                {TESTIMONIALS.map((_, i) => (
+                  <button
+                    key={i}
+                    type="button"
+                    onClick={() => goToIndex(i)}
+                    className={`h-2 rounded-full transition-all duration-300 ${
+                      activeIndex === i
+                        ? "w-8 bg-[var(--color-brand)]"
+                        : "w-2 bg-[var(--color-border)] hover:bg-[var(--color-foreground-muted)]"
+                    }`}
+                    aria-label={`Ir al testimonio ${i + 1}`}
+                  />
+                ))}
+              </div>
+
+              <button
+                type="button"
+                onClick={next}
+                className="flex size-12 items-center justify-center rounded-full border border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-foreground)] transition-all duration-300 hover:border-[var(--color-brand)] hover:bg-[var(--color-brand)]/10 hover:text-[var(--color-brand)]"
+                aria-label="Siguiente testimonio"
+              >
+                <CaretRight size={24} weight="bold" />
+              </button>
+            </div>
+          )}
+        </div>
       </div>
     </section>
   )
