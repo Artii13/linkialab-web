@@ -23,11 +23,10 @@ export function CTAFinal() {
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
         >
           <h2 className="mb-4 text-xl font-bold tracking-tight text-[var(--color-foreground)] md:mb-5 md:text-3xl">
-            ¿Listo para automatizar tu negocio?
+            Tu próximo paso: una llamada de 30 minutos
           </h2>
           <p className="mx-auto mb-8 max-w-xl text-sm text-[var(--color-foreground-muted)] md:mb-10 md:text-lg">
-            Agenda una llamada gratuita de 30 minutos. Sin compromiso, sin
-            tecnicismos. Solo soluciones.
+            Te escuchamos, entendemos tu problema y te decimos si podemos ayudarte. Gratis, sin compromiso y sin bla bla técnico.
           </p>
 
           <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
@@ -49,12 +48,12 @@ export function CTAFinal() {
               className="btn-secondary inline-flex items-center justify-center gap-2 px-5 py-3 text-sm md:px-6 md:py-2.5 md:text-base"
             >
               <WhatsappLogo className="size-5" weight="fill" />
-              Lía te atenderá 24/7
+              WhatsApp
             </a>
           </div>
 
           <p className="mt-6 text-xs text-[var(--color-foreground-muted)] md:mt-8 md:text-sm">
-            Contestamos en menos de 1 min
+            Te respondemos hoy mismo.
           </p>
         </motion.div>
       </div>
