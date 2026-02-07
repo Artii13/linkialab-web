@@ -54,8 +54,12 @@ function useMediaQuery(query: string): boolean {
 export function Testimonials() {
   const [activeIndex, setActiveIndex] = useState(0)
   const isDesktop = useMediaQuery("(min-width: 768px)")
+  const cardsContainerRef = useRef<HTMLDivElement>(null)
   const touchStartX = useRef(0)
+  const touchStartY = useRef(0)
   const touchDeltaX = useRef(0)
+  const isSwipingHorizontally = useRef(false)
+  const directionLocked = useRef(false)
 
   const next = useCallback(() => {
     setActiveIndex((prev) => (prev + 1) % TESTIMONIALS.length)
@@ -69,24 +73,57 @@ export function Testimonials() {
     setActiveIndex(index)
   }
 
-  /* ---- Swipe handlers ---- */
-  const handleTouchStart = (e: React.TouchEvent) => {
-    touchStartX.current = e.touches[0].clientX
-    touchDeltaX.current = 0
-  }
+  /* ---- Native touch listeners for non-passive preventDefault ---- */
+  useEffect(() => {
+    const el = cardsContainerRef.current
+    if (!el) return
 
-  const handleTouchMove = (e: React.TouchEvent) => {
-    touchDeltaX.current = e.touches[0].clientX - touchStartX.current
-  }
-
-  const handleTouchEnd = () => {
-    if (touchDeltaX.current > SWIPE_THRESHOLD) {
-      prev()
-    } else if (touchDeltaX.current < -SWIPE_THRESHOLD) {
-      next()
+    const onTouchStart = (e: globalThis.TouchEvent) => {
+      touchStartX.current = e.touches[0].clientX
+      touchStartY.current = e.touches[0].clientY
+      touchDeltaX.current = 0
+      isSwipingHorizontally.current = false
+      directionLocked.current = false
     }
-    touchDeltaX.current = 0
-  }
+
+    const onTouchMove = (e: globalThis.TouchEvent) => {
+      const dx = e.touches[0].clientX - touchStartX.current
+      const dy = e.touches[0].clientY - touchStartY.current
+
+      if (!directionLocked.current && (Math.abs(dx) > 10 || Math.abs(dy) > 10)) {
+        directionLocked.current = true
+        isSwipingHorizontally.current = Math.abs(dx) > Math.abs(dy)
+      }
+
+      if (isSwipingHorizontally.current) {
+        e.preventDefault()
+        touchDeltaX.current = dx
+      }
+    }
+
+    const onTouchEnd = () => {
+      if (isSwipingHorizontally.current) {
+        if (touchDeltaX.current > SWIPE_THRESHOLD) {
+          prev()
+        } else if (touchDeltaX.current < -SWIPE_THRESHOLD) {
+          next()
+        }
+      }
+      touchDeltaX.current = 0
+      isSwipingHorizontally.current = false
+      directionLocked.current = false
+    }
+
+    el.addEventListener("touchstart", onTouchStart, { passive: true })
+    el.addEventListener("touchmove", onTouchMove, { passive: false })
+    el.addEventListener("touchend", onTouchEnd, { passive: true })
+
+    return () => {
+      el.removeEventListener("touchstart", onTouchStart)
+      el.removeEventListener("touchmove", onTouchMove)
+      el.removeEventListener("touchend", onTouchEnd)
+    }
+  }, [next, prev])
 
   /* ---- Card positioning ---- */
   const getCardTransform = (index: number): {
@@ -172,7 +209,7 @@ export function Testimonials() {
   return (
     <section
       id="testimonios"
-      className="section bg-[var(--color-surface-muted)] py-24 md:py-32"
+      className="section overflow-x-clip bg-[var(--color-surface-muted)] py-24 md:py-32"
     >
       <div className="mx-auto max-w-6xl px-4 md:px-6">
         {/* Header de sección */}
@@ -192,10 +229,8 @@ export function Testimonials() {
 
         {/* Contenedor de cards con soporte swipe */}
         <div
+          ref={cardsContainerRef}
           className="relative mx-auto h-[460px] w-full max-w-[1000px] overflow-visible md:h-[420px]"
-          onTouchStart={handleTouchStart}
-          onTouchMove={handleTouchMove}
-          onTouchEnd={handleTouchEnd}
         >
           {TESTIMONIALS.map((testimonial, index) => {
             const card = getCardTransform(index)
