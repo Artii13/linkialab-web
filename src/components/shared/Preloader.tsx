@@ -15,7 +15,7 @@ export function Preloader() {
     const t0 = setTimeout(() => setPhase("loading"), 50)
 
     // Phase 2: Logo sale hacia arriba
-    const t1 = setTimeout(() => setPhase("logoOut"), 2000)
+    const t1 = setTimeout(() => setPhase("logoOut"), 1200)
 
     // Phase 3: Eliminar preloader del DOM y avisar al Hero para que inicie su animación
     const t2 = setTimeout(() => {
@@ -23,7 +23,7 @@ export function Preloader() {
       if (typeof window !== "undefined") {
         window.dispatchEvent(new CustomEvent("preloaderDone"))
       }
-    }, 2700)
+    }, 1700)
 
     return () => {
       clearTimeout(t0)
@@ -73,7 +73,7 @@ export function Preloader() {
         justifyContent: "center",
         backgroundColor: bgColor,
         opacity: bgOpacity,
-        transition: "opacity 0.7s cubic-bezier(0.7, 0.2, 0.2, 1)",
+        transition: "opacity 0.4s cubic-bezier(0.7, 0.2, 0.2, 1)",
         pointerEvents: phase === "logoOut" ? "none" : "all",
       }}
     >
@@ -88,7 +88,7 @@ export function Preloader() {
           objectFit: "contain",
           transform: `translateY(${logoTranslateY}px)`,
           opacity: logoOpacity,
-          transition: "all 0.7s cubic-bezier(0.7, 0.2, 0.2, 1)",
+          transition: "all 0.4s cubic-bezier(0.7, 0.2, 0.2, 1)",
           willChange: "transform, opacity",
           userSelect: "none",
         }}
