@@ -9,23 +9,6 @@ export function CookieBanner() {
   const [consent, setConsent] = useState<CookieConsent>(null)
   const [visible, setVisible] = useState(false)
 
-  useEffect(() => {
-    // Leer preferencia guardada
-    const stored = localStorage.getItem("cookie-consent") as CookieConsent
-
-    if (stored === "accepted" || stored === "rejected") {
-      setConsent(stored)
-      // Si aceptó, cargar GA4
-      if (stored === "accepted") {
-        loadGA4()
-      }
-    } else {
-      // No hay preferencia, mostrar banner después de un delay
-      const timer = setTimeout(() => setVisible(true), 1500)
-      return () => clearTimeout(timer)
-    }
-  }, [])
-
   const loadGA4 = () => {
     // Evitar cargar dos veces
     if (document.getElementById("ga4-script")) return
@@ -48,6 +31,23 @@ export function CookieBanner() {
     `
     document.head.appendChild(script2)
   }
+
+  useEffect(() => {
+    // Leer preferencia guardada
+    const stored = localStorage.getItem("cookie-consent") as CookieConsent
+
+    if (stored === "accepted" || stored === "rejected") {
+      setConsent(stored)
+      // Si aceptó, cargar GA4
+      if (stored === "accepted") {
+        loadGA4()
+      }
+    } else {
+      // No hay preferencia, mostrar banner después de un delay
+      const timer = setTimeout(() => setVisible(true), 1500)
+      return () => clearTimeout(timer)
+    }
+  }, [])
 
   const handleAccept = () => {
     localStorage.setItem("cookie-consent", "accepted")

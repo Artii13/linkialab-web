@@ -1,0 +1,19 @@
+# ESLint ignore patterns
+
+# PWA generated files
+public/sw.js
+public/workbox-*.js
+public/fallback-*.js
+
+# Build output
+.next/
+out/
+dist/
+
+# Dependencies
+node_modules/
+
+# Environment files
+.env
+.env.local
+.env*.local

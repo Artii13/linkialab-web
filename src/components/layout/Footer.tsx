@@ -35,7 +35,10 @@ export function Footer() {
   const [mounted, setMounted] = useState(false)
   const { theme } = useTheme()
 
-  useEffect(() => setMounted(true), [])
+   
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   const logoSrc =
     mounted && theme === "dark"

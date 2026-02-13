@@ -57,6 +57,7 @@ export function Process() {
   const [activeCard, setActiveCard] = useState(0)
   const scrollContainerRef = useRef<HTMLDivElement>(null)
 
+   
   useEffect(() => {
     setIsClient(true)
 

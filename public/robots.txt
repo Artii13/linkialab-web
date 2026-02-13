@@ -1,0 +1,11 @@
+# robots.txt for linkialab.com
+User-agent: *
+Allow: /
+
+# Disallow sensitive areas
+Disallow: /api/
+Disallow: /_next/
+Disallow: /offline
+
+# Sitemap
+Sitemap: https://linkialab.com/sitemap.xml

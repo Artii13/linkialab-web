@@ -1,5 +1,6 @@
 "use client"
 
+import Link from "next/link"
 import { SmileyXEyes } from "@phosphor-icons/react"
 import { analytics } from "@/lib/analytics"
 import { LINKS } from "@/lib/links"
@@ -25,9 +26,9 @@ export default function NotFound() {
           Lo sentimos, la página que buscas no existe o ha sido movida.
         </p>
         <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-          <a href="/" className="btn-primary">
+          <Link href="/" className="btn-primary">
             Volver al inicio
-          </a>
+          </Link>
           <a
             href={LINKS.whatsapp.notFound}
             target="_blank"
