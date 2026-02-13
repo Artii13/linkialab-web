@@ -5,7 +5,12 @@ import Clarity from "@microsoft/clarity"
 
 export default function ClarityScript() {
   useEffect(() => {
-    Clarity.init("vct6qc9mx7")
+    const clarityId = process.env.NEXT_PUBLIC_CLARITY_ID
+    if (clarityId) {
+      Clarity.init(clarityId)
+    } else {
+      console.warn("Clarity ID not configured")
+    }
   }, [])
 
   return null

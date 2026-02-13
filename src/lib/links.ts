@@ -2,8 +2,9 @@
  * URLs centralizadas con UTMs y mensajes predefinidos para analytics
  */
 
-const WHATSAPP_BASE = "https://wa.me/34647186479"
-const CAL_BASE = "https://cal.linkialab.com"
+const WHATSAPP_PHONE = process.env.NEXT_PUBLIC_WHATSAPP_PHONE || "34647186479"
+const WHATSAPP_BASE = `https://wa.me/${WHATSAPP_PHONE}`
+const CAL_BASE = process.env.NEXT_PUBLIC_CAL_URL || "https://cal.linkialab.com"
 
 const whatsAppText = (text: string) =>
   `${WHATSAPP_BASE}?text=${encodeURIComponent(text)}`

@@ -13,10 +13,16 @@ export function CookieBanner() {
     // Evitar cargar dos veces
     if (document.getElementById("ga4-script")) return
 
+    const GA4_ID = process.env.NEXT_PUBLIC_GA4_ID
+    if (!GA4_ID) {
+      console.warn("GA4_ID not configured")
+      return
+    }
+
     // Crear script de gtag
     const script1 = document.createElement("script")
     script1.id = "ga4-script"
-    script1.src = "https://www.googletagmanager.com/gtag/js?id=G-P45Y84F1HW"
+    script1.src = `https://www.googletagmanager.com/gtag/js?id=${GA4_ID}`
     script1.async = true
     document.head.appendChild(script1)
 
@@ -27,7 +33,7 @@ export function CookieBanner() {
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-      gtag('config', 'G-P45Y84F1HW');
+      gtag('config', '${GA4_ID}');
     `
     document.head.appendChild(script2)
   }
